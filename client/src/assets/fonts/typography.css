@@ -1,0 +1,108 @@
+@font-face {
+  font-family: InterVariable;
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  fallback:
+    "sans-serif", "system-ui", "-apple-system", "BlinkMacSystemFont",
+    "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "Noto Sans", "sans-serif",
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  src: url("./InterVariable/InterVariable.woff2") format("woff2");
+}
+@font-face {
+  font-family: InterVariable;
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("./InterVariable/InterVariable-Italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "EB Garamond";
+  src:
+    url("./EBGaramond/eb-garamond-latin-400-normal.woff2") format("woff2"),
+    url("./EBGaramond/eb-garamond-latin-400-normal.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "EB Garamond";
+  src:
+    url("./EBGaramond/eb-garamond-latin-400-italic.woff2") format("woff2"),
+    url("./EBGaramond/eb-garamond-latin-400-italic.woff") format("woff");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "EB Garamond";
+  src:
+    url("./EBGaramond/eb-garamond-latin-500-normal.woff2") format("woff2"),
+    url("./EBGaramond/eb-garamond-latin-500-normal.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "EB Garamond";
+  src:
+    url("./EBGaramond/eb-garamond-latin-500-italic.woff2") format("woff2"),
+    url("./EBGaramond/eb-garamond-latin-500-italic.woff") format("woff");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "EB Garamond";
+  src:
+    url("./EBGaramond/eb-garamond-latin-600-normal.woff2") format("woff2"),
+    url("./EBGaramond/eb-garamond-latin-600-normal.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "EB Garamond";
+  src:
+    url("./EBGaramond/eb-garamond-latin-600-italic.woff2") format("woff2"),
+    url("./EBGaramond/eb-garamond-latin-600-italic.woff") format("woff");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "EB Garamond";
+  src:
+    url("./EBGaramond/eb-garamond-latin-700-normal.woff2") format("woff2"),
+    url("./EBGaramond/eb-garamond-latin-700-normal.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "EB Garamond";
+  src:
+    url("./EBGaramond/eb-garamond-latin-700-italic.woff2") format("woff2"),
+    url("./EBGaramond/eb-garamond-latin-700-italic.woff") format("woff");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "EB Garamond";
+  src:
+    url("./EBGaramond/eb-garamond-latin-800-normal.woff2") format("woff2"),
+    url("./EBGaramond/eb-garamond-latin-800-normal.woff") format("woff");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "EB Garamond";
+  src:
+    url("./EBGaramond/eb-garamond-latin-800-italic.woff2") format("woff2"),
+    url("./EBGaramond/eb-garamond-latin-800-italic.woff") format("woff");
+  font-weight: 800;
+  font-style: italic;
+}
