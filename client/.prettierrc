@@ -1,0 +1,15 @@
+{
+    "plugins": [
+        "prettier-plugin-tailwindcss",
+        "@trivago/prettier-plugin-sort-imports"
+    ],
+    "tailwindStylesheet": "./src/index.css",
+    "importOrder": [
+        "^@server/(.*)$",
+        "^@core/(.*)$",
+        "^@ui/(.*)$",
+        "^[./]"
+    ],
+    "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true
+}
