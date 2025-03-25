@@ -1,12 +1,20 @@
-import { Button } from "./components/ui/button";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+import Navbar from "./components/Navbar";
+import AboutPage from "./pages/AboutPage/AboutPage";
+import HomePage from "./pages/HomePage/HomePage";
 
 function App() {
   return (
-    <>
-      Hello Apeture say hi 0123456789
-      <h1 className="font- text-8xl font-bold">Title a sans</h1>
-      <Button>Add</Button>{" "}
-    </>
+    <div className="">
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 
