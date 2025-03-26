@@ -1,9 +1,12 @@
+import Navbar from "@/components/Navbar";
 import { Ripple } from "@/components/magicui/ripple";
-import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function HomePage() {
+  const navigate = useNavigate();
   return (
-    <div className="relative">
+    <>
+      <Navbar />
       <section className="relative flex h-[40rem] w-full flex-col items-center justify-center overflow-hidden rounded-lg bg-background">
         <div className="mx-auto max-w-[80rem] text-center">
           <h2 className="text-3xl font-extrabold tracking-tight leading-[1] text-gray-950 md:text-[5rem] font-title">
@@ -17,15 +20,19 @@ export default function HomePage() {
         </div>
 
         <div className="mt-10 flex items-center justify-center gap-x-6">
-          <a
-            href="#"
-            className="rounded-md bg-emerald-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-emerald-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+          <button
+            onClick={() => navigate("/auth/register")}
+            className="group cursor-pointer relative h-16 text-lg rounded-full border border-neutral-200 bg-emerald-700 text-white px-8 font-semibold"
           >
-            Get started
-          </a>
-          <a href="#" className="text-sm/6 font-semibold text-gray-900">
-            Learn more <span aria-hidden="true">→</span>
-          </a>
+            <span className="relative inline-flex overflow-hidden">
+              <div className="translate-y-0 skew-y-0 transition duration-500 group-hover:-translate-y-[110%] group-hover:skew-y-12">
+                Get started
+              </div>
+              <div className="absolute translate-y-[110%] skew-y-12 transition duration-500 group-hover:translate-y-0 group-hover:skew-y-0">
+                Get started
+              </div>
+            </span>
+          </button>
         </div>
 
         <Ripple
@@ -85,6 +92,6 @@ export default function HomePage() {
       <br />
       <br />
       <br />
-    </div>
+    </>
   );
 }

@@ -59,7 +59,7 @@
 @theme {
   /* * Font Families */
   --font-sans: "Inter", sans-serif;
-  --font-title: "EB Garamond", serif;
+  --font-title: "Bricolage Grotesque", sans-serif;
 
   /* * Font Sizezs */
 
@@ -166,4 +166,11 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.auth-image-bg {
+  background-image: url("https://images.pexels.com/photos/313032/pexels-photo-313032.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
