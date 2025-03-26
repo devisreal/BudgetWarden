@@ -4,7 +4,7 @@ export default function LoginPage() {
   return (
     <form className="w-full max-w-md flex flex-col gap-4 ">
       <div className="text-center">
-        <h4 className="mt-3 text-2xl font-bold font-title text-gray-900 ">
+        <h4 className="mt-3 text-2xl md:text-3xl font-bold font-title text-gray-900 ">
           Sign In
         </h4>
         <p className="mt-2 text-gray-500 ">Log in to Budget Warden Now.</p>
@@ -21,7 +21,7 @@ export default function LoginPage() {
           <span className="absolute">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="w-6 h-6 mx-3 text-gray-300"
+              className="w-6 h-6 mx-3 text-gray-500"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -37,6 +37,7 @@ export default function LoginPage() {
           <input
             type="email"
             id="email"
+            name="email"
             className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 focus:border-emerald-400 focus:ring-emerald-300 focus:outline-none focus:ring focus:ring-opacity-40"
             placeholder="info@info.com"
           />
@@ -54,7 +55,7 @@ export default function LoginPage() {
           <span className="absolute">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="w-6 h-6 mx-3 text-gray-300"
+              className="w-6 h-6 mx-3 text-gray-500"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -71,6 +72,7 @@ export default function LoginPage() {
           <input
             id="password"
             type="password"
+            name="password"
             className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg focus:border-emerald-400 focus:ring-emerald-300 focus:outline-none focus:ring focus:ring-opacity-40"
             placeholder="••••••••"
           />
@@ -78,7 +80,7 @@ export default function LoginPage() {
       </fieldset>
 
       <div className="mt-6">
-        <button className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-500 rounded-lg hover:bg-emerald-400 focus:outline-none focus:ring focus:ring-emerald-300 focus:ring-opacity-50">
+        <button className="w-full cursor-pointer px-6 py-3 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-700 rounded-lg hover:bg-emerald-600 focus:outline-none focus:ring focus:ring-emerald-500 focus:ring-opacity-50">
           Sign In
         </button>
 
@@ -86,7 +88,7 @@ export default function LoginPage() {
           <p className="text-sm ">
             Don&lsquo;t have an account yet?{" "}
             <Link
-              className="text-emerald-500 hover:underline"
+              className="text-emerald-600 font-semibold hover:underline"
               to="/auth/register"
             >
               {" "}

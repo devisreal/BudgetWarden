@@ -169,7 +169,7 @@
 }
 
 .auth-image-bg {
-  background-image: url("https://images.pexels.com/photos/313032/pexels-photo-313032.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2");
+  background-image: url("./assets/images/auth-background.webp");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
