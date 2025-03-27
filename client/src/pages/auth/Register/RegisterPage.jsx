@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 
 export default function RegisterPage() {
   return (
-    <form className="w-full max-w-md flex flex-col gap-4">
+    <form className="w-full max-w-md flex flex-col gap-2 md:gap-4">
       <div className="text-center">
         <h4 className="mt-3 text-2xl md:text-3xl font-bold font-title text-gray-900 ">
           Sign Up
         </h4>
-        <p className="mt-2 text-gray-500 ">
+        <p className="mt-2 text-sm md:text-base text-gray-500 ">
           Create Your Budget Warden Account Today!
         </p>
       </div>
@@ -15,7 +15,7 @@ export default function RegisterPage() {
       <fieldset className="mt-6">
         <label
           htmlFor="email"
-          className="block mb-2 text-md text-gray-600 font-medium "
+          className="block mb-2 text-sm md:text-md text-gray-600 font-medium "
         >
           Email Address
         </label>
@@ -40,7 +40,7 @@ export default function RegisterPage() {
             type="email"
             name="email"
             id="email"
-            className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 focus:border-emerald-400 focus:ring-emerald-300 focus:outline-none focus:ring focus:ring-opacity-40"
+            className="block w-full py-3 text-sm md:text-base text-gray-700 bg-gray-50 placeholder-gray-500 border rounded-lg px-11 focus:border-emerald-400 focus:ring-emerald-300 focus:outline-none focus:ring focus:ring-opacity-40"
             placeholder="info@info.com"
           />
         </div>
@@ -49,7 +49,7 @@ export default function RegisterPage() {
       <fieldset>
         <label
           htmlFor="username"
-          className="block mb-2 text-md text-gray-600 font-medium "
+          className="block mb-2 text-sm md:text-md text-gray-600 font-medium "
         >
           Username
         </label>
@@ -75,7 +75,7 @@ export default function RegisterPage() {
             type="text"
             id="username"
             name="username"
-            className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 focus:border-emerald-400 focus:ring-emerald-300 focus:outline-none focus:ring focus:ring-opacity-40"
+            className="block w-full py-3 text-sm md:text-base text-gray-700 bg-gray-50 placeholder-gray-500 border rounded-lg px-11 focus:border-emerald-400 focus:ring-emerald-300 focus:outline-none focus:ring focus:ring-opacity-40"
             placeholder="johndoe"
           />
         </div>
@@ -84,7 +84,7 @@ export default function RegisterPage() {
       <fieldset>
         <label
           htmlFor="password"
-          className="block mb-2 text-md text-gray-600 font-medium "
+          className="block mb-2 text-sm md:text-md text-gray-600 font-medium "
         >
           Password
         </label>
@@ -110,7 +110,7 @@ export default function RegisterPage() {
             id="password"
             type="password"
             name="password"
-            className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg focus:border-emerald-400 focus:ring-emerald-300 focus:outline-none focus:ring focus:ring-opacity-40"
+            className="block w-full px-10 py-3 text-gray-700 bg-gray-50 placeholder-gray-500 border rounded-lg focus:border-emerald-400 focus:ring-emerald-300 focus:outline-none focus:ring focus:ring-opacity-40"
             placeholder="••••••••"
           />
         </div>
@@ -119,7 +119,7 @@ export default function RegisterPage() {
       <fieldset>
         <label
           htmlFor="confirm_password"
-          className="block mb-2 text-md text-gray-600 font-medium "
+          className="block mb-2 text-sm md:text-md text-gray-600 font-medium "
         >
           Confirm Password
         </label>
@@ -145,19 +145,19 @@ export default function RegisterPage() {
             id="confirm_password"
             name="confirm_password"
             type="password"
-            className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg focus:border-emerald-400 focus:ring-emerald-300 focus:outline-none focus:ring focus:ring-opacity-40"
+            className="block w-full px-10 py-3 text-gray-700 bg-gray-50 placeholder-gray-500 border rounded-lg focus:border-emerald-400 focus:ring-emerald-300 focus:outline-none focus:ring focus:ring-opacity-40"
             placeholder="••••••••"
           />
         </div>
       </fieldset>
 
       <div className="mt-6">
-        <button className="w-full cursor-pointer px-6 py-3 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-700 rounded-lg hover:bg-emerald-600 focus:outline-none focus:ring focus:ring-emerald-500 focus:ring-opacity-50">
+        <button className="w-full cursor-pointer px-6 py-3 text-sm md:text-base font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-700 rounded-lg hover:bg-emerald-600 focus:outline-none focus:ring focus:ring-emerald-500 focus:ring-opacity-50">
           Sign Up
         </button>
 
         <div className="mt-6 text-center ">
-          <p className="text-sm ">
+          <p className="text-xs md:text-sm">
             Already have an account yet?{" "}
             <Link
               className="text-emerald-600 font-semibold hover:underline"

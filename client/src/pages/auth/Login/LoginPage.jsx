@@ -2,18 +2,20 @@ import { Link } from "react-router-dom";
 
 export default function LoginPage() {
   return (
-    <form className="w-full max-w-md flex flex-col gap-4 ">
+    <form className="w-full max-w-md flex flex-col gap-2 md:gap-4 ">
       <div className="text-center">
         <h4 className="mt-3 text-2xl md:text-3xl font-bold font-title text-gray-900 ">
           Sign In
         </h4>
-        <p className="mt-2 text-gray-500 ">Log in to Budget Warden Now.</p>
+        <p className="mt-2 text-sm md:text-base text-gray-500 ">
+          Log in to Budget Warden Now.
+        </p>
       </div>
 
       <fieldset className="mt-6">
         <label
           htmlFor="email"
-          className="block mb-2 text-md text-gray-600 font-medium "
+          className="block mb-2 text-sm md:text-md text-gray-600 font-medium "
         >
           Email Address
         </label>
@@ -25,7 +27,7 @@ export default function LoginPage() {
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              strokeWidth="2"
+              strokeWidth="1.5"
             >
               <path
                 strokeLinecap="round"
@@ -38,7 +40,7 @@ export default function LoginPage() {
             type="email"
             id="email"
             name="email"
-            className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 focus:border-emerald-400 focus:ring-emerald-300 focus:outline-none focus:ring focus:ring-opacity-40"
+            className="block w-full py-3 text-sm md:text-base bg-gray-50 placeholder-gray-500 text-gray-700 bg-= border rounded-lg px-11 focus:border-emerald-400 focus:ring-emerald-300 focus:outline-none focus:ring focus:ring-opacity-40"
             placeholder="info@info.com"
           />
         </div>
@@ -47,7 +49,7 @@ export default function LoginPage() {
       <fieldset>
         <label
           htmlFor="password"
-          className="block mb-2 text-md text-gray-600 font-medium "
+          className="block mb-2 text-sm md:text-md text-gray-600 font-medium "
         >
           Password
         </label>
@@ -55,16 +57,16 @@ export default function LoginPage() {
           <span className="absolute">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="w-6 h-6 mx-3 text-gray-500"
               fill="none"
               viewBox="0 0 24 24"
+              strokeWidth={1.5}
               stroke="currentColor"
-              strokeWidth="2"
+              className="size-6 mx-3 text-gray-500"
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"
               />
             </svg>
           </span>
@@ -73,19 +75,19 @@ export default function LoginPage() {
             id="password"
             type="password"
             name="password"
-            className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg focus:border-emerald-400 focus:ring-emerald-300 focus:outline-none focus:ring focus:ring-opacity-40"
+            className="block w-full px-10 py-3 text-sm md:text-base text-gray-700 bg-gray-50 placeholder-gray-500 border rounded-lg focus:border-emerald-400 focus:ring-emerald-300 focus:outline-none focus:ring focus:ring-opacity-40"
             placeholder="••••••••"
           />
         </div>
       </fieldset>
 
       <div className="mt-6">
-        <button className="w-full cursor-pointer px-6 py-3 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-700 rounded-lg hover:bg-emerald-600 focus:outline-none focus:ring focus:ring-emerald-500 focus:ring-opacity-50">
+        <button className="w-full text-sm md:text-base cursor-pointer px-6 py-3 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-700 rounded-lg hover:bg-emerald-600 focus:outline-none focus:ring focus:ring-emerald-500 focus:ring-opacity-50">
           Sign In
         </button>
 
         <div className="mt-6 text-center ">
-          <p className="text-sm ">
+          <p className="text-xs md:text-sm">
             Don&lsquo;t have an account yet?{" "}
             <Link
               className="text-emerald-600 font-semibold hover:underline"

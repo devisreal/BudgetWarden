@@ -12,7 +12,7 @@ export default function AuthLayout() {
             <div className="flex items-center h-full px-20 bg-gray-950/50">
               {location.pathname === "/auth/register" && (
                 <div>
-                  <h2 className="text-2xl font-bold text-white sm:text-4xl font-title">
+                  <h2 className="text-2xl font-bold text-white sm:text-5xl font-title">
                     Join Budget Warden.
                   </h2>
 
@@ -23,7 +23,7 @@ export default function AuthLayout() {
               )}
               {location.pathname === "/auth/login" && (
                 <div>
-                  <h2 className="text-2xl font-bold text-white sm:text-4xl font-title">
+                  <h2 className="text-2xl font-bold text-white sm:text-5xl font-title">
                     Sign In to Stay in Control.
                   </h2>
 
@@ -37,7 +37,7 @@ export default function AuthLayout() {
           <div className="flex relative flex-col justify-center items-center w-full px-6 mx-auto lg:w-2/6">
             <button
               onClick={() => navigate("/")}
-              className="group cursor-pointer text-sm top-5 right-5 absolute inline-flex h-10 items-center justify-center overflow-hidden rounded-lg bg-emerald-700 px-6 font-semibold text-white"
+              className="group cursor-pointer text-xs md:text-sm top-5 right-5 absolute inline-flex h-10 items-center justify-center overflow-hidden rounded-lg bg-emerald-700 px-6 font-semibold text-white"
             >
               <span>Go Home</span>
               <div className="w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-1 group-hover:opacity-100">
