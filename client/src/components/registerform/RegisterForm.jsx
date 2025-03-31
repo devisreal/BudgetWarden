@@ -1,13 +1,15 @@
+import { registerNewUser } from "@/utils/api";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import * as yup from "yup";
 import YupPassword from "yup-password";
 
 YupPassword(yup);
 
 const registerFormSchema = yup
-.object()
+  .object()
   .shape({
     username: yup.string().required("This field is required"),
     email: yup
@@ -30,7 +32,7 @@ export default function RegisterForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset,
   } = useForm({
     defaultValues: {
@@ -42,13 +44,23 @@ export default function RegisterForm() {
     mode: "onBlur",
     resolver: yupResolver(registerFormSchema),
   });
-  const handleRegister = (data) => {
-    alert(JSON.stringify(data));
-    reset();
+  const navigate = useNavigate();
+
+  const handleRegister = async (formValues) => {
+    try {
+      const response = await registerNewUser(formValues);
+      toast.success(response.message);
+      reset();
+      setTimeout(() => {
+        navigate("/auth/login");
+      }, 1000);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   };
+
   return (
     <form
-      // action=""
       className="flex flex-col gap-2 md:gap-4"
       onSubmit={handleSubmit(handleRegister)}
     >
@@ -206,9 +218,10 @@ export default function RegisterForm() {
       <div className="mt-6">
         <button
           type="submit"
-          className="w-full cursor-pointer px-6 py-3 text-sm md:text-base font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-700 rounded-lg hover:bg-emerald-600 focus:outline-none focus:ring focus:ring-emerald-500 focus:ring-opacity-50"
+          disabled={isSubmitting}
+          className="w-full disabled:bg-emerald-500 cursor-pointer px-6 py-3 text-sm md:text-base font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-700 rounded-lg hover:bg-emerald-600 focus:outline-none focus:ring focus:ring-emerald-500 focus:ring-opacity-50"
         >
-          Sign Up
+          {isSubmitting ? "Submitting...." : "Sign Up"}
         </button>
 
         <div className="mt-6 text-center ">
