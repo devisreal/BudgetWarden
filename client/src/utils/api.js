@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const registerNewUser = async (formValues) => {
+const userRegister = async (formValues) => {
   const { data } = await axios.post(
     `${import.meta.env.VITE_API_BASE_URL}/auth/register`,
     {
@@ -11,5 +11,12 @@ const registerNewUser = async (formValues) => {
   );
   return data;
 };
+const userLogin = async (formValues) => {
+  const { data } = await axios.post(
+    `${import.meta.env.VITE_API_BASE_URL}/auth/login`,
+    formValues,
+  );
+  return data;
+};
 
-export { registerNewUser };
+export { userRegister, userLogin };

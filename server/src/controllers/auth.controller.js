@@ -86,7 +86,7 @@ export const loginController = async (req, res) => {
       { expiresIn: "8h" }
     );
 
-    res.json({ authToken: token });
+    res.json({ success: true, message: "Welcome back!", authToken: token });
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({

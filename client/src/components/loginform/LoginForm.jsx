@@ -1,6 +1,8 @@
+import { userLogin } from "@/utils/api";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import * as yup from "yup";
 import YupPassword from "yup-password";
 
@@ -25,7 +27,7 @@ export default function LoginForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset,
   } = useForm({
     defaultValues: {
@@ -35,10 +37,20 @@ export default function LoginForm() {
     mode: "onBlur",
     resolver: yupResolver(loginFormSchema),
   });
+  const navigate = useNavigate();
 
-  const handleLogin = (data) => {
-    alert(JSON.stringify(data));
-    reset();
+  const handleLogin = async (formValues) => {
+    try {
+      const data = await userLogin(formValues);
+      toast.success(data.message);
+      reset();
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+      localStorage.setItem("authToken", data.authToken);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   };
 
   return (
@@ -123,8 +135,11 @@ export default function LoginForm() {
       </fieldset>
 
       <div className="mt-6">
-        <button className="w-full text-sm md:text-base cursor-pointer px-6 py-3 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-700 rounded-lg hover:bg-emerald-600 focus:outline-none focus:ring focus:ring-emerald-500 focus:ring-opacity-50">
-          Sign In
+        <button
+          disabled={isSubmitting}
+          className="w-full text-sm md:text-base cursor-pointer px-6 py-3 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-700 rounded-lg hover:bg-emerald-600 focus:outline-none focus:ring focus:ring-emerald-500 focus:ring-opacity-50"
+        >
+          {isSubmitting ? "Signing In...." : "Sign In"}
         </button>
 
         <div className="mt-6 text-center ">

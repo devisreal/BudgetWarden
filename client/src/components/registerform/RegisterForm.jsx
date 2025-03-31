@@ -1,4 +1,4 @@
-import { registerNewUser } from "@/utils/api";
+import { userRegister } from "@/utils/api";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -48,8 +48,8 @@ export default function RegisterForm() {
 
   const handleRegister = async (formValues) => {
     try {
-      const response = await registerNewUser(formValues);
-      toast.success(response.message);
+      const data = await userRegister(formValues);
+      toast.success(data.message);
       reset();
       setTimeout(() => {
         navigate("/auth/login");
