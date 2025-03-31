@@ -174,3 +174,11 @@
   background-position: center;
   background-repeat: no-repeat;
 }
+
+.form-input {
+  @apply block w-full rounded-lg border bg-gray-50 px-11 py-3 text-sm text-gray-700 placeholder-gray-500 focus:border-emerald-400 focus:ring focus:ring-emerald-300 focus:outline-none md:text-base;
+}
+
+.form-input--error {
+  @apply block w-full rounded-lg border border-red-400 bg-red-50/70 px-11 py-3 text-sm text-gray-700 placeholder-gray-500 focus:ring focus:ring-red-300 focus:outline-none md:text-base;
+}
