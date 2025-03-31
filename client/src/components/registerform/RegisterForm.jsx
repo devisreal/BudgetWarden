@@ -7,7 +7,7 @@ import YupPassword from "yup-password";
 YupPassword(yup);
 
 const registerFormSchema = yup
-  .object()
+.object()
   .shape({
     username: yup.string().required("This field is required"),
     email: yup
