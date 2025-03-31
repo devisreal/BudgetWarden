@@ -21,7 +21,7 @@ export const registerController = async (req, res) => {
     if (userExists) {
       return res.status(409).json({
         success: false,
-        message: "Username or email already exists",
+        message: "Username or email already taken",
       });
     }
 
@@ -34,7 +34,10 @@ export const registerController = async (req, res) => {
       hashedPassword,
       data.slug,
     ]);
-    res.status(201).json(result.rows[0]);
+    res.status(201).json({
+      success: true,
+      message: "Account created successfully!, login to continue",
+    });
   } catch (error) {
     console.error(error);
     res
