@@ -10,6 +10,8 @@ DROP TABLE IF EXISTS users;
 
 DROP FUNCTION if EXISTS update_updated_at_column;
 
+DROP FUNCTION if EXISTS generate_category_slug;
+
 CREATE TABLE IF NOT EXISTS users (
 	id SERIAL PRIMARY KEY,
 	username VARCHAR(50) NOT NULL UNIQUE,
@@ -34,7 +36,64 @@ CREATE TRIGGER trigger_users_updated_at BEFORE
 UPDATE ON users FOR EACH ROW
 EXECUTE FUNCTION update_updated_at_column ();
 
+ALTER TABLE users
+ADD COLUMN slug VARCHAR(255) UNIQUE;
+
 CREATE TABLE IF NOT EXISTS categories (id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP);
+
+ALTER TABLE categories
+ADD COLUMN slug VARCHAR(255) UNIQUE;
+
+CREATE OR REPLACE FUNCTION generate_category_slug()
+RETURNS TRIGGER AS $$
+DECLARE
+    base_slug TEXT;
+    new_slug TEXT;
+    counter INT := 1;
+BEGIN
+    -- Generate base slug (lowercase, replace spaces with hyphens)
+    base_slug := lower(new.name);
+    base_slug := regexp_replace(base_slug, '[^a-z0-9]+', '-', 'g');
+    base_slug := trim(both '-' from base_slug);
+
+    new_slug := base_slug;
+    
+    -- Ensure uniqueness by appending a number if necessary
+    WHILE EXISTS (SELECT 1 FROM categories WHERE name = new_slug) LOOP
+        new_slug := base_slug || '-' || counter;
+        counter := counter + 1;
+    END LOOP;
+    
+    -- Assign the generated slug
+    NEW.slug := new_slug;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Create trigger to run the function before insert
+CREATE TRIGGER category_slug_trigger
+BEFORE INSERT ON categories
+FOR EACH ROW
+EXECUTE FUNCTION generate_category_slug();
+
+
+INSERT INTO categories (name) VALUES
+-- Essentials
+('Housing'),
+('Food'),
+('Transport'),
+-- Lifestyle
+('Shopping'),
+('Entertainment'),
+('Bills'),
+-- Income
+('Salary'),
+('Side Hustle'),
+('Other Income'),
+-- Financial Goals
+('Emergency Fund'),
+('Investments'),
+('Debt Payments');
 
 CREATE TABLE IF NOT EXISTS subscriptions (
 	id SERIAL PRIMARY KEY,
@@ -91,11 +150,6 @@ CREATE INDEX idx_bills_category_id ON bills (category_id);
 
 CREATE INDEX idx_subscriptions_category_id ON subscriptions (category_id);
 
-ALTER TABLE users
-ADD COLUMN slug VARCHAR(255) UNIQUE;
-
-ALTER TABLE categories
-ADD COLUMN slug VARCHAR(255) UNIQUE;
 
 ALTER TABLE subscriptions
 ADD COLUMN slug VARCHAR(255) UNIQUE;
