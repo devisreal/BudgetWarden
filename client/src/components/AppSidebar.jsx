@@ -14,11 +14,13 @@ import {
   CalendarSync,
   ChartColumnBig,
   ChevronUp,
+  CircleUser,
+  LogOut,
   ReceiptText,
   User2,
   Wallet,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import {
   DropdownMenu,
@@ -27,7 +29,6 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 
-// This is sample data.
 const items = [
   {
     title: "Dashboard",
@@ -52,10 +53,19 @@ const items = [
 ];
 
 export function AppSidebar({ ...props }) {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    navigate("/");
+  };
   return (
     <Sidebar {...props}>
       <SidebarHeader className={"p-4"}>
-        <h1 className="font-title font-bold text-2xl">Budget Warden</h1>
+        <Link to="/user/dashboard" className="font-title font-bold text-2xl">
+          Budget Warden
+        </Link>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -66,7 +76,7 @@ export function AppSidebar({ ...props }) {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
-                    // isActive
+                    isActive={location.pathname === item.url}
                     className={"p-3 text-md py-5 transition duration-150"}
                   >
                     <Link to={item.url}>
@@ -86,20 +96,27 @@ export function AppSidebar({ ...props }) {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton>
-                  <User2 /> Username
+                  <User2 /> {props.userdata.username}
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
-              <DropdownMenuContent side="top" className="w-[12rem]">
-                <DropdownMenuItem>
+              <DropdownMenuContent side="top" className="w-[16rem]">
+                <DropdownMenuItem
+                  className={`w-full ${location.pathname === "/user/profile" ? "bg-emerald-200" : ""}`}
+                >
+                  <CircleUser />
                   <Link className="w-full" to="/user/profile">
                     Profile
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link className="w-full" to="/">
+                  <LogOut />
+                  <span
+                    className="w-full cursor-pointer"
+                    onClick={handleLogout}
+                  >
                     Sign out
-                  </Link>
+                  </span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

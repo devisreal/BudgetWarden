@@ -44,9 +44,7 @@ export default function LoginForm() {
       const data = await userLogin(formValues);
       toast.success(data.message);
       reset();
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
+      navigate("/user/dashboard");
       localStorage.setItem("authToken", data.authToken);
     } catch (error) {
       toast.error(error.response.data.message);

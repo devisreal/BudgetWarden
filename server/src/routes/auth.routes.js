@@ -14,4 +14,8 @@ router.post("/login", loginController);
 
 router.get("/profile", authorise, profileController);
 
+router.get("/validate", authorise, (req, res) => {
+  res.json({ isValid: true }); // Only reaches here if token is valid
+});
+
 export default router;
