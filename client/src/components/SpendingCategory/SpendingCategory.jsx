@@ -37,7 +37,6 @@ export default function SpendingByCategory() {
               <Progress
                 value={item.percentage}
                 className="h-2 bg-emerald-100"
-            
               />
             </div>
           ))}

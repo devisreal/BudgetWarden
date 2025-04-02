@@ -1,6 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
+import BillCard from "../BillCard/BillCard";
 import { Card } from "../ui/card";
 
 export default function UpcomingBills() {
@@ -11,90 +12,9 @@ export default function UpcomingBills() {
       </h3>
 
       <ul className="flex flex-col mt-4 gap-4">
-        <li className="flex items-center justify-between gap-4 rounded-lg bg-white ">
-          <div className="flex items-center gap-4">
-            <span className="rounded-lg bg-emerald-100 p-3 text-emerald-600">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="size-8"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
-                />
-              </svg>
-            </span>
-
-            <div>
-              <p className="text-base font-semibold text-gray-900">Rent</p>
-
-              <p className="text-sm text-emerald-500">Total Sales</p>
-            </div>
-          </div>
-
-          <p className="font-semibold text-base">£1800</p>
-        </li>
-        <li className="flex items-center justify-between gap-4 rounded-lg bg-white ">
-          <div className="flex items-center gap-4">
-            <span className="rounded-lg bg-emerald-100 p-3 text-emerald-600">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="size-8"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
-                />
-              </svg>
-            </span>
-
-            <div>
-              <p className="text-base font-semibold text-gray-900">Rent</p>
-
-              <p className="text-sm text-emerald-500">Total Sales</p>
-            </div>
-          </div>
-
-          <p className="font-semibold text-base">£1800</p>
-        </li>
-        <li className="flex items-center justify-between gap-4 rounded-lg bg-white ">
-          <div className="flex items-center gap-4">
-            <span className="rounded-lg bg-emerald-100 p-3 text-emerald-600">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="size-8"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
-                />
-              </svg>
-            </span>
-
-            <div>
-              <p className="text-base font-semibold text-gray-900">Rent</p>
-
-              <p className="text-sm text-emerald-500">Total Sales</p>
-            </div>
-          </div>
-
-          <p className="font-semibold text-base">£1800</p>
-        </li>
+        <BillCard />
+        <BillCard />
+        <BillCard />
       </ul>
 
       <Link

@@ -106,10 +106,11 @@ export const profileController = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // 4. Return user data (excluding sensitive fields like password)
+    const { password, created_at, updated_at, ...user } = rows[0];
+
     res.json({
       success: true,
-      user: rows[0],
+      user: user,
     });
   } catch (error) {
     console.log(error);
