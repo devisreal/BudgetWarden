@@ -33,10 +33,6 @@ export function validateBillsForm(data) {
   let formIsValid = true;
   const errors = {};
 
-  if (!data.user_id) {
-    formIsValid = false;
-    errors["user_id"] = "User ID is required";
-  }
   if (!data.name) {
     formIsValid = false;
     errors["name"] = "Name is required";
