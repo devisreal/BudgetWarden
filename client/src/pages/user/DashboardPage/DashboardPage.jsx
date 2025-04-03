@@ -1,4 +1,4 @@
-import SkeletonLoader from "@/components/SkeletonLoader/SkeletonLoader";
+import { DashboardSkeletonLoader } from "@/components/SkeletonLoader/SkeletonLoaders";
 import SpendingByCategory from "@/components/SpendingCategory/SpendingCategory";
 import UpcomingBills from "@/components/UpcomingBills/UpcomingBills";
 import {
@@ -15,7 +15,7 @@ export default function DashboardPage() {
   const [isLoading, userData] = useOutletContext();
 
   if (isLoading) {
-    return <SkeletonLoader />;
+    return <DashboardSkeletonLoader />;
   }
 
   return (

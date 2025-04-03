@@ -13,6 +13,7 @@ import { Pencil } from "lucide-react";
 import { Button } from "../ui/button";
 
 export default function EditBillDrawer({
+  bill,
   isEditDrawerOpen,
   setEditDrawerIsOpen,
 }) {
@@ -23,14 +24,16 @@ export default function EditBillDrawer({
       onOpenChange={setEditDrawerIsOpen}
     >
       <DrawerTrigger>
-        <Button variant="outline" className="cursor-pointer">
-          <Pencil />
-          <span>Edit</span>
+        <Button variant="outline" className="cursor-pointer" asChild>
+          <span>
+            <Pencil />
+            Edit
+          </span>
         </Button>
       </DrawerTrigger>
       <DrawerContent direction="right">
         <DrawerHeader>
-          <DrawerTitle className="text-2xl">Edit Bill {`Billname`}</DrawerTitle>
+          <DrawerTitle className="text-2xl">Edit Bill: {bill.name}</DrawerTitle>
           <DrawerDescription className="text-md">
             Make a change to this bill
           </DrawerDescription>

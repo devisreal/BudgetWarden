@@ -21,11 +21,14 @@ export default function AddBillDrawer({ isAddDrawerOpen, setAddDrawerIsOpen }) {
     >
       <DrawerTrigger>
         <Button
+          asChild
           type="button"
           className="inline-flex cursor-pointer items-center rounded-md bg-emerald-600 px-3 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-emerald-600/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
         >
-          <CirclePlus className="size-5" />
-          Add Bill
+          <span>
+            <CirclePlus className="size-5" />
+            Add Bill
+          </span>
         </Button>
       </DrawerTrigger>
       <DrawerContent direction="right">

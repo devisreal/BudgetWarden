@@ -31,6 +31,19 @@ const getUserData = async () => {
   return data;
 };
 
+const getUserBills = async () => {
+  const authToken = localStorage.getItem("authToken");
+  const { data } = await axios.get(
+    `${import.meta.env.VITE_API_BASE_URL}/bills`,
+    {
+      headers: {
+        authorization: `Bearer ${authToken}`,
+      },
+    },
+  );
+  return data;
+};
+
 const validateAuth = async () => {
   const authToken = localStorage.getItem("authToken");
   if (!authToken) {
@@ -51,4 +64,4 @@ const validateAuth = async () => {
   return true;
 };
 
-export { userRegister, userLogin, getUserData, validateAuth };
+export { userRegister, userLogin, getUserData, getUserBills, validateAuth };
