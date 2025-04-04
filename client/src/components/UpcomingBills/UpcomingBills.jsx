@@ -21,7 +21,13 @@ export default function UpcomingBills() {
           <ul className="flex flex-col mt-4 gap-4">
             {userBills.upcomingBills.map((bill) => {
               return (
-                <BillCard key={bill.id} bill={bill} displayStats={false} />
+                <BillCard
+                  key={bill.id}
+                  bill={bill}
+                  displayStats={false}
+                  displayCategory={false}
+                  canDelete={false}
+                />
               );
             })}
           </ul>

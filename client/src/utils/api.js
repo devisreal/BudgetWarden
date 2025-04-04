@@ -85,6 +85,19 @@ const editBill = async (formValues, bill_slug) => {
   return data;
 };
 
+const deleteBill = async (slug) => {
+  const authToken = localStorage.getItem("authToken");
+  const response = await axios.delete(
+    `${import.meta.env.VITE_API_BASE_URL}/bills/${slug}`,
+    {
+      headers: {
+        authorization: `Bearer ${authToken}`,
+      },
+    },
+  );
+  return response;
+};
+
 const validateAuth = async () => {
   const authToken = localStorage.getItem("authToken");
   if (!authToken) {
@@ -113,5 +126,6 @@ export {
   getUserBills,
   addBill,
   editBill,
+  deleteBill,
   validateAuth,
 };
