@@ -36,7 +36,7 @@ export default function DashboardPage() {
         <div className="mt-5 flex lg:mt-0 lg:ml-4">
           <div className="sm:ml-3">
             <Link
-              to="/user/profile"
+              to="/user/profile/edit"
               type="button"
               className="inline-flex items-center rounded-md bg-emerald-600 px-3 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-emerald-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
             >

@@ -75,9 +75,8 @@ export default function EditBillForm({ bill, setEditDrawerIsOpen }) {
       setEditDrawerIsOpen(false);
     } catch (error) {
       console.log(error);
-      toast.error("Error adding bill");
+      toast.error("Error updating bill");
     }
-    console.log(formValues);
   };
 
   return (
@@ -198,7 +197,11 @@ export default function EditBillForm({ bill, setEditDrawerIsOpen }) {
         )}
       </div>
 
-      <Button disabled={isSubmitting} type="submit" className="w-full mt-4">
+      <Button
+        disabled={isSubmitting}
+        type="submit"
+        className="w-full mt-4 bg-emerald-700"
+      >
         {isSubmitting ? "Submitting..." : "Submit"}
       </Button>
     </form>

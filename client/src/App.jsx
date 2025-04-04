@@ -10,6 +10,7 @@ import RegisterPage from "./pages/auth/Register/RegisterPage";
 import BillsPage from "./pages/user/BillsPage/BillsPage";
 import BudgetsPage from "./pages/user/BudgetsPage/BudgetsPage";
 import DashboardPage from "./pages/user/DashboardPage/DashboardPage";
+import EditProfilePage from "./pages/user/EditProfilePage/EditProfilePage";
 import ProfilePage from "./pages/user/ProfilePage/ProfilePage";
 import SubscriptionsPage from "./pages/user/SubscriptionsPage/SubscriptionsPage";
 
@@ -33,6 +34,7 @@ function App() {
               <Route path="budgets" element={<BudgetsPage />} />
               <Route path="subscriptions" element={<SubscriptionsPage />} />
               <Route path="profile" element={<ProfilePage />} />
+              <Route path="profile/edit" element={<EditProfilePage />} />
               <Route path="*" element={<Navigate to="/not-found" replace />} />
             </Route>
 

@@ -51,9 +51,10 @@ export default function RegisterForm() {
       const data = await userRegister(formValues);
       toast.success(data.message);
       reset();
+      localStorage.setItem("authToken", data.authToken);
       setTimeout(() => {
-        navigate("/auth/login");
-      }, 1000);
+        navigate("/user/profile");
+      }, 500);
     } catch (error) {
       toast.error(error.response.data.message);
     }

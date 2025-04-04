@@ -34,8 +34,18 @@ export const registerController = async (req, res) => {
       hashedPassword,
       data.slug,
     ]);
+    const token = jwt.sign(
+      {
+        id: result.rows[0].id,
+        sub: result.rows[0].email,
+        slug: result.rows[0].slug,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "8h" }
+    );
     res.status(201).json({
       success: true,
+      authToken: token,
       message: "Account created successfully!, login to continue",
     });
   } catch (error) {

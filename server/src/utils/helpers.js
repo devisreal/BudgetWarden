@@ -65,3 +65,35 @@ export function validateBillsForm(data) {
 
   return { formIsValid, data, errors };
 }
+
+export function validateUserForm(data) {
+  let formIsValid = true;
+  const errors = {};
+
+  if (!data.first_name) {
+    formIsValid = false;
+    errors["first_name"] = "First name is required";
+  }
+  if (!data.last_name) {
+    formIsValid = false;
+    errors["last_name"] = "Last name is required";
+  }
+  if (!data.username) {
+    formIsValid = false;
+    errors["username"] = "Username is required";
+  }
+  if (!data.email) {
+    formIsValid = false;
+    errors["email"] = "Email address is required";
+  }
+  if (!data.currency) {
+    formIsValid = false;
+    errors["currency"] = "Currency is required";
+  }
+  if (!data.income) {
+    formIsValid = false;
+    errors["income"] = "Income is required";
+  }
+
+  return { formIsValid, data, errors };
+}

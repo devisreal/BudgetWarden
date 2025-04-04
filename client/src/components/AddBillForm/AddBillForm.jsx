@@ -196,7 +196,7 @@ export default function AddBillForm({ setAddDrawerIsOpen }) {
         )}
       </div>
 
-      <Button disabled={isSubmitting} type="submit" className="w-full mt-4">
+      <Button disabled={isSubmitting} type="submit" className="w-full mt-4 bg-emerald-700">
         {isSubmitting ? "Submitting..." : "Submit"}
       </Button>
     </form>

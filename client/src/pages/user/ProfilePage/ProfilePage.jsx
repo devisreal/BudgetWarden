@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function ProfilePage() {
-  return <div>ProfilePage</div>;
+  return <div>ProfilePage <Link to="/user/profile/edit" >Edit</Link> </div>;
 }

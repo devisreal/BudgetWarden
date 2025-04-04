@@ -31,6 +31,20 @@ const getUserData = async () => {
   return data;
 };
 
+const editUserProfile = async (formValues) => {
+  const authToken = localStorage.getItem("authToken");
+  const { data } = await axios.put(
+    `${import.meta.env.VITE_API_BASE_URL}/auth/profile/edit`,
+    formValues,
+    {
+      headers: {
+        authorization: `Bearer ${authToken}`,
+      },
+    },
+  );
+  return data;
+};
+
 const getCategories = async () => {
   const authToken = localStorage.getItem("authToken");
   const { data } = await axios.get(
@@ -122,6 +136,7 @@ export {
   userRegister,
   userLogin,
   getUserData,
+  editUserProfile,
   getCategories,
   getUserBills,
   addBill,
