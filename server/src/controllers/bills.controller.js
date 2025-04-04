@@ -98,7 +98,6 @@ export const editBillController = async (req, res) => {
 
     if (billCheck.rows[0].name !== name) {
       formData.slug = generateSlug(formData.name);
-      console.log(formData.slug);
     }
 
     const categoryCheck = await pool.query(

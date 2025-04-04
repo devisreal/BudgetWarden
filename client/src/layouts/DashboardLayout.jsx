@@ -37,7 +37,7 @@ export default function Page() {
         <SidebarInset>
           <OutletHeader userData={userData} />
           <div className="flex flex-1 flex-col gap-4 p-4">
-            <Outlet context={[isLoading, userData]} />
+            <Outlet context={[isLoading, userData, getUser]} />
           </div>
         </SidebarInset>
       </SidebarProvider>

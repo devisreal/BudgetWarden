@@ -10,6 +10,7 @@ import {
   XIcon,
 } from "lucide-react";
 import { useContext, useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import { toast } from "sonner";
 
 import EditBillDrawer from "../EditBillDrawer/EditBillDrawer";
@@ -25,7 +26,10 @@ export default function BillCard({
   displayCategory = true,
 }) {
   const [isEditDrawerOpen, setEditDrawerIsOpen] = useState(false);
-  const { userBills } = useContext(DashboardContext);
+  const { userBills, getUserCurrency } = useContext(DashboardContext);
+  const [isLoading, userData] = useOutletContext();
+
+  const userCurrency = getUserCurrency(userData.currency);
 
   const handleDeleteBill = async (slug) => {
     try {
@@ -101,7 +105,10 @@ export default function BillCard({
       </div>
 
       <div className="flex items-center w-full justify-between md:w-auto md:justify-normal gap-4">
-        <p className="font-medium text-lg">£{numberWithCommas(bill.amount)}</p>
+        <p className="font-medium text-lg">
+          {userCurrency.symbol}
+          {numberWithCommas(bill.amount)}
+        </p>
 
         <div className="flex gap-2">
           <EditBillDrawer

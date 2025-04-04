@@ -2,6 +2,7 @@ import { DashboardSkeletonLoader } from "@/components/SkeletonLoader/SkeletonLoa
 import SpendingByCategory from "@/components/SpendingCategory/SpendingCategory";
 import UpcomingBills from "@/components/UpcomingBills/UpcomingBills";
 import { DashboardContext } from "@/contexts/DashboardContext";
+import { numberWithCommas } from "@/lib/utils";
 import {
   ArrowUpRight,
   CalendarSync,
@@ -15,7 +16,8 @@ import { Link, useOutletContext } from "react-router-dom";
 
 export default function DashboardPage() {
   const [isLoading, userData] = useOutletContext();
-  const { userBills } = useContext(DashboardContext);
+  const { userBills, getUserCurrency } = useContext(DashboardContext);
+  const userCurrency = getUserCurrency(userData.currency);
 
   if (isLoading) {
     return <DashboardSkeletonLoader />;
@@ -56,7 +58,8 @@ export default function DashboardPage() {
           <div>
             <p className="text-sm text-gray-500">Income</p>
             <p className="text-2xl font-bold text-gray-900">
-              £{userData.income ? userData.income : 0}
+              {userCurrency.symbol}
+              {numberWithCommas(userData.income ? userData.income : 0)}
             </p>
           </div>
         </article>
@@ -70,7 +73,8 @@ export default function DashboardPage() {
               <p className="text-sm text-gray-500">Bills</p>
 
               <p className="text-2xl font-bold text-gray-900">
-                £{userBills.totalBills}
+                {userCurrency.symbol}
+                {numberWithCommas(userBills.totalBills)}
               </p>
             </div>
           </div>
@@ -120,7 +124,9 @@ export default function DashboardPage() {
             <div>
               <p className="text-sm text-gray-500">Spent</p>
 
-              <p className="text-2xl font-bold text-gray-900">£240.94</p>
+              <p className="text-2xl font-bold text-gray-900">
+                {userCurrency.symbol}240.94
+              </p>
             </div>
           </div>
 

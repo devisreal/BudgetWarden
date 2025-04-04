@@ -41,10 +41,11 @@ const editProfileFormSchema = yup
   .required();
 
 export default function EditProfilePage() {
-  const [isLoading, userData] = useOutletContext();
+  const [isLoading, userData, getUser] = useOutletContext();
   const { currencies } = useContext(DashboardContext);
   const navigate = useNavigate();
 
+  
   const {
     register,
     handleSubmit,
@@ -85,6 +86,7 @@ export default function EditProfilePage() {
       const data = await editUserProfile(formValues);
       toast.success(data.message);
       reset();
+      getUser()
       navigate("/user/profile");
     } catch (error) {
       console.log(error);
