@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import { AuthProvider } from "./contexts/AuthContext";
@@ -13,11 +12,8 @@ import BudgetsPage from "./pages/user/BudgetsPage/BudgetsPage";
 import DashboardPage from "./pages/user/DashboardPage/DashboardPage";
 import ProfilePage from "./pages/user/ProfilePage/ProfilePage";
 import SubscriptionsPage from "./pages/user/SubscriptionsPage/SubscriptionsPage";
-import { validateAuth } from "./utils/api";
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
-
   return (
     <AuthProvider>
       <div className="">

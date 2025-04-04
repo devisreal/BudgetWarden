@@ -1,6 +1,7 @@
 import { AppSidebar } from "@/components/AppSidebar";
 import OutletHeader from "@/components/ui/outlet-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { DashboardProvider } from "@/contexts/DashboardContext";
 import { getUserData } from "@/utils/api";
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -30,14 +31,16 @@ export default function Page() {
   }, []);
 
   return (
-    <SidebarProvider>
-      <AppSidebar userdata={userData} variant="inset" />
-      <SidebarInset>
-        <OutletHeader userData={userData} />
-        <div className="flex flex-1 flex-col gap-4 p-4">
-          <Outlet context={[isLoading, userData]} />
-        </div>
-      </SidebarInset>
-    </SidebarProvider>
+    <DashboardProvider>
+      <SidebarProvider>
+        <AppSidebar userdata={userData} variant="inset" />
+        <SidebarInset>
+          <OutletHeader userData={userData} />
+          <div className="flex flex-1 flex-col gap-4 p-4">
+            <Outlet context={[isLoading, userData]} />
+          </div>
+        </SidebarInset>
+      </SidebarProvider>
+    </DashboardProvider>
   );
 }

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/drawer";
 import { CirclePlus } from "lucide-react";
 
+import AddBillForm from "../AddBillForm/AddBillForm";
 import { Button } from "../ui/button";
 
 export default function AddBillDrawer({ isAddDrawerOpen, setAddDrawerIsOpen }) {
@@ -38,16 +39,16 @@ export default function AddBillDrawer({ isAddDrawerOpen, setAddDrawerIsOpen }) {
             Add a new bill
           </DrawerDescription>
         </DrawerHeader>
-
+        <AddBillForm setAddDrawerIsOpen={setAddDrawerIsOpen} />
         <DrawerFooter>
-          <Button>Submit</Button>
           <DrawerClose>
             <Button
+              asChild
               variant="outline"
               className="w-full"
               onClick={() => setAddDrawerIsOpen(false)}
             >
-              Cancel
+              <span>Cancel</span>
             </Button>
           </DrawerClose>
         </DrawerFooter>

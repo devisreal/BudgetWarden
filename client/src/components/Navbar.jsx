@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 
 export default function Navbar() {
-  const isLoggedIn = useContext(AuthContext);
+  const { isLoggedIn } = useContext(AuthContext);
   console.log(isLoggedIn);
 
   return (

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/drawer";
 import { Pencil } from "lucide-react";
 
+import EditBillForm from "../EditBillForm/EditBillForm";
 import { Button } from "../ui/button";
 
 export default function EditBillDrawer({
@@ -38,16 +39,16 @@ export default function EditBillDrawer({
             Make a change to this bill
           </DrawerDescription>
         </DrawerHeader>
-
+        <EditBillForm bill={bill} setEditDrawerIsOpen={setEditDrawerIsOpen} />
         <DrawerFooter>
-          <Button>Submit</Button>
           <DrawerClose>
             <Button
               variant="outline"
               className="w-full"
               onClick={() => setEditDrawerIsOpen(false)}
+              asChild
             >
-              Cancel
+              <span>Cancel</span>
             </Button>
           </DrawerClose>
         </DrawerFooter>

@@ -96,7 +96,10 @@ export function AppSidebar({ ...props }) {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton>
-                  <User2 /> {props.userdata.username}
+                  <User2 />
+                  {props.userdata.first_name
+                    ? props.userdata.first_name
+                    : props.userdata.username}
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>

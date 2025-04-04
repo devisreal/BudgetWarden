@@ -1,6 +1,7 @@
 import { DashboardSkeletonLoader } from "@/components/SkeletonLoader/SkeletonLoaders";
 import SpendingByCategory from "@/components/SpendingCategory/SpendingCategory";
 import UpcomingBills from "@/components/UpcomingBills/UpcomingBills";
+import { DashboardContext } from "@/contexts/DashboardContext";
 import {
   ArrowUpRight,
   CalendarSync,
@@ -9,10 +10,12 @@ import {
   ReceiptText,
   SquarePen,
 } from "lucide-react";
+import { useContext } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 
 export default function DashboardPage() {
   const [isLoading, userData] = useOutletContext();
+  const { userBills } = useContext(DashboardContext);
 
   if (isLoading) {
     return <DashboardSkeletonLoader />;
@@ -23,7 +26,8 @@ export default function DashboardPage() {
       <section className="lg:flex lg:items-center lg:justify-between">
         <div className="min-w-0 flex-1">
           <h2 className="text-3xl font-bold text-gray-900 sm:truncate sm:text-4xl sm:tracking-tight">
-            Welcome back, {userData.username}
+            Welcome back,{" "}
+            {userData.first_name ? userData.first_name : userData.username}
           </h2>
           <p className="text-md sm:text-base text-gray-500">
             Here&apos;s your monthly financial snapshot.
@@ -51,7 +55,9 @@ export default function DashboardPage() {
 
           <div>
             <p className="text-sm text-gray-500">Income</p>
-            <p className="text-2xl font-bold text-gray-900">£240.94</p>
+            <p className="text-2xl font-bold text-gray-900">
+              £{userData.income ? userData.income : 0}
+            </p>
           </div>
         </article>
 
@@ -63,11 +69,13 @@ export default function DashboardPage() {
             <div>
               <p className="text-sm text-gray-500">Bills</p>
 
-              <p className="text-2xl font-bold text-gray-900">£240.94</p>
+              <p className="text-2xl font-bold text-gray-900">
+                £{userBills.totalBills}
+              </p>
             </div>
           </div>
 
-          <div className="mt-2 flex gap-1 text-green-600">
+          {/* <div className="mt-2 flex gap-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="size-4"
@@ -88,7 +96,7 @@ export default function DashboardPage() {
 
               <span className="text-gray-500"> Since last week </span>
             </p>
-          </div>
+          </div> */}
 
           <Link
             to="/user/bills"
@@ -116,7 +124,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="mt-2 flex gap-1 text-red-600">
+          {/* <div className="mt-2 flex gap-1 text-red-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="size-4"
@@ -137,7 +145,7 @@ export default function DashboardPage() {
 
               <span className="text-gray-500"> Since last week </span>
             </p>
-          </div>
+          </div> */}
         </article>
 
         <article className="flex relative w-full shadow items-center gap-4 rounded-lg border border-gray-100 bg-white p-6">

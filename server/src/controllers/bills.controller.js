@@ -28,7 +28,7 @@ export const addBillController = async (req, res) => {
 
   try {
     const categoryCheck = await pool.query(
-      "SELECT 1 FROM categories WHERE id = $1",
+      "SELECT * FROM categories WHERE id = $1",
       [category_id]
     );
 
@@ -50,6 +50,7 @@ export const addBillController = async (req, res) => {
             slug,
             created_at
     `;
+
     const result = await pool.query(sql, [
       userId,
       category_id,
@@ -101,12 +102,12 @@ export const editBillController = async (req, res) => {
     }
 
     const categoryCheck = await pool.query(
-      "SELECT 1 FROM categories WHERE id = $1",
+      "SELECT * FROM categories WHERE id = $1",
       [category_id]
     );
 
     if (categoryCheck.rows.length === 0) {
-      return res.status(400).json({ error: "Invalid category" });
+      return res.status(400).json({ message: "Category not found" });
     }
 
     const sql = `
@@ -150,6 +151,7 @@ export const editBillController = async (req, res) => {
     res.json({
       success: true,
       bill: result.rows[0],
+      message: `Bill '${result.rows[0].name}' edited !`,
     });
   } catch (error) {
     console.error("Error updating bill:", error);

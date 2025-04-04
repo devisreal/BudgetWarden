@@ -1,46 +1,14 @@
 import AddBillDrawer from "@/components/AddBillDrawer/AddBillDrawer";
 import BillCard from "@/components/BillCard/BillCard";
+import EmptyState from "@/components/EmptyState/EmptyState";
 import { BillsSkeletonLoader } from "@/components/SkeletonLoader/SkeletonLoaders";
 import { Card } from "@/components/ui/card";
-import { getUserBills } from "@/utils/api";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
-
-const today = new Date();
+import { DashboardContext } from "@/contexts/DashboardContext";
+import { useContext, useState } from "react";
 
 export default function BillsPage() {
   const [isAddDrawerOpen, setAddDrawerIsOpen] = useState(false);
-  const [bills, setBills] = useState(null);
-  const [upcomingBills, setUpcomingBills] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const getBills = async () => {
-    try {
-      const response = await getUserBills();
-      setIsLoading(false);
-      setBills(response);
-
-      const upcomingBills = response.filter((bill) => {
-        if (bill.is_paid) return false;
-
-        const dueDate = new Date(bill.due_date);
-        const sevenDaysFromNow = new Date(
-          today.getTime() + 7 * 24 * 60 * 60 * 1000,
-        );
-
-        return dueDate >= today && dueDate <= sevenDaysFromNow;
-      });
-
-      setUpcomingBills(upcomingBills);
-    } catch (error) {
-      console.log(error);
-      toast.error(error);
-    }
-  };
-
-  useEffect(() => {
-    getBills();
-  }, []);
+  const { userBills } = useContext(DashboardContext);
 
   return (
     <main className="p-4">
@@ -65,12 +33,21 @@ export default function BillsPage() {
           Due Soon
         </h3>
 
-        {!isLoading ? (
-          <ul className="flex flex-col mt-4 gap-4">
-            {upcomingBills.map((bill) => {
-              return <BillCard key={bill.id} bill={bill} />;
-            })}
-          </ul>
+        {!userBills.isBillsLoading ? (
+          userBills.upcomingBills.length > 0 ? (
+            <ul className="flex flex-col mt-4 gap-4">
+              {userBills.upcomingBills.map((bill) => {
+                return (
+                  <BillCard key={bill.id} bill={bill} displayStats={true} />
+                );
+              })}
+            </ul>
+          ) : (
+            <EmptyState
+              title="No upcoming bills"
+              message="You have no upcoming bills"
+            />
+          )
         ) : (
           <BillsSkeletonLoader />
         )}
@@ -81,12 +58,21 @@ export default function BillsPage() {
           All Bills
         </h3>
 
-        {!isLoading ? (
-          <ul className="flex flex-col mt-4 gap-4">
-            {bills.map((bill) => {
-              return <BillCard key={bill.id} bill={bill} />;
-            })}
-          </ul>
+        {!userBills.isBillsLoading ? (
+          userBills.bills.length > 0 ? (
+            <ul className="flex flex-col mt-4 gap-4">
+              {userBills.bills.map((bill) => {
+                return (
+                  <BillCard key={bill.id} bill={bill} displayStats={true} />
+                );
+              })}
+            </ul>
+          ) : (
+            <EmptyState
+              title="No upcoming bills"
+              message="You have no upcoming bills"
+            />
+          )
         ) : (
           <BillsSkeletonLoader />
         )}

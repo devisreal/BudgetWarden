@@ -39,7 +39,7 @@ export function validateBillsForm(data) {
   }
   if (!data.category_id) {
     formIsValid = false;
-    errors["category_id"] = "Category ID is required";
+    errors["category_slug"] = "Category is required";
   }
   if (!data.amount) {
     formIsValid = false;

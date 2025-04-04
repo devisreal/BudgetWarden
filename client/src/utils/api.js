@@ -31,10 +31,51 @@ const getUserData = async () => {
   return data;
 };
 
+const getCategories = async () => {
+  const authToken = localStorage.getItem("authToken");
+  const { data } = await axios.get(
+    `${import.meta.env.VITE_API_BASE_URL}/categories`,
+    {
+      headers: {
+        authorization: `Bearer ${authToken}`,
+      },
+    },
+  );
+  return data;
+};
+
 const getUserBills = async () => {
   const authToken = localStorage.getItem("authToken");
   const { data } = await axios.get(
     `${import.meta.env.VITE_API_BASE_URL}/bills`,
+    {
+      headers: {
+        authorization: `Bearer ${authToken}`,
+      },
+    },
+  );
+  return data;
+};
+
+const addBill = async (formValues) => {
+  const authToken = localStorage.getItem("authToken");
+  const { data } = await axios.post(
+    `${import.meta.env.VITE_API_BASE_URL}/bills`,
+    formValues,
+    {
+      headers: {
+        authorization: `Bearer ${authToken}`,
+      },
+    },
+  );
+  return data;
+};
+
+const editBill = async (formValues, bill_slug) => {
+  const authToken = localStorage.getItem("authToken");
+  const { data } = await axios.put(
+    `${import.meta.env.VITE_API_BASE_URL}/bills/${bill_slug}`,
+    formValues,
     {
       headers: {
         authorization: `Bearer ${authToken}`,
@@ -64,4 +105,13 @@ const validateAuth = async () => {
   return true;
 };
 
-export { userRegister, userLogin, getUserData, getUserBills, validateAuth };
+export {
+  userRegister,
+  userLogin,
+  getUserData,
+  getCategories,
+  getUserBills,
+  addBill,
+  editBill,
+  validateAuth,
+};
