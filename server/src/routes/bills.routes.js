@@ -3,17 +3,19 @@ import authorise from "../middleware/auth.middleware.js";
 import {
   addBillController,
   deleteBillController,
-  editBillController,
+  updateBillController,
   getUserBillsController,
 } from "../controllers/bills.controller.js";
 const router = express.Router();
 
-router.get("/", authorise, getUserBillsController);
+router
+  .route("/")
+  .get(authorise, getUserBillsController)
+  .post(authorise, addBillController);
 
-router.post("/", authorise, addBillController);
-
-router.put("/:slug", authorise, editBillController);
-
-router.delete("/:slug", authorise, deleteBillController);
+router
+  .route("/:slug")
+  .put(authorise, updateBillController)
+  .delete(authorise, deleteBillController);
 
 export default router;

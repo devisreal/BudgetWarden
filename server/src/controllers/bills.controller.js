@@ -74,7 +74,7 @@ export const addBillController = async (req, res) => {
   }
 };
 
-export const editBillController = async (req, res) => {
+export const updateBillController = async (req, res) => {
   const billSlug = req.params.slug;
   const userId = req.token.id;
   const formData = req.body;

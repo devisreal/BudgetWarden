@@ -26,83 +26,110 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE
-OR REPLACE FUNCTION update_updated_at_column () RETURNS TRIGGER AS $$
-    BEGIN
-      NEW.updated_at = NOW();
-      RETURN NEW;
-    END;
-    $$ LANGUAGE plpgsql;
+OR REPLACE FUNCTION update_updated_at_column () RETURNS TRIGGER AS $ $ BEGIN NEW.updated_at = NOW();
+
+RETURN NEW;
+
+END;
+
+$ $ LANGUAGE plpgsql;
 
 CREATE TRIGGER trigger_users_updated_at BEFORE
-UPDATE ON users FOR EACH ROW
-EXECUTE FUNCTION update_updated_at_column ();
+UPDATE
+	ON users FOR EACH ROW EXECUTE FUNCTION update_updated_at_column ();
 
-ALTER TABLE users
-ADD COLUMN slug VARCHAR(255) UNIQUE;
+ALTER TABLE
+	users
+ADD
+	COLUMN slug VARCHAR(255) UNIQUE;
 
-CREATE TABLE IF NOT EXISTS categories (id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE IF NOT EXISTS categories (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(255) NOT NULL,
+	created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
 
-ALTER TABLE categories
-ADD COLUMN slug VARCHAR(255) UNIQUE;
+ALTER TABLE
+	categories
+ADD
+	COLUMN slug VARCHAR(255) UNIQUE;
 
-CREATE OR REPLACE FUNCTION generate_category_slug()
-RETURNS TRIGGER AS $$
-DECLARE
-    base_slug TEXT;
-    new_slug TEXT;
-    counter INT := 1;
-BEGIN
-    -- Generate base slug (lowercase, replace spaces with hyphens)
-    base_slug := lower(new.name);
-    base_slug := regexp_replace(base_slug, '[^a-z0-9]+', '-', 'g');
-    base_slug := trim(both '-' from base_slug);
+CREATE
+OR REPLACE FUNCTION generate_category_slug() RETURNS TRIGGER AS $ $ DECLARE base_slug TEXT;
 
-    new_slug := base_slug;
-    
-    -- Ensure uniqueness by appending a number if necessary
-    WHILE EXISTS (SELECT 1 FROM categories WHERE name = new_slug) LOOP
-        new_slug := base_slug || '-' || counter;
-        counter := counter + 1;
-    END LOOP;
-    
-    -- Assign the generated slug
-    NEW.slug := new_slug;
-    RETURN NEW;
+new_slug TEXT;
+
+counter INT := 1;
+
+BEGIN -- Generate base slug (lowercase, replace spaces with hyphens)
+base_slug := lower(new.name);
+
+base_slug := regexp_replace(base_slug, '[^a-z0-9]+', '-', 'g');
+
+base_slug := trim(
+	both '-'
+	from
+		base_slug
+);
+
+new_slug := base_slug;
+
+-- Ensure uniqueness by appending a number if necessary
+WHILE EXISTS (
+	SELECT
+		1
+	FROM
+		categories
+	WHERE
+		name = new_slug
+) LOOP new_slug := base_slug || '-' || counter;
+
+counter := counter + 1;
+
+END LOOP;
+
+-- Assign the generated slug
+NEW.slug := new_slug;
+
+RETURN NEW;
+
 END;
-$$ LANGUAGE plpgsql;
+
+$ $ LANGUAGE plpgsql;
 
 -- Create trigger to run the function before insert
-CREATE TRIGGER category_slug_trigger
-BEFORE INSERT ON categories
-FOR EACH ROW
-EXECUTE FUNCTION generate_category_slug();
+CREATE TRIGGER category_slug_trigger BEFORE
+INSERT
+	ON categories FOR EACH ROW EXECUTE FUNCTION generate_category_slug();
 
-
-INSERT INTO categories (name) VALUES
--- Essentials
-('Housing'),
-('Food'),
-('Transport'),
--- Lifestyle
-('Shopping'),
-('Entertainment'),
-('Bills'),
--- Income
-('Salary'),
-('Side Hustle'),
-('Other Income'),
--- Financial Goals
-('Emergency Fund'),
-('Investments'),
-('Debt Payments');
+INSERT INTO
+	categories (name)
+VALUES
+	-- Essentials
+	('Housing'),
+	('Food'),
+	('Transport'),
+	-- Lifestyle
+	('Shopping'),
+	('Entertainment'),
+	('Bills'),
+	-- Income
+	('Salary'),
+	('Side Hustle'),
+	('Other Income'),
+	-- Financial Goals
+	('Emergency Fund'),
+	('Investments'),
+	('Debt Payments');
 
 CREATE TABLE IF NOT EXISTS subscriptions (
 	id SERIAL PRIMARY KEY,
 	user_id BIGINT NOT NULL REFERENCES users (id) ON DELETE CASCADE,
 	category_id VARCHAR(50) NOT NULL,
 	name VARCHAR(100) NOT NULL,
-	cost BIGINT NOT NULL CHECK (cost >= 0),
-	billing_cycle VARCHAR(20) NOT NULL, -- 'monthly', 'yearly', 'weekly'
+	cost DECIMAL(12, 2) NOT NULL CHECK (cost >= 0),
+	billing_cycle VARCHAR(20) NOT NULL,
+	-- 'monthly', 'yearly', 'weekly'
 	renewal_date DATE NOT NULL,
 	is_active BOOLEAN DEFAULT TRUE,
 	created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
@@ -114,7 +141,7 @@ CREATE TABLE IF NOT EXISTS bills (
 	user_id BIGINT NOT NULL REFERENCES users (id) ON DELETE CASCADE,
 	category_id BIGINT NOT NULL REFERENCES categories (id) ON DELETE CASCADE,
 	name VARCHAR(100) NOT NULL,
-	amount DECIMAL(12, 2)  NOT NULL CHECK (amount >= 0),
+	amount DECIMAL(12, 2) NOT NULL CHECK (amount >= 0),
 	due_date DATE NOT NULL,
 	is_paid BOOLEAN DEFAULT FALSE,
 	created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
@@ -126,8 +153,9 @@ CREATE TABLE IF NOT EXISTS budgets (
 	user_id BIGINT NOT NULL REFERENCES users (id) ON DELETE CASCADE,
 	category_id BIGINT NOT NULL REFERENCES categories (id) ON DELETE CASCADE,
 	name VARCHAR(100) NOT NULL,
-	amount BIGINT NOT NULL CHECK (amount >= 0),
-	period VARCHAR(20) NOT NULL, -- 'weekly', 'monthly', 'yearly'
+	amount DECIMAL(12, 2) NOT NULL CHECK (amount >= 0),
+	period VARCHAR(20) NOT NULL,
+	-- 'weekly', 'monthly', 'yearly'
 	created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 	updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
@@ -151,16 +179,38 @@ CREATE INDEX idx_bills_category_id ON bills (category_id);
 
 CREATE INDEX idx_subscriptions_category_id ON subscriptions (category_id);
 
+ALTER TABLE
+	subscriptions
+ADD
+	COLUMN slug VARCHAR(255) UNIQUE;
 
-ALTER TABLE subscriptions
-ADD COLUMN slug VARCHAR(255) UNIQUE;
+ALTER TABLE
+	bills
+ADD
+	COLUMN slug VARCHAR(255) UNIQUE;
 
-ALTER TABLE bills
-ADD COLUMN slug VARCHAR(255) UNIQUE;
+ALTER TABLE
+	budgets
+ADD
+	COLUMN slug VARCHAR(255) UNIQUE;
 
-ALTER TABLE budgets
-ADD COLUMN slug VARCHAR(255) UNIQUE;
+ALTER TABLE
+	users
+ALTER COLUMN
+	income
+SET
+	DEFAULT 0.00;
 
-ALTER TABLE users
-ALTER COLUMN income SET DEFAULT 0.00,
-ALTER COLUMN income TYPE DECIMAL(12, 2);
+ALTER TABLE
+	subscriptions
+ALTER COLUMN
+	cost
+SET
+	DEFAULT 0.00;
+
+ALTER TABLE
+	budgets
+ALTER COLUMN
+	amount
+SET
+	DEFAULT 0.00;

@@ -39,7 +39,7 @@ export function validateBillsForm(data) {
   }
   if (!data.category_id) {
     formIsValid = false;
-    errors["category_slug"] = "Category is required";
+    errors["category_id"] = "Category is required";
   }
   if (!data.amount) {
     formIsValid = false;
@@ -93,6 +93,47 @@ export function validateUserForm(data) {
   if (!data.income) {
     formIsValid = false;
     errors["income"] = "Income is required";
+  }
+
+  return { formIsValid, data, errors };
+}
+
+export function validateSubscriptionsForm(data) {
+  let formIsValid = true;
+  const errors = {};
+
+  if (!data.name) {
+    formIsValid = false;
+    errors["name"] = "Name is required";
+  }
+  if (!data.category_id) {
+    formIsValid = false;
+    errors["category_id"] = "Category is required";
+  }
+  if (!data.cost) {
+    formIsValid = false;
+    errors["cost"] = "Cost is required";
+  }
+  if (!data.billing_cycle) {
+    formIsValid = false;
+    errors["billing_cycle"] = "Cost is required";
+  }
+  if (!data.renewal_date) {
+    formIsValid = false;
+    errors["renewal_date"] = "Due Date is required";
+  } else {
+    const date = new Date(data.renewal_date);
+    if (isNaN(date.getTime())) {
+      formIsValid = false;
+      errors["renewal_date"] = "Please enter a valid date";
+    } else {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      if (date < today) {
+        formIsValid = false;
+        errors["renewal_date"] = "Renewal date cannot be in the past";
+      }
+    }
   }
 
   return { formIsValid, data, errors };
