@@ -5,10 +5,21 @@ const AuthContext = createContext();
 
 function AuthProvider(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const checkAuth = async () => {
-    const loggedInStatus = await validateAuth();
-    setIsLoggedIn(loggedInStatus);
+    try {
+      const response = await validateAuth();
+
+      if (response?.data?.isValid) {
+        setIsLoggedIn(response.data.isValid);
+      } else {
+        setIsLoggedIn(false);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -16,7 +27,7 @@ function AuthProvider(props) {
   }, []);
 
   return (
-    <AuthContext.Provider value={isLoggedIn}>
+    <AuthContext.Provider value={{ isLoggedIn, isLoading }}>
       {props.children}
     </AuthContext.Provider>
   );

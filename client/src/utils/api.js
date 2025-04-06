@@ -11,6 +11,7 @@ const userRegister = async (formValues) => {
   );
   return data;
 };
+
 const userLogin = async (formValues) => {
   const { data } = await axios.post(
     `${import.meta.env.VITE_API_BASE_URL}/auth/login`,
@@ -18,6 +19,7 @@ const userLogin = async (formValues) => {
   );
   return data;
 };
+
 const getUserData = async () => {
   const authToken = localStorage.getItem("authToken");
   const { data } = await axios.get(
@@ -117,8 +119,7 @@ const validateAuth = async () => {
   if (!authToken) {
     return false;
   }
-
-  const { data } = await axios.get(
+  const response = await axios.get(
     `${import.meta.env.VITE_API_BASE_URL}/auth/validate`,
     {
       headers: {
@@ -126,10 +127,7 @@ const validateAuth = async () => {
       },
     },
   );
-  if (!data.isValid) {
-    return false;
-  }
-  return true;
+  return response;
 };
 
 export {
