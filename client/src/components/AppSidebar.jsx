@@ -59,6 +59,7 @@ export function AppSidebar({ ...props }) {
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     navigate("/");
+    window.location.reload();
   };
   return (
     <Sidebar {...props}>

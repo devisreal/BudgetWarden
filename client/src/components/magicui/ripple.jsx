@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { motion } from "motion/react";
 import React from "react";
 
 export const Ripple = React.memo(function Ripple({
@@ -9,7 +10,10 @@ export const Ripple = React.memo(function Ripple({
   ...props
 }) {
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, delay: 0.2 }}
       className={cn(
         "pointer-events-none absolute inset-0 select-none [mask-image:linear-gradient(to_bottom,white,transparent)]",
         className,
@@ -42,7 +46,7 @@ export const Ripple = React.memo(function Ripple({
           />
         );
       })}
-    </div>
+    </motion.div>
   );
 });
 

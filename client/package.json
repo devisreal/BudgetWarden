@@ -27,6 +27,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "lucide-react": "^0.483.0",
+    "motion": "^12.6.3",
     "react": "^19.0.0",
     "react-aria-components": "^1.7.1",
     "react-day-picker": "^8.10.1",

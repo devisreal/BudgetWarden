@@ -54,8 +54,6 @@ const currencies = [
   { id: "currency-21", value: "AED", display: "UAE Dirham", symbol: "د.إ" },
 ];
 
-
-
 function DashboardProvider(props) {
   const [categories, setCategories] = useState(false);
   const [bills, setBills] = useState(null);
@@ -144,7 +142,7 @@ function DashboardProvider(props) {
           isBillsLoading,
         },
         currencies,
-        getUserCurrency
+        getUserCurrency,
       }}
     >
       {props.children}

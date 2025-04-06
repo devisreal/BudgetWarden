@@ -37,7 +37,7 @@ export default function AuthLayout() {
           <div className="flex relative flex-col justify-center items-center w-full px-6 mx-auto lg:w-2/6">
             <button
               onClick={() => navigate("/")}
-              className="group cursor-pointer text-sm top-5 right-5 absolute inline-flex h-10 items-center justify-center overflow-hidden rounded-lg bg-emerald-700 px-6 font-semibold text-white"
+              className="group cursor-pointer text-sm top-5 right-5 absolute inline-flex h-11 items-center justify-center overflow-hidden rounded-full bg-emerald-700 px-6 font-semibold text-white"
             >
               <span>Go Home</span>
               <div className="w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-1 group-hover:opacity-100">

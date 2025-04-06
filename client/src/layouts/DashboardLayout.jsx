@@ -19,9 +19,10 @@ export default function Page() {
       setIsLoading(false);
     } catch (error) {
       if (error.status === 401) {
-        toast.error("You must be logged in to view this page");
-        navigate("/auth/login");
         setIsLoading(false);
+        navigate("/auth/login");
+        window.location.reload();
+        toast.error("You must be logged in to view this page");
       }
     }
   };
