@@ -10,10 +10,13 @@ import {
 } from "@/components/ui/drawer";
 import { CirclePlus } from "lucide-react";
 
-import AddBillForm from "../AddBillForm/AddBillForm";
+import AddSubscriptionForm from "../AddSubscriptionForm/AddSubscriptionForm";
 import { Button } from "../ui/button";
 
-export default function AddBillDrawer({ isAddDrawerOpen, setAddDrawerIsOpen }) {
+export default function AddSubscriptionDrawer({
+  isAddDrawerOpen,
+  setAddDrawerIsOpen,
+}) {
   return (
     <Drawer
       direction="right"
@@ -28,18 +31,18 @@ export default function AddBillDrawer({ isAddDrawerOpen, setAddDrawerIsOpen }) {
         >
           <span>
             <CirclePlus className="size-5" />
-            Add Bill
+            Add Subscription
           </span>
         </Button>
       </DrawerTrigger>
       <DrawerContent direction="right">
         <DrawerHeader>
-          <DrawerTitle className="text-2xl">Add New Bill</DrawerTitle>
+          <DrawerTitle className="text-2xl">Add New Subscription</DrawerTitle>
           <DrawerDescription className="text-md">
-            Add a new bill
+            Add a new subscription
           </DrawerDescription>
         </DrawerHeader>
-        <AddBillForm setAddDrawerIsOpen={setAddDrawerIsOpen} />
+        <AddSubscriptionForm setAddDrawerIsOpen={setAddDrawerIsOpen} />
         <DrawerFooter>
           <DrawerClose>
             <Button

@@ -120,7 +120,7 @@ export function validateSubscriptionsForm(data) {
   }
   if (!data.renewal_date) {
     formIsValid = false;
-    errors["renewal_date"] = "Due Date is required";
+    errors["renewal_date"] = "Renewal Date is required";
   } else {
     const date = new Date(data.renewal_date);
     if (isNaN(date.getTime())) {

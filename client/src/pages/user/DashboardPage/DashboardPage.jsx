@@ -16,12 +16,23 @@ import { Link, useOutletContext } from "react-router-dom";
 
 export default function DashboardPage() {
   const [isLoading, userData] = useOutletContext();
-  const { userBills, getUserCurrency } = useContext(DashboardContext);
+  const { userBills, getUserCurrency, userSubscriptions } =
+    useContext(DashboardContext);
   const userCurrency = getUserCurrency(userData.currency);
 
   if (isLoading) {
     return <DashboardSkeletonLoader />;
   }
+
+  const findActiveSubs = () => {
+    let sum = 0;
+    userSubscriptions.subscriptions.forEach((sub) => {
+      if (sub.is_active) {
+        sum += 1;
+      }
+    });
+    return sum;
+  };
 
   return (
     <main className="p-4">
@@ -125,7 +136,7 @@ export default function DashboardPage() {
               <p className="text-sm text-gray-500">Spent</p>
 
               <p className="text-2xl font-bold text-gray-900">
-                {userCurrency.symbol}240.94
+                {userCurrency.symbol}0
               </p>
             </div>
           </div>
@@ -161,7 +172,7 @@ export default function DashboardPage() {
 
           <div>
             <p className="text-sm text-gray-500">Active Subscriptions</p>
-            <p className="text-2xl font-bold text-gray-900">4</p>
+            <p className="text-2xl font-bold text-gray-900">{`${findActiveSubs()}`}</p>
           </div>
 
           <Link

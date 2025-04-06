@@ -121,7 +121,7 @@ export default function BillCard({
             <Button
               variant="destructive"
               onClick={() => {
-                toast.warning("Are you sure ?", {
+                toast.warning("Are you sure you want to delete ?", {
                   action: {
                     label: "Delete",
                     onClick: () => handleDeleteBill(bill.slug),

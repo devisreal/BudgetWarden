@@ -114,6 +114,60 @@ const deleteBill = async (slug) => {
   return response;
 };
 
+const getUserSubscriptions = async () => {
+  const authToken = localStorage.getItem("authToken");
+  const { data } = await axios.get(
+    `${import.meta.env.VITE_API_BASE_URL}/subscriptions`,
+    {
+      headers: {
+        authorization: `Bearer ${authToken}`,
+      },
+    },
+  );
+  return data;
+};
+
+const addUserSubscriptions = async (formValues) => {
+  const authToken = localStorage.getItem("authToken");
+  const { data } = await axios.post(
+    `${import.meta.env.VITE_API_BASE_URL}/subscriptions`,
+    formValues,
+    {
+      headers: {
+        authorization: `Bearer ${authToken}`,
+      },
+    },
+  );
+  return data;
+};
+
+const editUserSubscriptions = async (formValues, slug) => {
+  const authToken = localStorage.getItem("authToken");
+  const { data } = await axios.put(
+    `${import.meta.env.VITE_API_BASE_URL}/subscriptions/${slug}`,
+    formValues,
+    {
+      headers: {
+        authorization: `Bearer ${authToken}`,
+      },
+    },
+  );
+  return data;
+};
+
+const deleteUserSubscription = async (slug) => {
+  const authToken = localStorage.getItem("authToken");
+  const response = await axios.delete(
+    `${import.meta.env.VITE_API_BASE_URL}/subscriptions/${slug}`,
+    {
+      headers: {
+        authorization: `Bearer ${authToken}`,
+      },
+    },
+  );
+  return response;
+};
+
 const validateAuth = async () => {
   const authToken = localStorage.getItem("authToken");
   if (!authToken) {
@@ -140,5 +194,9 @@ export {
   addBill,
   editBill,
   deleteBill,
+  getUserSubscriptions,
+  editUserSubscriptions,
+  addUserSubscriptions,
+  deleteUserSubscription,
   validateAuth,
 };

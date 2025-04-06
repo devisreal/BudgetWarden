@@ -28,7 +28,6 @@ export default function EditBillDrawer({
         <Button variant="outline" className="cursor-pointer" asChild>
           <span>
             <Pencil />
-            Edit
           </span>
         </Button>
       </DrawerTrigger>

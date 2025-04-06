@@ -1,4 +1,4 @@
-import { getCategories, getUserBills } from "@/utils/api";
+import { getCategories, getUserBills, getUserSubscriptions } from "@/utils/api";
 import { createContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -56,9 +56,13 @@ const currencies = [
 
 function DashboardProvider(props) {
   const [categories, setCategories] = useState(false);
+
   const [bills, setBills] = useState(null);
   const [upcomingBills, setUpcomingBills] = useState(null);
   const [isBillsLoading, setIsBillsLoading] = useState(true);
+
+  const [subscriptions, setSubscriptions] = useState(null);
+  const [isSubscriptionsLoading, setIsSubscriptionsLoading] = useState(true);
 
   const getAllCategories = async () => {
     const data = await getCategories();
@@ -89,9 +93,34 @@ function DashboardProvider(props) {
     }
   };
 
+  const getSubscriptions = async () => {
+    try {
+      const response = await getUserSubscriptions();
+      setIsSubscriptionsLoading(false);
+      setSubscriptions(response);
+
+      // const upcomingBills = response.filter((bill) => {
+      //   if (bill.is_paid) return false;
+
+      //   const dueDate = new Date(bill.due_date);
+      //   const sevenDaysFromNow = new Date(
+      //     today.getTime() + 7 * 24 * 60 * 60 * 1000,
+      //   );
+
+      //   return dueDate >= today && dueDate <= sevenDaysFromNow;
+      // });
+
+      // setSubscriptions(response);
+    } catch (error) {
+      console.log(error);
+      toast.error(error);
+    }
+  };
+
   useEffect(() => {
     getAllCategories();
     getBills();
+    getSubscriptions();
   }, []);
 
   const findTotalBills = () => {
@@ -107,6 +136,19 @@ function DashboardProvider(props) {
     return sum;
   };
 
+  const findTotalSubscriptions = () => {
+    let sum = 0.0;
+    if (isSubscriptionsLoading || !subscriptions) return 0;
+    subscriptions.forEach((sub) => {
+      sum += Number(sub.cost);
+    });
+
+    if (sum === 0) {
+      return "0.00";
+    }
+    return sum;
+  };
+
   function populateBills() {
     if (isBillsLoading || !bills || !categories) return [];
 
@@ -114,6 +156,19 @@ function DashboardProvider(props) {
       const category = categories.find((cat) => cat.id == bill.category_id);
       return {
         ...bill,
+        category_name: category ? category.name : "Uncategorized",
+      };
+    });
+    return enriched;
+  }
+
+  function populateSubscriptions() {
+    if (isSubscriptionsLoading || !subscriptions || !categories) return [];
+
+    const enriched = subscriptions.map((sub) => {
+      const category = categories.find((cat) => cat.id == sub.category_id);
+      return {
+        ...sub,
         category_name: category ? category.name : "Uncategorized",
       };
     });
@@ -140,6 +195,12 @@ function DashboardProvider(props) {
           upcomingBills,
           getBills,
           isBillsLoading,
+        },
+        userSubscriptions: {
+          totalSubscriptions: findTotalSubscriptions(),
+          subscriptions: populateSubscriptions(),
+          getSubscriptions,
+          isSubscriptionsLoading,
         },
         currencies,
         getUserCurrency,

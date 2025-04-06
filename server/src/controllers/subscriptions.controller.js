@@ -73,7 +73,7 @@ export const addSubscriptionController = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      bill: result.rows[0],
+      subscription: result.rows[0],
       message: `Subscription '${result.rows[0].name}' added successfully`,
     });
   } catch (error) {
