@@ -26,13 +26,13 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE
-OR REPLACE FUNCTION update_updated_at_column () RETURNS TRIGGER AS $ $ BEGIN NEW.updated_at = NOW();
+OR REPLACE FUNCTION update_updated_at_column () RETURNS TRIGGER AS $$ BEGIN NEW.updated_at = NOW();
 
 RETURN NEW;
 
 END;
 
-$ $ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER trigger_users_updated_at BEFORE
 UPDATE
@@ -55,7 +55,7 @@ ADD
 	COLUMN slug VARCHAR(255) UNIQUE;
 
 CREATE
-OR REPLACE FUNCTION generate_category_slug() RETURNS TRIGGER AS $ $ DECLARE base_slug TEXT;
+OR REPLACE FUNCTION generate_category_slug() RETURNS TRIGGER AS $$ DECLARE base_slug TEXT;
 
 new_slug TEXT;
 
@@ -95,7 +95,7 @@ RETURN NEW;
 
 END;
 
-$ $ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
 
 -- Create trigger to run the function before insert
 CREATE TRIGGER category_slug_trigger BEFORE

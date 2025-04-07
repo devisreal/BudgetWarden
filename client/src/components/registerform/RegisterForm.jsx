@@ -53,7 +53,7 @@ export default function RegisterForm() {
       reset();
       localStorage.setItem("authToken", data.authToken);
       setTimeout(() => {
-        navigate("/user/profile");
+        navigate("/user/profile/edit");
       }, 500);
     } catch (error) {
       toast.error(error.response.data.message);
