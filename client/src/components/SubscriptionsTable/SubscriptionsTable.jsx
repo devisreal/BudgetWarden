@@ -16,6 +16,7 @@ import { useContext } from "react";
 import { useOutletContext } from "react-router-dom";
 import { toast } from "sonner";
 
+import EditSubscriptionDrawer from "../EditSubscriptionDrawer/EditSubscriptionDrawer";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 
@@ -89,16 +90,20 @@ export default function SubscriptionsTable() {
                 {userCurrency.symbol}
                 {numberWithCommas(sub.cost)}
               </TableCell>
-              <TableCell className="py-2.5 text-right">
+              <TableCell className="py-2.5 text-right space-x-2">
+                <EditSubscriptionDrawer subscription={sub} />
                 <Button
                   variant="destructive"
                   onClick={() => {
-                    toast.warning("Are you sure you want to delete ?", {
-                      action: {
-                        label: "Delete",
-                        onClick: () => handleDeleteSubscription(sub.slug),
+                    toast.warning(
+                      `Are you sure you want to delete '${sub.name}' ?`,
+                      {
+                        action: {
+                          label: "Delete",
+                          onClick: () => handleDeleteSubscription(sub.slug),
+                        },
                       },
-                    });
+                    );
                   }}
                 >
                   <Trash2 />

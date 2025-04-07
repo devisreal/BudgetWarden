@@ -54,6 +54,16 @@ const currencies = [
   { id: "currency-21", value: "AED", display: "UAE Dirham", symbol: "د.إ" },
 ];
 
+const billingCycles = [
+  { id: 1, value: "weekly", displayName: "Weekly" },
+  { id: 2, value: "biweekly", displayName: "Bi-Weekly (Every 2 Weeks)" },
+  { id: 3, value: "monthly", displayName: "Monthly" },
+  { id: 4, value: "quarterly", displayName: "Quarterly (Every 3 Months)" },
+  { id: 5, value: "semiannual", displayName: "Semi-Annual (Every 6 Months)" },
+  { id: 6, value: "annual", displayName: "Annual (Yearly)" },
+  { id: 7, value: "bimonthly", displayName: "Bi-Monthly (Twice a Month)" },
+];
+
 function DashboardProvider(props) {
   const [categories, setCategories] = useState(false);
 
@@ -172,7 +182,10 @@ function DashboardProvider(props) {
         category_name: category ? category.name : "Uncategorized",
       };
     });
-    return enriched;
+    const sorted = enriched.sort((a, b) => {
+      return a.name.localeCompare(b.name);
+    });
+    return sorted;
   }
 
   const getUserCurrency = (isoCode) => {
@@ -204,6 +217,7 @@ function DashboardProvider(props) {
         },
         currencies,
         getUserCurrency,
+        billingCycles,
       }}
     >
       {props.children}

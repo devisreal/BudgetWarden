@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DashboardContext } from "@/contexts/DashboardContext";
-import { addUserSubscriptions } from "@/utils/api";
+import { editUserSubscriptions } from "@/utils/api";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { format } from "date-fns";
 import { useContext, useState } from "react";
@@ -43,7 +43,13 @@ const addSubscriptionFormSchema = yup
   })
   .required();
 
-export default function AddSubscriptionForm({ setAddDrawerIsOpen }) {
+export default function EditSubscriptionForm({
+  subscription,
+  setEditDrawerIsOpen,
+}) {
+  const [date, setDate] = useState(new Date(subscription.renewal_date));
+  const { categories, userSubscriptions, billingCycles } =
+    useContext(DashboardContext);
   const {
     register,
     handleSubmit,
@@ -52,38 +58,37 @@ export default function AddSubscriptionForm({ setAddDrawerIsOpen }) {
     reset,
   } = useForm({
     defaultValues: {
-      name: "",
-      category_id: "",
-      billing_cycle: "",
-      cost: 0,
-      is_active: false,
-      renewal_date: new Date(),
+      name: subscription.name,
+      category_id: subscription.category_id,
+      billing_cycle: `${subscription.billing_cycle}`,
+      cost: subscription.cost,
+      is_active: subscription.is_active,
+      renewal_date: subscription.renewal_date,
     },
     mode: "onBlur",
     resolver: yupResolver(addSubscriptionFormSchema),
   });
-  
-  const [date, setDate] = useState(new Date());
-  const { categories, userSubscriptions, billingCycles } = useContext(DashboardContext);
 
-  const handleAddSubscription = async (formValues) => {
+  const handleUpdateSubscription = async (formValues) => {
     formValues.renewal_date = format(formValues.renewal_date, "yyyy/MM/dd");
+    formValues.category_id = Number(formValues.category_id);
 
     try {
-      const data = await addUserSubscriptions(formValues);
+      const data = await editUserSubscriptions(formValues, subscription.slug);
       toast.success(data.message);
       reset();
       userSubscriptions.getSubscriptions();
-      setAddDrawerIsOpen(false);
+      setEditDrawerIsOpen(false);
     } catch (error) {
       console.log(error);
-      toast.error("Error adding bill");
+      toast.error("Error updating subscription");
     }
+    console.log(formValues);
   };
 
   return (
     <form
-      onSubmit={handleSubmit(handleAddSubscription)}
+      onSubmit={handleSubmit(handleUpdateSubscription)}
       className="p-4 py-2 space-y-4"
     >
       <div className="grid w-full max-w-sm items-center gap-2">
@@ -106,7 +111,7 @@ export default function AddSubscriptionForm({ setAddDrawerIsOpen }) {
         <Label htmlFor="category">Category</Label>
         <Select
           id="category"
-          defaultValue=""
+          defaultValue={`${subscription.category_id}`}
           onValueChange={(e) =>
             setValue("category_id", e, { shouldValidate: true })
           }
@@ -138,7 +143,7 @@ export default function AddSubscriptionForm({ setAddDrawerIsOpen }) {
         <Label htmlFor="billing_cycle">Billing Cycle</Label>
         <Select
           id="billing_cycle"
-          defaultValue=""
+          defaultValue={`${subscription.billing_cycle}`}
           onValueChange={(e) =>
             setValue("billing_cycle", e, { shouldValidate: true })
           }
@@ -169,7 +174,7 @@ export default function AddSubscriptionForm({ setAddDrawerIsOpen }) {
       <div className="grid w-full max-w-sm items-center gap-2">
         <NumberInput
           label="Cost"
-          defaultValue={0}
+          defaultValue={subscription.cost}
           onChange={(e) => setValue("cost", e, { shouldValidate: true })}
           name="cost"
           formatOptions={{
