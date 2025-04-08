@@ -10,7 +10,12 @@ import subscriptionRoutes from "./routes/subscriptions.route.js";
 const app = express();
 app.use(express.json());
 app.use(
-  cors({ origin: [process.env.CLIENT_URL, process.env.CLIENT_URL_NETLIFY] })
+  cors({
+    origin: [process.env.CLIENT_URL, process.env.CLIENT_URL_NETLIFY],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
 );
 
 const PORT = process.env.PORT || 5050;
