@@ -5,6 +5,7 @@ import "dotenv/config";
 import authRoutes from "./routes/auth.routes.js";
 import categoriesRoutes from "./routes/categories.route.js";
 import billRoutes from "./routes/bills.routes.js";
+import budgetRoutes from "./routes/budgets.routes.js";
 import subscriptionRoutes from "./routes/subscriptions.route.js";
 
 const app = express();
@@ -27,6 +28,7 @@ app.get("/", (_req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/categories", categoriesRoutes);
 app.use("/api/bills", billRoutes);
+app.use("/api/budgets", budgetRoutes);
 app.use("/api/subscriptions", subscriptionRoutes);
 
 app.listen(PORT, () => {

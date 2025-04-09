@@ -35,7 +35,7 @@ export function validateBillsForm(data) {
 
   if (!data.name) {
     formIsValid = false;
-    errors["name"] = "Name is required";
+    errors["name"] = "Bill name is required";
   }
   if (!data.category_id) {
     formIsValid = false;
@@ -104,7 +104,7 @@ export function validateSubscriptionsForm(data) {
 
   if (!data.name) {
     formIsValid = false;
-    errors["name"] = "Name is required";
+    errors["name"] = "Subscription name is required";
   }
   if (!data.category_id) {
     formIsValid = false;
@@ -134,6 +134,26 @@ export function validateSubscriptionsForm(data) {
         errors["renewal_date"] = "Renewal date cannot be in the past";
       }
     }
+  }
+
+  return { formIsValid, data, errors };
+}
+
+export function validateBudgetsForm(data) {
+  let formIsValid = true;
+  const errors = {};
+
+  if (!data.name) {
+    formIsValid = false;
+    errors["name"] = "Budget name is required";
+  }
+  if (!data.category_id) {
+    formIsValid = false;
+    errors["category_id"] = "Category is required";
+  }
+  if (!data.amount) {
+    formIsValid = false;
+    errors["amount"] = "Amount is required";
   }
 
   return { formIsValid, data, errors };
