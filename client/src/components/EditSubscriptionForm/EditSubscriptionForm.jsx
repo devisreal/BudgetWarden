@@ -14,6 +14,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { format } from "date-fns";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useOutletContext } from "react-router-dom";
 import { toast } from "sonner";
 import * as yup from "yup";
 
@@ -47,13 +48,16 @@ export default function EditSubscriptionForm({
   subscription,
   setEditDrawerIsOpen,
 }) {
+  const [isLoading, userData] = useOutletContext();
   const [date, setDate] = useState(new Date(subscription.renewal_date));
   const { categories, userSubscriptions, billingCycles } =
     useContext(DashboardContext);
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    watch,
     setValue,
     reset,
   } = useForm({
@@ -179,7 +183,7 @@ export default function EditSubscriptionForm({
           name="cost"
           formatOptions={{
             style: "currency",
-            currency: "GBP",
+            currency: `${userData.currency}`,
             currencySign: "accounting",
           }}
           minValue={0}
@@ -217,6 +221,7 @@ export default function EditSubscriptionForm({
       <div className="flex items-center space-x-2">
         <Checkbox
           id="is_active"
+          checked={watch("is_active")}
           onCheckedChange={(e) =>
             setValue("is_active", e, {
               shouldValidate: true,

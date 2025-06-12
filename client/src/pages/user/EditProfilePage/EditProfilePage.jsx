@@ -93,7 +93,7 @@ export default function EditProfilePage() {
     }
   };
   return (
-    <div className="sm:min-w-2xl mr-auto px-4 py-6">
+    <div className="sm:min-w-2xl w-full mr-auto px-4 py-6">
       <h2 className="text-3xl font-bold text-gray-900 sm:truncate sm:text-4xl sm:tracking-tight">
         Edit your profile
       </h2>
@@ -163,7 +163,7 @@ export default function EditProfilePage() {
             )}
           </div>
 
-          <div className="flex gap-4 items-center">
+          <div className="flex flex-col sm:flex-row gap-4 sm:items-center">
             <div className="grid max-w-sm items-center gap-2">
               <Label htmlFor="currency">Currency</Label>
               <Select

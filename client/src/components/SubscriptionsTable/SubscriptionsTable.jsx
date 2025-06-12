@@ -44,7 +44,7 @@ export default function SubscriptionsTable() {
       <Table>
         <TableHeader className="bg-transparent">
           <TableRow className="hover:bg-transparent">
-            <TableHead>Name</TableHead>
+            <TableHead className="font-semibold">Name</TableHead>
             <TableHead>Category</TableHead>
             <TableHead>Billing Cycle</TableHead>
             <TableHead>Renewal Date</TableHead>
@@ -59,7 +59,9 @@ export default function SubscriptionsTable() {
               key={sub.id}
               className="odd:bg-muted/50 odd:hover:bg-muted/50 border-none hover:bg-transparent"
             >
-              <TableCell className="py-2.5 font-medium">{sub.name}</TableCell>
+              <TableCell className="py-2.5 font-semibold text-md">
+                {sub.name}
+              </TableCell>
               <TableCell className="py-2.5">{sub.category_name}</TableCell>
               <TableCell className="py-2.5 capitalize">
                 {sub.billing_cycle}
@@ -115,8 +117,10 @@ export default function SubscriptionsTable() {
         <tbody aria-hidden="true" className="table-row h-2"></tbody>
         <TableFooter className="bg-transparent">
           <TableRow className="hover:bg-transparent">
-            <TableCell colSpan={5}>Total</TableCell>
-            <TableCell className="text-right">
+            <TableCell colSpan={5} className="font-semibold text-md">
+              Total
+            </TableCell>
+            <TableCell className="text-right font-bold text-md">
               {userCurrency.symbol}
               {numberWithCommas(userSubscriptions.totalSubscriptions)}
             </TableCell>

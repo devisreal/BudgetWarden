@@ -11,7 +11,7 @@ import { Card } from "../ui/card";
 export default function UpcomingBills() {
   const { userBills } = useContext(DashboardContext);
   return (
-    <Card className="relative rounded-lg shadow w-full lg:w-2/6 p-4">
+    <Card className="relative rounded-lg shadow w-full lg:w-2/6 p-4 pb-10">
       <h3 className="text-2xl font-bold text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
         Upcoming Bills
       </h3>

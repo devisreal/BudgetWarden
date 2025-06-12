@@ -1,16 +1,21 @@
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-
-const spendingData = [
-  { category: "Food", amount: 350, percentage: 100 },
-  { category: "Transport", amount: 120, percentage: 34 },
-  { category: "Travel", amount: 130, percentage: 37 },
-  { category: "Shopping", amount: 250, percentage: 71 },
-  { category: "Bills", amount: 320, percentage: 91 },
-];
+import { DashboardContext } from "@/contexts/DashboardContext";
+import { useContext } from "react";
+import { useOutletContext } from "react-router-dom";
 
 export default function SpendingByCategory() {
-  const totalSpending = 1000;
+  const [isLoading, userData] = useOutletContext();
+  const { isSpendByLoading, categorySpendBy, getUserCurrency } =
+    useContext(DashboardContext);
+
+  const userCurrency = getUserCurrency(userData.currency);
+
+  if (isSpendByLoading) {
+    return <p>Loading...</p>;
+  }
+
+  const totalSpending = categorySpendBy.grandTotal;
 
   return (
     <Card className="w-full lg:w-4/6 p-4">
@@ -21,17 +26,18 @@ export default function SpendingByCategory() {
       <div className="space-y-6">
         <div className="space-y-1">
           <h2 className="text-4xl font-bold text-gray-900">
-            £{totalSpending.toLocaleString()}
+            {userCurrency.symbol}
+            {totalSpending.toLocaleString()}
           </h2>
         </div>
 
         <div className="space-y-4">
-          {spendingData.map((item) => (
+          {categorySpendBy.categories.map((item) => (
             <div key={item.category} className="space-y-2">
               <div className="flex justify-between items-center">
-                <span className="text-gray-600">{item.category}</span>
+                <span className="text-gray-600">{item.name}</span>
                 <span className="text-gray-800 font-medium">
-                  £{item.amount}
+                {userCurrency.symbol}{item.amount}
                 </span>
               </div>
               <Progress

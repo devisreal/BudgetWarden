@@ -14,6 +14,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { format } from "date-fns";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useOutletContext } from "react-router-dom";
 import { toast } from "sonner";
 import * as yup from "yup";
 
@@ -62,6 +63,7 @@ export default function AddBillForm({ setAddDrawerIsOpen }) {
   });
   const [date, setDate] = useState(new Date());
   const { categories, userBills } = useContext(DashboardContext);
+  const [isLoading, userData] = useOutletContext();
 
   const handleAddBill = async (formValues) => {
     formValues.due_date = format(formValues.due_date, "yyyy/MM/dd");
@@ -136,7 +138,7 @@ export default function AddBillForm({ setAddDrawerIsOpen }) {
           name="amount"
           formatOptions={{
             style: "currency",
-            currency: "GBP",
+            currency: `${userData.currency}`,
             currencySign: "accounting",
           }}
           minValue={0}

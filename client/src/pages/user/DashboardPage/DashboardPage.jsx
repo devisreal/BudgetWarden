@@ -35,7 +35,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <main className="p-4">
+    <main className="sm:p-4 py-6">
       <section className="lg:flex lg:items-center lg:justify-between">
         <div className="min-w-0 flex-1">
           <h2 className="text-3xl font-bold text-gray-900 sm:truncate sm:text-4xl sm:tracking-tight">

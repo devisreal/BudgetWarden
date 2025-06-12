@@ -11,14 +11,14 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import {
-  CalendarSync,
-  ChartColumnBig,
+  Banknote,
   ChevronUp,
   CircleUser,
+  FileText,
+  ListChecks,
   LogOut,
-  ReceiptText,
-  User2,
-  Wallet,
+  RefreshCcw,
+  User,
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
@@ -33,22 +33,22 @@ const items = [
   {
     title: "Dashboard",
     url: "/user/dashboard",
-    icon: ChartColumnBig,
+    icon: ListChecks,
   },
   {
     title: "Bills",
     url: "/user/bills",
-    icon: ReceiptText,
+    icon: FileText,
   },
   {
     title: "Budgets",
     url: "/user/budgets",
-    icon: Wallet,
+    icon: Banknote,
   },
   {
     title: "Subscriptions",
     url: "/user/subscriptions",
-    icon: CalendarSync,
+    icon: RefreshCcw,
   },
 ];
 
@@ -81,8 +81,18 @@ export function AppSidebar({ ...props }) {
                     className={"p-3 text-md py-5 transition duration-150"}
                   >
                     <Link to={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
+                      <div
+                        className={`mr-3  p-1 rounded ${location.pathname === item.url ? "bg-emerald-100" : "bg-gray-100"}`}
+                      >
+                        <item.icon
+                          className={`size-5 ${location.pathname === item.url ? "text-emerald-500" : ""}`}
+                        />
+                      </div>
+                      <span
+                        className={`${location.pathname === item.url ? "text-emerald-700" : ""} font-medium`}
+                      >
+                        {item.title}
+                      </span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -96,8 +106,8 @@ export function AppSidebar({ ...props }) {
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton>
-                  <User2 />
+                <SidebarMenuButton className="font-medium">
+                  <User strokeWidth={2} />
                   {props.userdata.first_name
                     ? props.userdata.first_name
                     : props.userdata.username}

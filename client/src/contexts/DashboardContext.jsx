@@ -1,4 +1,10 @@
-import { getCategories, getUserBills, getUserSubscriptions } from "@/utils/api";
+import {
+  getCategories,
+  getSpendByCategory,
+  getUserBills,
+  getUserBudgets,
+  getUserSubscriptions,
+} from "@/utils/api";
 import { createContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -65,7 +71,9 @@ const billingCycles = [
 ];
 
 function DashboardProvider(props) {
-  const [categories, setCategories] = useState(false);
+  const [categories, setCategories] = useState(null);
+  const [categorySpendBy, setCategorySpendBy] = useState(null);
+  const [isSpendByLoading, setIsSpendByLoading] = useState(true);
 
   const [bills, setBills] = useState(null);
   const [upcomingBills, setUpcomingBills] = useState(null);
@@ -73,6 +81,9 @@ function DashboardProvider(props) {
 
   const [subscriptions, setSubscriptions] = useState(null);
   const [isSubscriptionsLoading, setIsSubscriptionsLoading] = useState(true);
+
+  const [budgets, setBudgets] = useState(null);
+  const [isBudgetsLoading, setIsBudgetsLoading] = useState(true);
 
   const getAllCategories = async () => {
     const data = await getCategories();
@@ -108,29 +119,35 @@ function DashboardProvider(props) {
       const response = await getUserSubscriptions();
       setIsSubscriptionsLoading(false);
       setSubscriptions(response);
-
-      // const upcomingBills = response.filter((bill) => {
-      //   if (bill.is_paid) return false;
-
-      //   const dueDate = new Date(bill.due_date);
-      //   const sevenDaysFromNow = new Date(
-      //     today.getTime() + 7 * 24 * 60 * 60 * 1000,
-      //   );
-
-      //   return dueDate >= today && dueDate <= sevenDaysFromNow;
-      // });
-
-      // setSubscriptions(response);
     } catch (error) {
       console.log(error);
       toast.error(error);
     }
   };
 
+  const getBudgets = async () => {
+    try {
+      const response = await getUserBudgets();
+      setIsBudgetsLoading(false);
+      setBudgets(response);
+    } catch (error) {
+      console.log(error);
+      toast.error(error);
+    }
+  };
+
+  const getCategoryStats = async () => {
+    const data = await getSpendByCategory();
+    setCategorySpendBy(data);
+    setIsSpendByLoading(false);
+  };
+
   useEffect(() => {
     getAllCategories();
     getBills();
     getSubscriptions();
+    getCategoryStats();
+    getBudgets();
   }, []);
 
   const findTotalBills = () => {
@@ -188,6 +205,19 @@ function DashboardProvider(props) {
     return sorted;
   }
 
+  function populateBudgets() {
+    if (isBudgetsLoading || !budgets || !categories) return [];
+
+    const enriched = budgets.map((budget) => {
+      const category = categories.find((cat) => cat.id == budget.category_id);
+      return {
+        ...budget,
+        category_name: category ? category.name : "Uncategorized",
+      };
+    });
+    return enriched;
+  }
+
   const getUserCurrency = (isoCode) => {
     return (
       currencies.find((currency) => currency.value === isoCode) || {
@@ -202,6 +232,9 @@ function DashboardProvider(props) {
       value={{
         categories,
         setCategories,
+        categorySpendBy,
+        isSpendByLoading,
+        setCategorySpendBy,
         userBills: {
           totalBills: findTotalBills(),
           bills: populateBills(),
@@ -214,6 +247,11 @@ function DashboardProvider(props) {
           subscriptions: populateSubscriptions(),
           getSubscriptions,
           isSubscriptionsLoading,
+        },
+        userBudgets: {
+          budgets: populateBudgets(),
+          isBudgetsLoading,
+          getBudgets,
         },
         currencies,
         getUserCurrency,
