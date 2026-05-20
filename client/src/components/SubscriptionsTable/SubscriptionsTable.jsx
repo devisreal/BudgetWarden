@@ -1,3 +1,15 @@
+import { format } from "date-fns";
+import { Trash2 } from "lucide-react";
+import { useContext } from "react";
+import { useOutletContext } from "react-router-dom";
+import { toast } from "sonner";
+
+import { DashboardContext } from "../../contexts/DashboardContext";
+import { numberWithCommas } from "../../lib/utils";
+import { deleteUserSubscription } from "../../utils/api";
+import EditSubscriptionDrawer from "../EditSubscriptionDrawer/EditSubscriptionDrawer";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 import {
   Table,
   TableBody,
@@ -6,24 +18,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { DashboardContext } from "@/contexts/DashboardContext";
-import { numberWithCommas } from "@/lib/utils";
-import { deleteUserSubscription } from "@/utils/api";
-import { format } from "date-fns";
-import { Trash2 } from "lucide-react";
-import { useContext } from "react";
-import { useOutletContext } from "react-router-dom";
-import { toast } from "sonner";
-
-import EditSubscriptionDrawer from "../EditSubscriptionDrawer/EditSubscriptionDrawer";
-import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
+} from "../ui/table";
 
 export default function SubscriptionsTable() {
   const { userSubscriptions, getUserCurrency } = useContext(DashboardContext);
   const subscriptions = userSubscriptions.subscriptions;
-  const [isLoading, userData] = useOutletContext();
+  const [userData] = useOutletContext();
   const userCurrency = getUserCurrency(userData.currency);
 
   const handleDeleteSubscription = async (slug) => {

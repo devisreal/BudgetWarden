@@ -1,6 +1,3 @@
-import { DashboardContext } from "@/contexts/DashboardContext";
-import { numberWithCommas } from "@/lib/utils";
-import { deleteUserBudget } from "@/utils/api";
 import { format } from "date-fns";
 import { Trash2, Wallet } from "lucide-react";
 import { useContext } from "react";
@@ -8,11 +5,14 @@ import { Button } from "react-aria-components";
 import { useOutletContext } from "react-router-dom";
 import { toast } from "sonner";
 
+import { DashboardContext } from "../../contexts/DashboardContext";
+import { numberWithCommas } from "../../lib/utils";
+import { deleteUserBudget } from "../../utils/api";
 import { Badge } from "../ui/badge";
 import { Card, CardContent } from "../ui/card";
 
 export default function BudgetCard({ budget }) {
-  const [isLoading, userData] = useOutletContext();
+  const [userData] = useOutletContext();
   const { getUserCurrency, userBudgets } = useContext(DashboardContext);
   const userCurrency = getUserCurrency(userData.currency);
 

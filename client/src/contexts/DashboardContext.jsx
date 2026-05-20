@@ -1,12 +1,13 @@
+import { createContext, useEffect, useState } from "react";
+import { toast } from "sonner";
+
 import {
   getCategories,
   getSpendByCategory,
   getUserBills,
   getUserBudgets,
   getUserSubscriptions,
-} from "@/utils/api";
-import { createContext, useEffect, useState } from "react";
-import { toast } from "sonner";
+} from "../utils/api";
 
 const DashboardContext = createContext();
 const today = new Date();

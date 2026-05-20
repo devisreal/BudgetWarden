@@ -1,24 +1,3 @@
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { DashboardContext } from "@/contexts/DashboardContext";
-import { addUserBudgets } from "@/utils/api";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Plus } from "lucide-react";
 import { useContext } from "react";
@@ -27,7 +6,28 @@ import { useOutletContext } from "react-router-dom";
 import { toast } from "sonner";
 import * as yup from "yup";
 
+import { DashboardContext } from "../../contexts/DashboardContext";
+import { addUserBudgets } from "../../utils/api";
 import NumberInput from "../NumberInput";
+import { Button } from "../ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 const addBillFormSchema = yup
   .object()
@@ -43,7 +43,7 @@ const addBillFormSchema = yup
   .required();
 
 export function AddBudgetForm({ showModal, setShowModal }) {
-  const [isLoading, userData, getUser] = useOutletContext();
+  const [userData] = useOutletContext();
   const { categories, userBudgets } = useContext(DashboardContext);
   const {
     register,

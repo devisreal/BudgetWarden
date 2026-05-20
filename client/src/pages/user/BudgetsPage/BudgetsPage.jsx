@@ -1,15 +1,16 @@
-import { AddBudgetForm } from "@/components/AddBudgetForm/AddBudgetForm";
-import BudgetCard from "@/components/BudgetCard/BudgetCard";
-import { DashboardSkeletonLoader } from "@/components/SkeletonLoader/SkeletonLoaders";
-import { Card, CardContent } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { DashboardContext } from "@/contexts/DashboardContext";
 import { Banknote, PieChart, ShoppingBag } from "lucide-react";
 import { useContext, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
+import { AddBudgetForm } from "../../../components/AddBudgetForm/AddBudgetForm";
+import BudgetCard from "../../../components/BudgetCard/BudgetCard";
+import { DashboardSkeletonLoader } from "../../../components/SkeletonLoader/SkeletonLoaders";
+import { Card, CardContent } from "../../../components/ui/card";
+import { Progress } from "../../../components/ui/progress";
+import { DashboardContext } from "../../../contexts/DashboardContext";
+
 export default function BudgetsPage() {
-  const [isLoading, userData] = useOutletContext();
+  const [userData] = useOutletContext();
   const { userBudgets, getUserCurrency } = useContext(DashboardContext);
   const [showModal, setShowModal] = useState(false);
   const userCurrency = getUserCurrency(userData.currency);

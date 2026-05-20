@@ -1,3 +1,7 @@
+import { Plus } from "lucide-react";
+
+import AddSubscriptionForm from "../AddSubscriptionForm/AddSubscriptionForm";
+import { Button } from "../ui/button";
 import {
   Drawer,
   DrawerClose,
@@ -7,11 +11,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer";
-import { Plus } from "lucide-react";
-
-import AddSubscriptionForm from "../AddSubscriptionForm/AddSubscriptionForm";
-import { Button } from "../ui/button";
+} from "../ui/drawer";
 
 export default function AddSubscriptionDrawer({
   isAddDrawerOpen,

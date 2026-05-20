@@ -1,8 +1,8 @@
-import { DashboardContext } from "@/contexts/DashboardContext";
 import { ArrowUpRight } from "lucide-react";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 
+import { DashboardContext } from "../../contexts/DashboardContext";
 import BillCard from "../BillCard/BillCard";
 import EmptyState from "../EmptyState/EmptyState";
 import { BillsSkeletonLoader } from "../SkeletonLoader/SkeletonLoaders";

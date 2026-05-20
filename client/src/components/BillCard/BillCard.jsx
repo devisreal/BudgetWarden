@@ -1,6 +1,3 @@
-import { DashboardContext } from "@/contexts/DashboardContext";
-import { numberWithCommas } from "@/lib/utils";
-import { deleteBill } from "@/utils/api";
 import { format } from "date-fns";
 import {
   CheckIcon,
@@ -13,6 +10,9 @@ import { useContext, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { toast } from "sonner";
 
+import { DashboardContext } from "../../contexts/DashboardContext";
+import { numberWithCommas } from "../../lib/utils";
+import { deleteBill } from "../../utils/api";
 import EditBillDrawer from "../EditBillDrawer/EditBillDrawer";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
@@ -27,7 +27,7 @@ export default function BillCard({
 }) {
   const [isEditDrawerOpen, setEditDrawerIsOpen] = useState(false);
   const { userBills, getUserCurrency } = useContext(DashboardContext);
-  const [isLoading, userData] = useOutletContext();
+  const [userData] = useOutletContext();
 
   const userCurrency = getUserCurrency(userData.currency);
 

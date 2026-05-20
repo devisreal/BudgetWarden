@@ -1,3 +1,7 @@
+import { Pencil } from "lucide-react";
+
+import EditBillForm from "../EditBillForm/EditBillForm";
+import { Button } from "../ui/button";
 import {
   Drawer,
   DrawerClose,
@@ -7,11 +11,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer";
-import { Pencil } from "lucide-react";
-
-import EditBillForm from "../EditBillForm/EditBillForm";
-import { Button } from "../ui/button";
+} from "../ui/drawer";
 
 export default function EditBillDrawer({
   bill,

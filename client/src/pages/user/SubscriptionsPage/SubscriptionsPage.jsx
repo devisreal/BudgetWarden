@@ -1,9 +1,10 @@
-import AddSubscriptionDrawer from "@/components/AddSubscriptionDrawer/AddSubscriptionDrawer";
-import EmptyState from "@/components/EmptyState/EmptyState";
-import SubscriptionsTable from "@/components/SubscriptionsTable/SubscriptionsTable";
-import { Skeleton } from "@/components/ui/skeleton";
-import { DashboardContext } from "@/contexts/DashboardContext";
 import { useContext, useState } from "react";
+
+import AddSubscriptionDrawer from "../../../components/AddSubscriptionDrawer/AddSubscriptionDrawer";
+import EmptyState from "../../../components/EmptyState/EmptyState";
+import SubscriptionsTable from "../../../components/SubscriptionsTable/SubscriptionsTable";
+import { Skeleton } from "../../../components/ui/skeleton";
+import { DashboardContext } from "../../../contexts/DashboardContext";
 
 export default function SubscriptionsPage() {
   const { userSubscriptions } = useContext(DashboardContext);

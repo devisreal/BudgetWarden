@@ -1,14 +1,15 @@
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Separator } from "@/components/ui/separator";
-import { SidebarTrigger } from "@/components/ui/sidebar";
-import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+} from "./breadcrumb";
+import { Separator } from "./separator";
+import { SidebarTrigger } from "./sidebar";
 
 export default function OutletHeader({ userData }) {
   const [currentPage, setCurrentPage] = useState("Dashboard");

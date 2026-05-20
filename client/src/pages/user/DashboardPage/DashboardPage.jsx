@@ -1,8 +1,3 @@
-import { DashboardSkeletonLoader } from "@/components/SkeletonLoader/SkeletonLoaders";
-import SpendingByCategory from "@/components/SpendingCategory/SpendingCategory";
-import UpcomingBills from "@/components/UpcomingBills/UpcomingBills";
-import { DashboardContext } from "@/contexts/DashboardContext";
-import { numberWithCommas } from "@/lib/utils";
 import {
   ArrowUpRight,
   CalendarSync,
@@ -13,6 +8,12 @@ import {
 } from "lucide-react";
 import { useContext } from "react";
 import { Link, useOutletContext } from "react-router-dom";
+
+import { DashboardSkeletonLoader } from "../../../components/SkeletonLoader/SkeletonLoaders";
+import SpendingByCategory from "../../../components/SpendingCategory/SpendingCategory";
+import UpcomingBills from "../../../components/UpcomingBills/UpcomingBills";
+import { DashboardContext } from "../../../contexts/DashboardContext";
+import { numberWithCommas } from "../../../lib/utils";
 
 export default function DashboardPage() {
   const [isLoading, userData] = useOutletContext();

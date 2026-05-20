@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 export default function AuthLayout() {
   const location = useLocation();
   const navigate = useNavigate();
+
   return (
     <>
       <div className="bg-white">

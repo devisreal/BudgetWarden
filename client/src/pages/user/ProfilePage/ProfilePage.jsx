@@ -1,9 +1,10 @@
-import { DashboardSkeletonLoader } from "@/components/SkeletonLoader/SkeletonLoaders";
-import { Button } from "@/components/ui/button";
-import { DashboardContext } from "@/contexts/DashboardContext";
-import { numberWithCommas } from "@/lib/utils";
 import { useContext } from "react";
 import { Link, useOutletContext } from "react-router-dom";
+
+import { DashboardSkeletonLoader } from "../../../components/SkeletonLoader/SkeletonLoaders";
+import { Button } from "../../../components/ui/button";
+import { DashboardContext } from "../../../contexts/DashboardContext";
+import { numberWithCommas } from "../../../lib/utils";
 
 export default function ProfilePage() {
   const [isLoading, userData] = useOutletContext();

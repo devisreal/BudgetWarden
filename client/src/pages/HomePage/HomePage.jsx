@@ -1,15 +1,16 @@
-import dashboardImage from "@/assets/images/dashboard-image.webp";
-import dashboardMobile from "@/assets/images/dashboard-mobile.webp";
-import Footer from "@/components/Footer/Footer";
-import Navbar from "@/components/Navbar";
-import { Ripple } from "@/components/magicui/ripple";
-import { Card, CardContent } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import { AuthContext } from "@/contexts/AuthContext";
 import { BarChart3, ChevronDown, LineChart, PieChart } from "lucide-react";
 import { motion } from "motion/react";
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
+import dashboardImage from "../../assets/images/dashboard-image.webp";
+import dashboardMobile from "../../assets/images/dashboard-mobile.webp";
+import Footer from "../../components/Footer/Footer";
+import Navbar from "../../components/Navbar";
+import { Ripple } from "../../components/magicui/ripple";
+import { Card, CardContent } from "../../components/ui/card";
+import { Skeleton } from "../../components/ui/skeleton";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export default function HomePage() {
   const navigate = useNavigate();

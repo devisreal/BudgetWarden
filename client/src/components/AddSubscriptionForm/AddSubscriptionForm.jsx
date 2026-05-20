@@ -1,15 +1,3 @@
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { DashboardContext } from "@/contexts/DashboardContext";
-import { addUserSubscriptions } from "@/utils/api";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { format } from "date-fns";
 import { useContext, useState } from "react";
@@ -18,11 +6,23 @@ import { useOutletContext } from "react-router-dom";
 import { toast } from "sonner";
 import * as yup from "yup";
 
+import { DashboardContext } from "../../contexts/DashboardContext";
+import { addUserSubscriptions } from "../../utils/api";
 import NumberInput from "../NumberInput";
 import { Button } from "../ui/button";
+import { Calendar } from "../ui/calendar";
 import { Checkbox } from "../ui/checkbox";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 const addSubscriptionFormSchema = yup
   .object()
@@ -68,7 +68,7 @@ export default function AddSubscriptionForm({ setAddDrawerIsOpen }) {
   const [date, setDate] = useState(new Date());
   const { categories, userSubscriptions, billingCycles } =
     useContext(DashboardContext);
-  const [isLoading, userData] = useOutletContext();
+  const [userData] = useOutletContext();
 
   const handleAddSubscription = async (formValues) => {
     formValues.renewal_date = format(formValues.renewal_date, "yyyy/MM/dd");

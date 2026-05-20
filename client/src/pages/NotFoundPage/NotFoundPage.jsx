@@ -1,5 +1,6 @@
-import lostBroImage from "@/assets/images/lost-bro.svg";
 import { Link } from "react-router-dom";
+
+import lostBroImage from "../../assets/images/lost-bro.svg";
 
 export default function NotFoundPage() {
   return (

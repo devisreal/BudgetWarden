@@ -1,5 +1,6 @@
-import { validateAuth } from "@/utils/api";
 import { createContext, useEffect, useState } from "react";
+
+import { validateAuth } from "../utils/api";
 
 const AuthContext = createContext();
 

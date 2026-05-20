@@ -1,8 +1,15 @@
-import NumberInput from "@/components/NumberInput";
-import { DashboardSkeletonLoader } from "@/components/SkeletonLoader/SkeletonLoaders";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useContext, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import { toast } from "sonner";
+import * as yup from "yup";
+
+import NumberInput from "../../../components/NumberInput";
+import { DashboardSkeletonLoader } from "../../../components/SkeletonLoader/SkeletonLoaders";
+import { Button } from "../../../components/ui/button";
+import { Input } from "../../../components/ui/input";
+import { Label } from "../../../components/ui/label";
 import {
   Select,
   SelectContent,
@@ -11,15 +18,9 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { DashboardContext } from "@/contexts/DashboardContext";
-import { editUserProfile } from "@/utils/api";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useContext, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { useNavigate, useOutletContext } from "react-router-dom";
-import { toast } from "sonner";
-import * as yup from "yup";
+} from "../../../components/ui/select";
+import { DashboardContext } from "../../../contexts/DashboardContext";
+import { editUserProfile } from "../../../utils/api";
 
 const editProfileFormSchema = yup
   .object()

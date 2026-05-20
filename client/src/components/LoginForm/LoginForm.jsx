@@ -1,10 +1,11 @@
-import { userLogin } from "@/utils/api";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import * as yup from "yup";
 import YupPassword from "yup-password";
+
+import { userLogin } from "../../utils/api";
 
 YupPassword(yup);
 

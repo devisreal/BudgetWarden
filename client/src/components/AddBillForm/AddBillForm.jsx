@@ -1,15 +1,3 @@
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { DashboardContext } from "@/contexts/DashboardContext";
-import { addBill } from "@/utils/api";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { format } from "date-fns";
 import { useContext, useState } from "react";
@@ -18,11 +6,23 @@ import { useOutletContext } from "react-router-dom";
 import { toast } from "sonner";
 import * as yup from "yup";
 
+import { DashboardContext } from "../../contexts/DashboardContext";
+import { addBill } from "../../utils/api";
 import NumberInput from "../NumberInput";
 import { Button } from "../ui/button";
+import { Calendar } from "../ui/calendar";
 import { Checkbox } from "../ui/checkbox";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 const addBillFormSchema = yup
   .object()
@@ -63,7 +63,7 @@ export default function AddBillForm({ setAddDrawerIsOpen }) {
   });
   const [date, setDate] = useState(new Date());
   const { categories, userBills } = useContext(DashboardContext);
-  const [isLoading, userData] = useOutletContext();
+  const [userData] = useOutletContext();
 
   const handleAddBill = async (formValues) => {
     formValues.due_date = format(formValues.due_date, "yyyy/MM/dd");

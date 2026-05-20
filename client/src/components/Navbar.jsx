@@ -1,8 +1,8 @@
-import { AuthContext } from "@/contexts/AuthContext";
 import { motion } from "motion/react";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 
+import { AuthContext } from "../contexts/AuthContext";
 import { Skeleton } from "./ui/skeleton";
 
 export default function Navbar() {

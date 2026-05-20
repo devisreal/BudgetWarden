@@ -1,11 +1,12 @@
-import { Card } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { DashboardContext } from "@/contexts/DashboardContext";
 import { useContext } from "react";
 import { useOutletContext } from "react-router-dom";
 
+import { DashboardContext } from "../../contexts/DashboardContext";
+import { Card } from "../ui/card";
+import { Progress } from "../ui/progress";
+
 export default function SpendingByCategory() {
-  const [isLoading, userData] = useOutletContext();
+  const [userData] = useOutletContext();
   const { isSpendByLoading, categorySpendBy, getUserCurrency } =
     useContext(DashboardContext);
 
@@ -37,7 +38,8 @@ export default function SpendingByCategory() {
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">{item.name}</span>
                 <span className="text-gray-800 font-medium">
-                {userCurrency.symbol}{item.amount}
+                  {userCurrency.symbol}
+                  {item.amount}
                 </span>
               </div>
               <Progress

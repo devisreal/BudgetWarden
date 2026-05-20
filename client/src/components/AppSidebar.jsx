@@ -1,16 +1,4 @@
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar";
-import {
   Banknote,
   ChevronUp,
   CircleUser,
@@ -28,6 +16,18 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "./ui/sidebar";
 
 const items = [
   {
@@ -61,6 +61,7 @@ export function AppSidebar({ ...props }) {
     navigate("/");
     window.location.reload();
   };
+
   return (
     <Sidebar {...props}>
       <SidebarHeader className={"p-4"}>

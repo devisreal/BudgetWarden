@@ -1,10 +1,11 @@
-import AddBillDrawer from "@/components/AddBillDrawer/AddBillDrawer";
-import BillCard from "@/components/BillCard/BillCard";
-import EmptyState from "@/components/EmptyState/EmptyState";
-import { BillsSkeletonLoader } from "@/components/SkeletonLoader/SkeletonLoaders";
-import { Card } from "@/components/ui/card";
-import { DashboardContext } from "@/contexts/DashboardContext";
 import { useContext, useState } from "react";
+
+import AddBillDrawer from "../../../components/AddBillDrawer/AddBillDrawer";
+import BillCard from "../../../components/BillCard/BillCard";
+import EmptyState from "../../../components/EmptyState/EmptyState";
+import { BillsSkeletonLoader } from "../../../components/SkeletonLoader/SkeletonLoaders";
+import { Card } from "../../../components/ui/card";
+import { DashboardContext } from "../../../contexts/DashboardContext";
 
 const today = new Date();
 
