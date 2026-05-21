@@ -1,6 +1,6 @@
 export default function EmptyState({ title, message }) {
   return (
-    <div className="flex h-[20rem] flex-col justify-center items-center max-w-sm mx-auto text-center">
+    <div className="flex h-80 flex-col justify-center items-center max-w-sm mx-auto text-center">
       <p className="p-3 text-sm font-medium text-orange-500 rounded-full bg-orange-50 ">
         <svg
           xmlns="http://www.w3.org/2000/svg"

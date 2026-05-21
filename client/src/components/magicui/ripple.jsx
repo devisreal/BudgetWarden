@@ -16,7 +16,7 @@ export const Ripple = React.memo(function Ripple({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, delay: 0.2 }}
       className={cn(
-        "pointer-events-none absolute inset-0 select-none [mask-image:linear-gradient(to_bottom,white,transparent)]",
+        "pointer-events-none absolute inset-0 select-none mask-[linear-gradient(to_bottom,white,transparent)]",
         className,
       )}
       {...props}

@@ -4,7 +4,7 @@ import lostBroImage from "../../assets/images/lost-bro.svg";
 
 export default function NotFoundPage() {
   return (
-    <div className="grid grid-cols-1 h-screen place-content-center items-center gap-4 lg:grid-cols-2 lg:gap-8 max-w-[85rem] mx-auto">
+    <div className="grid grid-cols-1 h-screen place-content-center items-center gap-4 lg:grid-cols-2 lg:gap-8 max-w-340 mx-auto">
       <div className="">
         <img src={lostBroImage} alt="Not found image" />
       </div>

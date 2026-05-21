@@ -5,38 +5,38 @@ export function DashboardSkeletonLoader() {
     <div className="flex flex-col gap-10 p-4">
       <div className="flex space-y-3 gap-6 flex-wrap">
         <div className="space-y-3 w-full sm:w-auto">
-          <Skeleton className="h-[140px]  rounded-xl" />
+          <Skeleton className="h-35  rounded-xl" />
           <div className="space-y-2">
-            <Skeleton className="h-4 w-[250px]" />
-            <Skeleton className="h-4 w-[200px]" />
+            <Skeleton className="h-4 w-62.5" />
+            <Skeleton className="h-4 w-50" />
           </div>
         </div>
         <div className="space-y-3 w-full sm:w-auto">
-          <Skeleton className="h-[140px]  rounded-xl" />
+          <Skeleton className="h-35  rounded-xl" />
           <div className="space-y-2">
-            <Skeleton className="h-4 w-[250px]" />
-            <Skeleton className="h-4 w-[200px]" />
+            <Skeleton className="h-4 w.62.5" />
+            <Skeleton className="h-4 w-50" />
           </div>
         </div>
         <div className="space-y-3 w-full sm:w-auto">
-          <Skeleton className="h-[140px]  rounded-xl" />
+          <Skeleton className="h-35  rounded-xl" />
           <div className="space-y-2">
-            <Skeleton className="h-4 w-[250px]" />
-            <Skeleton className="h-4 w-[200px]" />
+            <Skeleton className="h-4 w.62.5" />
+            <Skeleton className="h-4 w-50" />
           </div>
         </div>
         <div className="space-y-3 w-full sm:w-auto">
-          <Skeleton className="h-[140px]  rounded-xl" />
+          <Skeleton className="h-35  rounded-xl" />
           <div className="space-y-2">
-            <Skeleton className="h-4 w-[250px]" />
-            <Skeleton className="h-4 w-[200px]" />
+            <Skeleton className="h-4 w.62.5" />
+            <Skeleton className="h-4 w-50" />
           </div>
         </div>
         <div className="space-y-3 w-full sm:w-auto">
-          <Skeleton className="h-[140px]  rounded-xl" />
+          <Skeleton className="h-35  rounded-xl" />
           <div className="space-y-2">
-            <Skeleton className="h-4 w-[250px]" />
-            <Skeleton className="h-4 w-[200px]" />
+            <Skeleton className="h-4 w.62.5" />
+            <Skeleton className="h-4 w-50" />
           </div>
         </div>
       </div>
@@ -54,7 +54,7 @@ export function BillsSkeletonLoader() {
           <Skeleton className="h-16 w-16 rounded-lg" />
           <div className="space-y-3 w-full">
             <Skeleton className="h-10 w-full rounded-lg" />
-            <Skeleton className="h-4 w-[250px]" />
+            <Skeleton className="h-4 w.62.5" />
           </div>
         </div>
         <Skeleton className="h-10 w-20 hidden sm:inline rounded-lg" />
@@ -64,7 +64,7 @@ export function BillsSkeletonLoader() {
           <Skeleton className="h-16 w-16 rounded-lg" />
           <div className="space-y-3 w-full">
             <Skeleton className="h-10 w-full rounded-lg" />
-            <Skeleton className="h-4 w-[250px]" />
+            <Skeleton className="h-4 w.62.5" />
           </div>
         </div>
         <Skeleton className="h-10 w-20 hidden sm:inline rounded-lg" />

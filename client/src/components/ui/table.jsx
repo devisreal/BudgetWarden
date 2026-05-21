@@ -59,7 +59,7 @@ function TableHead({ className, ...props }) {
     <th
       data-slot="table-head"
       className={cn(
-        "text-muted-foreground h-12 px-3 text-left align-middle font-medium has-[role=checkbox]:w-px [&:has([role=checkbox])]:pr-0",
+        "text-muted-foreground h-12 px-3 text-left align-middle font-medium has-[role=checkbox]:w-px has-[[role=checkbox]]:pr-0",
         className,
       )}
       {...props}
@@ -72,7 +72,7 @@ function TableCell({ className, ...props }) {
     <td
       data-slot="table-cell"
       className={cn(
-        "p-3 align-middle [&:has([role=checkbox])]:pr-0",
+        "p-3 align-middle has-[[role=checkbox]]:pr-0",
         className,
       )}
       {...props}
