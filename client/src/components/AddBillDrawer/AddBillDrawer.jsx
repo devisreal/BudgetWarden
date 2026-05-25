@@ -1,6 +1,6 @@
 import { Plus } from "lucide-react";
 
-import AddBillForm from "../AddBillForm/AddBillForm";
+import AddBillForm from "../forms/AddBillForm/AddBillForm";
 import { Button } from "../ui/button";
 import {
   Drawer,

@@ -6,14 +6,14 @@ import { useOutletContext } from "react-router-dom";
 import { toast } from "sonner";
 import * as yup from "yup";
 
-import { DashboardContext } from "../../contexts/DashboardContext";
-import { editBill } from "../../utils/api";
-import NumberInput from "../NumberInput";
-import { Button } from "../ui/button";
-import { Calendar } from "../ui/calendar";
-import { Checkbox } from "../ui/checkbox";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
+import { DashboardContext } from "../../../contexts/DashboardContext";
+import { editBill } from "../../../utils/api";
+import NumberInput from "../../NumberInput";
+import { Button } from "../../ui/button";
+import { Calendar } from "../../ui/calendar";
+import { Checkbox } from "../../ui/checkbox";
+import { Input } from "../../ui/input";
+import { Label } from "../../ui/label";
 import {
   Select,
   SelectContent,
@@ -22,7 +22,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "../../ui/select";
 
 const addBillFormSchema = yup
   .object()

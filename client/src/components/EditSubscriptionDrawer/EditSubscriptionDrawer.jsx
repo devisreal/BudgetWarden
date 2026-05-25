@@ -1,7 +1,7 @@
 import { Pencil } from "lucide-react";
 import { useState } from "react";
 
-import EditSubscriptionForm from "../EditSubscriptionForm/EditSubscriptionForm";
+import EditSubscriptionForm from "../forms/EditSubscriptionForm/EditSubscriptionForm";
 import { Button } from "../ui/button";
 import {
   Drawer,

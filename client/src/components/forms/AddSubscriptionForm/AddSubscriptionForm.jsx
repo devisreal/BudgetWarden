@@ -6,14 +6,14 @@ import { useOutletContext } from "react-router-dom";
 import { toast } from "sonner";
 import * as yup from "yup";
 
-import { DashboardContext } from "../../contexts/DashboardContext";
-import { addBill } from "../../utils/api";
-import NumberInput from "../NumberInput";
-import { Button } from "../ui/button";
-import { Calendar } from "../ui/calendar";
-import { Checkbox } from "../ui/checkbox";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
+import { DashboardContext } from "../../../contexts/DashboardContext";
+import { addUserSubscriptions } from "../../../utils/api";
+import NumberInput from "../../NumberInput";
+import { Button } from "../../ui/button";
+import { Calendar } from "../../ui/calendar";
+import { Checkbox } from "../../ui/checkbox";
+import { Input } from "../../ui/input";
+import { Label } from "../../ui/label";
 import {
   Select,
   SelectContent,
@@ -22,57 +22,62 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "../../ui/select";
 
-const addBillFormSchema = yup
+const addSubscriptionFormSchema = yup
   .object()
   .shape({
-    name: yup.string().required("Bill name is required"),
+    name: yup.string().required("Subscription name is required"),
     category_id: yup.string().required("Category is required"),
-    amount: yup
+    billing_cycle: yup.string().required("Billing Cycle is required"),
+    cost: yup
       .number()
-      .required("Amount is required")
-      .min(0, "Amount must be positive")
-      .typeError("Amount must be a number"),
-    due_date: yup
+      .required("Cost is required")
+      .min(0, "Cost must be positive")
+      .typeError("Cost must be a number"),
+    renewal_date: yup
       .date()
-      .required("Due date is required")
-      .min(new Date(), "Due date cannot be in the past")
+      .required("Renewal date is required")
+      .min(new Date(), "Renewal date cannot be in the past")
       .typeError("Please enter a valid date"),
-    is_paid: yup.boolean().default(false),
+    is_active: yup.boolean().default(false),
   })
   .required();
 
-export default function AddBillForm({ setAddDrawerIsOpen }) {
+export default function AddSubscriptionForm({ setAddDrawerIsOpen }) {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    watch,
     setValue,
     reset,
   } = useForm({
     defaultValues: {
       name: "",
       category_id: "",
-      amount: 0,
-      is_paid: false,
-      due_date: new Date(),
+      billing_cycle: "",
+      cost: 0,
+      is_active: true,
+      renewal_date: new Date(),
     },
     mode: "onBlur",
-    resolver: yupResolver(addBillFormSchema),
+    resolver: yupResolver(addSubscriptionFormSchema),
   });
+
   const [date, setDate] = useState(new Date());
-  const { categories, userBills } = useContext(DashboardContext);
+  const { categories, userSubscriptions, billingCycles } =
+    useContext(DashboardContext);
   const [userData] = useOutletContext();
 
-  const handleAddBill = async (formValues) => {
-    formValues.due_date = format(formValues.due_date, "yyyy/MM/dd");
+  const handleAddSubscription = async (formValues) => {
+    formValues.renewal_date = format(formValues.renewal_date, "yyyy/MM/dd");
 
     try {
-      const data = await addBill(formValues);
+      const data = await addUserSubscriptions(formValues);
       toast.success(data.message);
       reset();
-      userBills.getBills();
+      userSubscriptions.getSubscriptions();
       setAddDrawerIsOpen(false);
     } catch (error) {
       console.log(error);
@@ -81,9 +86,12 @@ export default function AddBillForm({ setAddDrawerIsOpen }) {
   };
 
   return (
-    <form onSubmit={handleSubmit(handleAddBill)} className="p-4 space-y-4">
+    <form
+      onSubmit={handleSubmit(handleAddSubscription)}
+      className="p-4 py-2 space-y-4"
+    >
       <div className="grid w-full max-w-sm items-center gap-2">
-        <Label htmlFor="name">Bill name</Label>
+        <Label htmlFor="name">Subscription name</Label>
         <Input
           {...register("name")}
           type="text"
@@ -123,19 +131,51 @@ export default function AddBillForm({ setAddDrawerIsOpen }) {
             </SelectGroup>
           </SelectContent>
         </Select>
-        {errors.category_id && (
+        {errors.category_slug && (
           <small className="text-red-500 mt-1 font-medium text-xs">
-            {errors.category_id?.message}
+            {errors.category_slug?.message}
+          </small>
+        )}
+      </div>
+
+      <div className="grid w-full max-w-sm items-center gap-2">
+        <Label htmlFor="billing_cycle">Billing Cycle</Label>
+        <Select
+          id="billing_cycle"
+          defaultValue=""
+          onValueChange={(e) =>
+            setValue("billing_cycle", e, { shouldValidate: true })
+          }
+        >
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select a billing cycle " />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Cycles</SelectLabel>
+              {billingCycles.map((cycle) => {
+                return (
+                  <SelectItem key={cycle.id} value={`${cycle.value}`}>
+                    {cycle.displayName}
+                  </SelectItem>
+                );
+              })}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        {errors.billing_cycle && (
+          <small className="text-red-500 mt-1 font-medium text-xs">
+            {errors.billing_cycle?.message}
           </small>
         )}
       </div>
 
       <div className="grid w-full max-w-sm items-center gap-2">
         <NumberInput
-          label="Amount"
+          label="Cost"
           defaultValue={0}
-          onChange={(e) => setValue("amount", e, { shouldValidate: true })}
-          name="amount"
+          onChange={(e) => setValue("cost", e, { shouldValidate: true })}
+          name="cost"
           formatOptions={{
             style: "currency",
             currency: `${userData.currency}`,
@@ -144,56 +184,57 @@ export default function AddBillForm({ setAddDrawerIsOpen }) {
           minValue={0}
           step={1}
         />
-        {errors.amount && (
+        {errors.cost && (
           <small className="text-red-500 mt-1 font-medium text-xs">
-            {errors.amount?.message}
+            {errors.cost?.message}
           </small>
         )}
       </div>
 
       <div className="grid w-full max-w-sm items-center gap-2">
-        <Label htmlFor="due_date">Due Date</Label>
+        <Label htmlFor="renewal_date">Renewal Date</Label>
         <Calendar
-          id="due_date"
+          id="renewal_date"
           selected={date}
           mode="single"
-          name="due_date"
+          name="renewal_date"
           className="rounded-md border shadow w-full mx-auto"
           onSelect={(e) => {
-            setValue("due_date", format(e, "yyyy/MM/dd"), {
+            setValue("renewal_date", format(e, "yyyy/MM/dd"), {
               shouldValidate: true,
             });
             setDate(e);
           }}
         />
-        {errors.due_date && (
+        {errors.renewal_date && (
           <small className="text-red-500 mt-1 font-medium text-xs">
-            {errors.due_date?.message}
+            {errors.renewal_date?.message}
           </small>
         )}
       </div>
 
       <div className="flex items-center space-x-2">
         <Checkbox
-          id="is_paid"
+          id="is_active"
+          checked={watch("is_active")}
           onCheckedChange={(e) =>
-            setValue("is_paid", e, {
+            setValue("is_active", e, {
               shouldValidate: true,
             })
           }
-          {...register("is_paid")}
+          {...register("is_active")}
         />
 
         <label
-          htmlFor="is_paid"
+          htmlFor="is_active"
           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
-          Bill is paid?
+          Is this subscription active ?
         </label>
 
-        {errors.is_paid && (
+        {errors.is_active && (
           <small className="text-red-500 mt-1 font-medium text-xs">
-            {errors.is_paid?.message}
+            {errors.is_active?.message}
           </small>
         )}
       </div>
@@ -201,7 +242,7 @@ export default function AddBillForm({ setAddDrawerIsOpen }) {
       <Button
         disabled={isSubmitting}
         type="submit"
-        className="w-full mt-4 bg-emerald-700"
+        className="w-full mt-2 bg-emerald-700"
       >
         {isSubmitting ? "Submitting..." : "Submit"}
       </Button>

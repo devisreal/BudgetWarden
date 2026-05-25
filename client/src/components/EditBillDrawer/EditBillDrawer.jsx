@@ -1,6 +1,6 @@
 import { Pencil } from "lucide-react";
 
-import EditBillForm from "../EditBillForm/EditBillForm";
+import EditBillForm from "../forms/EditBillForm/EditBillForm";
 import { Button } from "../ui/button";
 import {
   Drawer,

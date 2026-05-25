@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import * as yup from "yup";
 import YupPassword from "yup-password";
 
-import { userRegister } from "../../utils/api";
+import { userRegister } from "../../../utils/api";
 
 YupPassword(yup);
 

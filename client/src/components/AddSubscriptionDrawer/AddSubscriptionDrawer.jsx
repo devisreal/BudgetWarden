@@ -1,6 +1,6 @@
 import { Plus } from "lucide-react";
 
-import AddSubscriptionForm from "../AddSubscriptionForm/AddSubscriptionForm";
+import AddSubscriptionForm from "../forms/AddSubscriptionForm/AddSubscriptionForm";
 import { Button } from "../ui/button";
 import {
   Drawer,

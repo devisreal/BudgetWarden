@@ -2,7 +2,7 @@ import { Banknote, PieChart, ShoppingBag } from "lucide-react";
 import { useContext, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
-import { AddBudgetForm } from "../../../components/AddBudgetForm/AddBudgetForm";
+import { AddBudgetForm } from "../../../components/forms/AddBudgetForm/AddBudgetForm";
 import BudgetCard from "../../../components/BudgetCard/BudgetCard";
 import { DashboardSkeletonLoader } from "../../../components/SkeletonLoader/SkeletonLoaders";
 import { Card, CardContent } from "../../../components/ui/card";
