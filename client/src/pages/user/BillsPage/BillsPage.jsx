@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 
-import AddBillDrawer from "../../../components/AddBillDrawer/AddBillDrawer";
+import AddBillDrawer from "../../../components/drawers/AddBillDrawer/AddBillDrawer";
 import BillCard from "../../../components/BillCard/BillCard";
 import EmptyState from "../../../components/EmptyState/EmptyState";
 import { BillsSkeletonLoader } from "../../../components/SkeletonLoader/SkeletonLoaders";

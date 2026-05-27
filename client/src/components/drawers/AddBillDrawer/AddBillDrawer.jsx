@@ -1,7 +1,7 @@
 import { Plus } from "lucide-react";
 
-import AddSubscriptionForm from "../forms/AddSubscriptionForm/AddSubscriptionForm";
-import { Button } from "../ui/button";
+import AddBillForm from "../../forms/AddBillForm/AddBillForm";
+import { Button } from "../../ui/button";
 import {
   Drawer,
   DrawerClose,
@@ -11,12 +11,9 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "../ui/drawer";
+} from "../../ui/drawer";
 
-export default function AddSubscriptionDrawer({
-  isAddDrawerOpen,
-  setAddDrawerIsOpen,
-}) {
+export default function AddBillDrawer({ isAddDrawerOpen, setAddDrawerIsOpen }) {
   return (
     <Drawer
       direction="right"
@@ -31,18 +28,18 @@ export default function AddSubscriptionDrawer({
         >
           <span>
             <Plus className="size-5" />
-            Add Subscription
+            Add Bill
           </span>
         </Button>
       </DrawerTrigger>
       <DrawerContent direction="right">
         <DrawerHeader>
-          <DrawerTitle className="text-2xl">Add New Subscription</DrawerTitle>
+          <DrawerTitle className="text-2xl">Add New Bill</DrawerTitle>
           <DrawerDescription className="text-md">
-            Add a new subscription
+            Add a new bill
           </DrawerDescription>
         </DrawerHeader>
-        <AddSubscriptionForm setAddDrawerIsOpen={setAddDrawerIsOpen} />
+        <AddBillForm setAddDrawerIsOpen={setAddDrawerIsOpen} />
         <DrawerFooter>
           <DrawerClose>
             <Button

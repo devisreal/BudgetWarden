@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 
-import AddSubscriptionDrawer from "../../../components/AddSubscriptionDrawer/AddSubscriptionDrawer";
+import AddSubscriptionDrawer from "../../../components/drawers/AddSubscriptionDrawer/AddSubscriptionDrawer";
 import EmptyState from "../../../components/EmptyState/EmptyState";
 import SubscriptionsTable from "../../../components/SubscriptionsTable/SubscriptionsTable";
 import { Skeleton } from "../../../components/ui/skeleton";

@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { DashboardContext } from "../../contexts/DashboardContext";
 import { numberWithCommas } from "../../lib/utils";
 import { deleteUserSubscription } from "../../utils/api";
-import EditSubscriptionDrawer from "../EditSubscriptionDrawer/EditSubscriptionDrawer";
+import EditSubscriptionDrawer from "../drawers/EditSubscriptionDrawer/EditSubscriptionDrawer";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import {

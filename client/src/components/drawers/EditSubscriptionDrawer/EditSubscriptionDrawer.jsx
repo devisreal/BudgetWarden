@@ -1,8 +1,8 @@
 import { Pencil } from "lucide-react";
 import { useState } from "react";
 
-import EditSubscriptionForm from "../forms/EditSubscriptionForm/EditSubscriptionForm";
-import { Button } from "../ui/button";
+import EditSubscriptionForm from "../../forms/EditSubscriptionForm/EditSubscriptionForm";
+import { Button } from "../../ui/button";
 import {
   Drawer,
   DrawerClose,
@@ -12,7 +12,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "../ui/drawer";
+} from "../../ui/drawer";
 
 export default function EditSubscriptionDrawer({ subscription }) {
   const [isEditDrawerOpen, setEditDrawerIsOpen] = useState(false);

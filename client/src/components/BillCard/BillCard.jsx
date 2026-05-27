@@ -13,7 +13,7 @@ import { toast } from "sonner";
 import { DashboardContext } from "../../contexts/DashboardContext";
 import { numberWithCommas } from "../../lib/utils";
 import { deleteBill } from "../../utils/api";
-import EditBillDrawer from "../EditBillDrawer/EditBillDrawer";
+import EditBillDrawer from "../drawers/EditBillDrawer/EditBillDrawer";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 
