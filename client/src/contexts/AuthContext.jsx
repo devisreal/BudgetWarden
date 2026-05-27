@@ -1,5 +1,6 @@
-import { validateAuth } from "@/utils/api";
 import { createContext, useEffect, useState } from "react";
+
+import { validateAuth } from "../utils/api";
 
 const AuthContext = createContext();
 
@@ -14,10 +15,15 @@ function AuthProvider(props) {
       if (response?.data?.isValid) {
         setIsLoggedIn(response.data.isValid);
       } else {
+        localStorage.removeItem("authToken");
         setIsLoggedIn(false);
       }
       setIsLoading(false);
     } catch (error) {
+      if (error.status === 401) {
+        localStorage.removeItem("authToken");
+        return;
+      }
       console.log(error);
     }
   };

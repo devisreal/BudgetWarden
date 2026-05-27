@@ -1,3 +1,7 @@
+import { Plus } from "lucide-react";
+
+import AddSubscriptionForm from "../../forms/AddSubscriptionForm/AddSubscriptionForm";
+import { Button } from "../../ui/button";
 import {
   Drawer,
   DrawerClose,
@@ -7,11 +11,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer";
-import { CirclePlus } from "lucide-react";
-
-import AddSubscriptionForm from "../AddSubscriptionForm/AddSubscriptionForm";
-import { Button } from "../ui/button";
+} from "../../ui/drawer";
 
 export default function AddSubscriptionDrawer({
   isAddDrawerOpen,
@@ -30,7 +30,7 @@ export default function AddSubscriptionDrawer({
           className="inline-flex cursor-pointer items-center rounded-md bg-emerald-700 px-3 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-emerald-700/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
         >
           <span>
-            <CirclePlus className="size-5" />
+            <Plus className="size-5" />
             Add Subscription
           </span>
         </Button>

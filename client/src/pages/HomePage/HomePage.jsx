@@ -1,15 +1,16 @@
-import dashboardImage from "@/assets/images/dashboard-image.webp";
-import dashboardMobile from "@/assets/images/dashboard-mobile.webp";
-import Footer from "@/components/Footer/Footer";
-import Navbar from "@/components/Navbar";
-import { Ripple } from "@/components/magicui/ripple";
-import { Card, CardContent } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import { AuthContext } from "@/contexts/AuthContext";
 import { BarChart3, ChevronDown, LineChart, PieChart } from "lucide-react";
 import { motion } from "motion/react";
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
+import dashboardImage from "../../assets/images/dashboard-image.webp";
+import dashboardMobile from "../../assets/images/dashboard-mobile.webp";
+import Footer from "../../components/Footer/Footer";
+import Navbar from "../../components/Navbar";
+import { Ripple } from "../../components/magicui/ripple";
+import { Card, CardContent } from "../../components/ui/card";
+import { Skeleton } from "../../components/ui/skeleton";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -19,14 +20,14 @@ export default function HomePage() {
     <>
       <Navbar />
 
-      <section className="relative flex h-[40rem] w-full flex-col items-center justify-center overflow-hidden rounded-lg bg-background">
+      <section className="relative flex h-160 w-full flex-col items-center justify-center overflow-hidden rounded-lg bg-background">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="mx-auto max-w-[80rem] text-center px-3 md:p-0"
+          className="mx-auto max-w-7xl text-center px-3 md:p-0"
         >
-          <h2 className="text-4xl font-extrabold tracking-tight leading-[1] text-gray-950 md:text-[5rem] font-title">
+          <h2 className="text-4xl font-extrabold tracking-tight leading-none text-gray-950 md:text-[5rem] font-title">
             Take Full Control Of <br /> Your Personal Finances
           </h2>
 
@@ -43,7 +44,7 @@ export default function HomePage() {
               className="group cursor-pointer relative h-12 md:h-16 text-base md:text-lg rounded-full border border-neutral-200 bg-emerald-700 text-white px-6 md:px-8 font-semibold"
             >
               <span className="relative inline-flex overflow-hidden">
-                <div className="translate-y-0 skew-y-0 transition duration-500 group-hover:-translate-y-[110%] group-hover:skew-y-12">
+                <div className="translate-y-0 skew-y-0 transition duration-500 group-hover:translate-y-[-110%] group-hover:skew-y-12">
                   Get started
                 </div>
                 <div className="absolute translate-y-[110%] skew-y-12 transition duration-500 group-hover:translate-y-0 group-hover:skew-y-0">
@@ -81,7 +82,7 @@ export default function HomePage() {
       </section>
 
       <section className="py-20 mt-16 bg-gray-50">
-        <div className="max-w-[85rem] mx-auto px-4">
+        <div className="max-w-340 mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -145,7 +146,7 @@ export default function HomePage() {
       </section>
 
       <section className="py-20 mt-16">
-        <div className="max-w-[85rem] mx-auto px-4">
+        <div className="max-w-340 mx-auto px-4">
           <div className="flex flex-col lg:flex-row items-center gap-12">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -167,7 +168,7 @@ export default function HomePage() {
                 className="group cursor-pointer text-sm  inline-flex h-11 items-center justify-center overflow-hidden rounded-full bg-emerald-700 px-6 font-semibold text-white"
               >
                 <span>Explore Dashboard</span>
-                <div className="w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-1 group-hover:opacity-100">
+                <div className="w-0 translate-x-full pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-1 group-hover:opacity-100">
                   <svg
                     width="15"
                     height="15"
@@ -202,7 +203,7 @@ export default function HomePage() {
       </section>
 
       <section className="py-20 mt-16 bg-emerald-50">
-        <div className="max-w-[85rem] mx-auto px-4">
+        <div className="max-w-340 mx-auto px-4">
           <div className="flex flex-col md:flex-row-reverse items-center gap-12">
             <motion.div
               initial={{ opacity: 0, x: 30 }}
@@ -234,7 +235,7 @@ export default function HomePage() {
                 }}
                 className="bg-white p-2 rounded-3xl shadow-xl"
               >
-                <div className="bg-gray-800 rounded-2xl overflow-hidden w-72 h-[550px]">
+                <div className="bg-gray-800 rounded-2xl overflow-hidden w-72 h-137.5">
                   <img src={dashboardMobile} alt="Dashboard Mobile" />
                 </div>
               </motion.div>
@@ -265,7 +266,7 @@ export default function HomePage() {
                   className="group cursor-pointer relative h-12 md:h-16 text-base md:text-lg rounded-full border border-neutral-200 bg-emerald-700 text-white px-6 md:px-8 font-semibold"
                 >
                   <span className="relative inline-flex overflow-hidden">
-                    <div className="translate-y-0 skew-y-0 transition duration-500 group-hover:-translate-y-[110%] group-hover:skew-y-12">
+                    <div className="translate-y-0 skew-y-0 transition duration-500 group-hover:translate-y-[-110%] group-hover:skew-y-12">
                       Get Started Now
                     </div>
                     <div className="absolute translate-y-[110%] skew-y-12 transition duration-500 group-hover:translate-y-0 group-hover:skew-y-0">
@@ -279,7 +280,7 @@ export default function HomePage() {
                 </span>
               )
             ) : (
-              <Skeleton className="w-[120px] h-10 rounded-full" />
+              <Skeleton className="w-30 h-10 rounded-full" />
             )}
           </motion.div>
         </div>

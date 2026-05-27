@@ -1,11 +1,12 @@
-import { AppSidebar } from "@/components/AppSidebar";
-import OutletHeader from "@/components/ui/outlet-header";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { DashboardProvider } from "@/contexts/DashboardContext";
-import { getUserData } from "@/utils/api";
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+
+import { AppSidebar } from "../components/AppSidebar";
+import OutletHeader from "../components/ui/outlet-header";
+import { SidebarInset, SidebarProvider } from "../components/ui/sidebar";
+import { DashboardProvider } from "../contexts/DashboardContext";
+import { getUserData } from "../utils/api";
 
 export default function Page() {
   const [isLoading, setIsLoading] = useState(true);

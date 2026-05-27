@@ -1,8 +1,3 @@
-import { DashboardSkeletonLoader } from "@/components/SkeletonLoader/SkeletonLoaders";
-import SpendingByCategory from "@/components/SpendingCategory/SpendingCategory";
-import UpcomingBills from "@/components/UpcomingBills/UpcomingBills";
-import { DashboardContext } from "@/contexts/DashboardContext";
-import { numberWithCommas } from "@/lib/utils";
 import {
   ArrowUpRight,
   CalendarSync,
@@ -13,6 +8,12 @@ import {
 } from "lucide-react";
 import { useContext } from "react";
 import { Link, useOutletContext } from "react-router-dom";
+
+import { DashboardSkeletonLoader } from "../../../components/SkeletonLoader/SkeletonLoaders";
+import SpendingByCategory from "../../../components/SpendingCategory/SpendingCategory";
+import UpcomingBills from "../../../components/UpcomingBills/UpcomingBills";
+import { DashboardContext } from "../../../contexts/DashboardContext";
+import { numberWithCommas } from "../../../lib/utils";
 
 export default function DashboardPage() {
   const [isLoading, userData] = useOutletContext();
@@ -35,7 +36,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <main className="p-4">
+    <main className="sm:p-4 py-6">
       <section className="lg:flex lg:items-center lg:justify-between">
         <div className="min-w-0 flex-1">
           <h2 className="text-3xl font-bold text-gray-900 sm:truncate sm:text-4xl sm:tracking-tight">

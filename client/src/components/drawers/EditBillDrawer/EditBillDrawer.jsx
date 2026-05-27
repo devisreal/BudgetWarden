@@ -1,3 +1,7 @@
+import { Pencil } from "lucide-react";
+
+import EditBillForm from "../../forms/EditBillForm/EditBillForm";
+import { Button } from "../../ui/button";
 import {
   Drawer,
   DrawerClose,
@@ -7,16 +11,13 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer";
-import { Pencil } from "lucide-react";
-import { useState } from "react";
+} from "../../ui/drawer";
 
-import EditSubscriptionForm from "../EditSubscriptionForm/EditSubscriptionForm";
-import { Button } from "../ui/button";
-
-export default function EditSubscriptionDrawer({ subscription }) {
-  const [isEditDrawerOpen, setEditDrawerIsOpen] = useState(false);
-
+export default function EditBillDrawer({
+  bill,
+  isEditDrawerOpen,
+  setEditDrawerIsOpen,
+}) {
   return (
     <Drawer
       direction="right"
@@ -32,17 +33,12 @@ export default function EditSubscriptionDrawer({ subscription }) {
       </DrawerTrigger>
       <DrawerContent direction="right">
         <DrawerHeader>
-          <DrawerTitle className="text-2xl">
-            Edit Subscription: {subscription.name}
-          </DrawerTitle>
+          <DrawerTitle className="text-2xl">Edit Bill: {bill.name}</DrawerTitle>
           <DrawerDescription className="text-md">
-            Make a change to this subscription
+            Make a change to this bill
           </DrawerDescription>
         </DrawerHeader>
-        <EditSubscriptionForm
-          subscription={subscription}
-          setEditDrawerIsOpen={setEditDrawerIsOpen}
-        />
+        <EditBillForm bill={bill} setEditDrawerIsOpen={setEditDrawerIsOpen} />
         <DrawerFooter>
           <DrawerClose>
             <Button

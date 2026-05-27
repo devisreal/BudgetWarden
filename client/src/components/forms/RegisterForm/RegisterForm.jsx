@@ -1,10 +1,11 @@
-import { userRegister } from "@/utils/api";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import * as yup from "yup";
 import YupPassword from "yup-password";
+
+import { userRegister } from "../../../utils/api";
 
 YupPassword(yup);
 
@@ -53,7 +54,7 @@ export default function RegisterForm() {
       reset();
       localStorage.setItem("authToken", data.authToken);
       setTimeout(() => {
-        navigate("/user/profile");
+        navigate("/user/profile/edit");
       }, 500);
     } catch (error) {
       toast.error(error.response.data.message);

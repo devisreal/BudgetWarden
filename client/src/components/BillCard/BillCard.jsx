@@ -1,6 +1,3 @@
-import { DashboardContext } from "@/contexts/DashboardContext";
-import { numberWithCommas } from "@/lib/utils";
-import { deleteBill } from "@/utils/api";
 import { format } from "date-fns";
 import {
   CheckIcon,
@@ -13,7 +10,10 @@ import { useContext, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { toast } from "sonner";
 
-import EditBillDrawer from "../EditBillDrawer/EditBillDrawer";
+import { DashboardContext } from "../../contexts/DashboardContext";
+import { numberWithCommas } from "../../lib/utils";
+import { deleteBill } from "../../utils/api";
+import EditBillDrawer from "../drawers/EditBillDrawer/EditBillDrawer";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 
@@ -27,7 +27,7 @@ export default function BillCard({
 }) {
   const [isEditDrawerOpen, setEditDrawerIsOpen] = useState(false);
   const { userBills, getUserCurrency } = useContext(DashboardContext);
-  const [isLoading, userData] = useOutletContext();
+  const [userData] = useOutletContext();
 
   const userCurrency = getUserCurrency(userData.currency);
 
@@ -81,7 +81,7 @@ export default function BillCard({
               </span>
             )}
 
-            {bill.is_paid && new Date(bill.due_date) < today && (
+            {!bill.is_paid && new Date(bill.due_date) < today && (
               <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-red-600/10 ring-inset">
                 <XIcon className="size-4 mr-1" />
                 Past Due

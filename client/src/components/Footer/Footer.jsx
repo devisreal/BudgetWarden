@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export default function Footer() {
   return (
     <footer className="bg-gray-50">
-      <div className="mx-auto max-w-[85rem]  px-4 py-6 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-340  px-4 py-6 sm:px-6 lg:px-8">
         <div className="sm:flex sm:items-center sm:justify-between">
           <motion.div
             initial={{ opacity: 0, x: -20 }}

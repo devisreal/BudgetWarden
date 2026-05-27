@@ -47,6 +47,7 @@ const editUserProfile = async (formValues) => {
   return data;
 };
 
+// categories
 const getCategories = async () => {
   const authToken = localStorage.getItem("authToken");
   const { data } = await axios.get(
@@ -60,6 +61,20 @@ const getCategories = async () => {
   return data;
 };
 
+const getSpendByCategory = async () => {
+  const authToken = localStorage.getItem("authToken");
+  const { data } = await axios.get(
+    `${import.meta.env.VITE_API_BASE_URL}/categories/spend-by-category`,
+    {
+      headers: {
+        authorization: `Bearer ${authToken}`,
+      },
+    },
+  );
+  return data;
+};
+
+// Bills
 const getUserBills = async () => {
   const authToken = localStorage.getItem("authToken");
   const { data } = await axios.get(
@@ -114,6 +129,7 @@ const deleteBill = async (slug) => {
   return response;
 };
 
+// Subscriptions
 const getUserSubscriptions = async () => {
   const authToken = localStorage.getItem("authToken");
   const { data } = await axios.get(
@@ -168,6 +184,62 @@ const deleteUserSubscription = async (slug) => {
   return response;
 };
 
+// Budgets
+
+const getUserBudgets = async () => {
+  const authToken = localStorage.getItem("authToken");
+  const { data } = await axios.get(
+    `${import.meta.env.VITE_API_BASE_URL}/budgets`,
+    {
+      headers: {
+        authorization: `Bearer ${authToken}`,
+      },
+    },
+  );
+  return data;
+};
+
+const addUserBudgets = async (formValues) => {
+  const authToken = localStorage.getItem("authToken");
+  const { data } = await axios.post(
+    `${import.meta.env.VITE_API_BASE_URL}/budgets`,
+    formValues,
+    {
+      headers: {
+        authorization: `Bearer ${authToken}`,
+      },
+    },
+  );
+  return data;
+};
+
+const editUserBudgets = async (formValues, slug) => {
+  const authToken = localStorage.getItem("authToken");
+  const { data } = await axios.put(
+    `${import.meta.env.VITE_API_BASE_URL}/budgets/${slug}`,
+    formValues,
+    {
+      headers: {
+        authorization: `Bearer ${authToken}`,
+      },
+    },
+  );
+  return data;
+};
+
+const deleteUserBudget = async (slug) => {
+  const authToken = localStorage.getItem("authToken");
+  const response = await axios.delete(
+    `${import.meta.env.VITE_API_BASE_URL}/budgets/${slug}`,
+    {
+      headers: {
+        authorization: `Bearer ${authToken}`,
+      },
+    },
+  );
+  return response;
+};
+
 const validateAuth = async () => {
   const authToken = localStorage.getItem("authToken");
   if (!authToken) {
@@ -190,6 +262,7 @@ export {
   getUserData,
   editUserProfile,
   getCategories,
+  getSpendByCategory,
   getUserBills,
   addBill,
   editBill,
@@ -198,5 +271,9 @@ export {
   editUserSubscriptions,
   addUserSubscriptions,
   deleteUserSubscription,
+  getUserBudgets,
+  editUserBudgets,
+  addUserBudgets,
+  deleteUserBudget,
   validateAuth,
 };

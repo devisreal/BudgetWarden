@@ -1,9 +1,10 @@
-import { DashboardSkeletonLoader } from "@/components/SkeletonLoader/SkeletonLoaders";
-import { Button } from "@/components/ui/button";
-import { DashboardContext } from "@/contexts/DashboardContext";
-import { numberWithCommas } from "@/lib/utils";
 import { useContext } from "react";
 import { Link, useOutletContext } from "react-router-dom";
+
+import { DashboardSkeletonLoader } from "../../../components/SkeletonLoader/SkeletonLoaders";
+import { Button } from "../../../components/ui/button";
+import { DashboardContext } from "../../../contexts/DashboardContext";
+import { numberWithCommas } from "../../../lib/utils";
 
 export default function ProfilePage() {
   const [isLoading, userData] = useOutletContext();
@@ -14,7 +15,7 @@ export default function ProfilePage() {
   if (isLoading) return <DashboardSkeletonLoader />;
 
   return (
-    <div className="px-4 py-6 sm:max-w-2xl">
+    <div className="sm:px-4 py-6 sm:max-w-2xl">
       <div className="sm:px-0 flex flex-col sm:flex-row sm:justify-between sm:items-center items-start gap-4">
         <div className="flex flex-col">
           <h2 className="text-3xl font-bold text-gray-900 sm:truncate sm:text-4xl sm:tracking-tight">
