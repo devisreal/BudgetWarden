@@ -1,18 +1,18 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
-import { AuthProvider } from "./contexts/AuthContext";
-import AuthLayout from "./layouts/AuthLayout";
-import DashboardLayout from "./layouts/DashboardLayout";
-import HomePage from "./pages/HomePage/HomePage";
-import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
-import LoginPage from "./pages/auth/Login/LoginPage";
-import RegisterPage from "./pages/auth/Register/RegisterPage";
-import BillsPage from "./pages/user/BillsPage/BillsPage";
-import BudgetsPage from "./pages/user/BudgetsPage/BudgetsPage";
-import DashboardPage from "./pages/user/DashboardPage/DashboardPage";
-import EditProfilePage from "./pages/user/EditProfilePage/EditProfilePage";
-import ProfilePage from "./pages/user/ProfilePage/ProfilePage";
-import SubscriptionsPage from "./pages/user/SubscriptionsPage/SubscriptionsPage";
+import { AuthProvider } from "./features/auth/contexts/auth-context";
+import AuthLayout from "./layouts/auth-layout";
+import DashboardLayout from "./layouts/dashboard-layout";
+import HomePage from "./pages/home-page";
+import NotFoundPage from "./pages/not-found-page";
+import LoginPage from "./features/auth/pages/login-page";
+import RegisterPage from "./features/auth/pages/register-page";
+import BillsPage from "./features/bills/pages/bills-page";
+import BudgetsPage from "./features/budgets/pages/budgets-page";
+import DashboardPage from "./features/dashboard/pages/dashboard-page";
+import EditProfilePage from "./features/profile/pages/edit-profile-page";
+import ProfilePage from "./features/profile/pages/profile-page";
+import SubscriptionsPage from "./features/subscriptions/pages/subscriptions-page";
 
 function App() {
   return (

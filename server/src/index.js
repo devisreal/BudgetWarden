@@ -3,10 +3,10 @@ import cors from "cors";
 import "dotenv/config";
 
 import authRoutes from "./routes/auth.routes.js";
-import categoriesRoutes from "./routes/categories.route.js";
+import categoriesRoutes from "./routes/categories.routes.js";
 import billRoutes from "./routes/bills.routes.js";
 import budgetRoutes from "./routes/budgets.routes.js";
-import subscriptionRoutes from "./routes/subscriptions.route.js";
+import subscriptionRoutes from "./routes/subscriptions.routes.js";
 
 const app = express();
 app.use(express.json());
