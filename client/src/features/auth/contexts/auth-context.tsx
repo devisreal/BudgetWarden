@@ -1,10 +1,15 @@
-import { createContext, useEffect, useState } from "react";
+import { type ReactNode, createContext, useEffect, useState } from "react";
 
 import { validateAuth } from "../../../utils/api";
 
-const AuthContext = createContext();
+type AuthContextValue = {
+  isLoggedIn: boolean;
+  isLoading: boolean;
+};
 
-function AuthProvider(props) {
+const AuthContext = createContext<AuthContextValue | null>(null);
+
+function AuthProvider(props: { children: ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -12,15 +17,20 @@ function AuthProvider(props) {
     try {
       const response = await validateAuth();
 
-      if (response?.data?.isValid) {
+      if (response && response.data?.isValid) {
         setIsLoggedIn(response.data.isValid);
       } else {
         localStorage.removeItem("authToken");
         setIsLoggedIn(false);
       }
       setIsLoading(false);
-    } catch (error) {
-      if (error.status === 401) {
+    } catch (error: unknown) {
+      if (
+        typeof error === "object" &&
+        error !== null &&
+        "status" in error &&
+        error.status === 401
+      ) {
         localStorage.removeItem("authToken");
         return;
       }

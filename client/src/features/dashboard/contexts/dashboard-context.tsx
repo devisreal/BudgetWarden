@@ -1,4 +1,11 @@
-import { createContext, useEffect, useState } from "react";
+import {
+  type Dispatch,
+  type ReactNode,
+  type SetStateAction,
+  createContext,
+  useEffect,
+  useState,
+} from "react";
 import { toast } from "sonner";
 
 import {
@@ -8,11 +15,67 @@ import {
   getUserBudgets,
   getUserSubscriptions,
 } from "../../../utils/api";
+import type {
+  Bill,
+  Budget,
+  Category,
+  CategorySpend,
+  Subscription,
+} from "../../../types/domain";
 
-const DashboardContext = createContext();
+type CurrencyOption = {
+  id?: string;
+  value?: string;
+  display: string;
+  symbol: string;
+};
+
+type BillingCycleOption = {
+  id: number;
+  value: string;
+  displayName: string;
+};
+
+type CategorySpendSummary = {
+  grandTotal: number | string;
+  categories: CategorySpend[];
+};
+
+type GetUserCurrency = (isoCode: string) => CurrencyOption;
+
+type DashboardContextValue = {
+  categories: Category[] | null;
+  setCategories: Dispatch<SetStateAction<Category[] | null>>;
+  categorySpendBy: CategorySpendSummary | null;
+  isSpendByLoading: boolean;
+  setCategorySpendBy: Dispatch<SetStateAction<CategorySpendSummary | null>>;
+  userBills: {
+    totalBills: number | string;
+    bills: Bill[];
+    upcomingBills: Bill[] | null;
+    getBills: () => Promise<void>;
+    isBillsLoading: boolean;
+  };
+  userSubscriptions: {
+    totalSubscriptions: number | string;
+    subscriptions: Subscription[];
+    getSubscriptions: () => Promise<void>;
+    isSubscriptionsLoading: boolean;
+  };
+  userBudgets: {
+    budgets: Budget[];
+    isBudgetsLoading: boolean;
+    getBudgets: () => Promise<void>;
+  };
+  currencies: CurrencyOption[];
+  getUserCurrency: GetUserCurrency;
+  billingCycles: BillingCycleOption[];
+};
+
+const DashboardContext = createContext<DashboardContextValue | null>(null);
 const today = new Date();
 
-const currencies = [
+const currencies: CurrencyOption[] = [
   { id: "currency-1", value: "GBP", display: "British Pound", symbol: "£" },
   { id: "currency-2", value: "NGN", display: "Nigerian Naira", symbol: "₦" },
   { id: "currency-3", value: "USD", display: "US Dollar", symbol: "$" },
@@ -61,7 +124,7 @@ const currencies = [
   { id: "currency-21", value: "AED", display: "UAE Dirham", symbol: "د.إ" },
 ];
 
-const billingCycles = [
+const billingCycles: BillingCycleOption[] = [
   { id: 1, value: "weekly", displayName: "Weekly" },
   { id: 2, value: "biweekly", displayName: "Bi-Weekly (Every 2 Weeks)" },
   { id: 3, value: "monthly", displayName: "Monthly" },
@@ -71,19 +134,22 @@ const billingCycles = [
   { id: 7, value: "bimonthly", displayName: "Bi-Monthly (Twice a Month)" },
 ];
 
-function DashboardProvider(props) {
-  const [categories, setCategories] = useState(null);
-  const [categorySpendBy, setCategorySpendBy] = useState(null);
+function DashboardProvider(props: { children: ReactNode }) {
+  const [categories, setCategories] = useState<Category[] | null>(null);
+  const [categorySpendBy, setCategorySpendBy] =
+    useState<CategorySpendSummary | null>(null);
   const [isSpendByLoading, setIsSpendByLoading] = useState(true);
 
-  const [bills, setBills] = useState(null);
-  const [upcomingBills, setUpcomingBills] = useState(null);
+  const [bills, setBills] = useState<Bill[] | null>(null);
+  const [upcomingBills, setUpcomingBills] = useState<Bill[] | null>(null);
   const [isBillsLoading, setIsBillsLoading] = useState(true);
 
-  const [subscriptions, setSubscriptions] = useState(null);
+  const [subscriptions, setSubscriptions] = useState<Subscription[] | null>(
+    null,
+  );
   const [isSubscriptionsLoading, setIsSubscriptionsLoading] = useState(true);
 
-  const [budgets, setBudgets] = useState(null);
+  const [budgets, setBudgets] = useState<Budget[] | null>(null);
   const [isBudgetsLoading, setIsBudgetsLoading] = useState(true);
 
   const getAllCategories = async () => {
@@ -109,9 +175,9 @@ function DashboardProvider(props) {
       });
 
       setUpcomingBills(upcomingBills);
-    } catch (error) {
+    } catch (error: unknown) {
       console.log(error);
-      toast.error(error);
+      toast.error(String(error));
     }
   };
 
@@ -120,9 +186,9 @@ function DashboardProvider(props) {
       const response = await getUserSubscriptions();
       setIsSubscriptionsLoading(false);
       setSubscriptions(response);
-    } catch (error) {
+    } catch (error: unknown) {
       console.log(error);
-      toast.error(error);
+      toast.error(String(error));
     }
   };
 
@@ -131,9 +197,9 @@ function DashboardProvider(props) {
       const response = await getUserBudgets();
       setIsBudgetsLoading(false);
       setBudgets(response);
-    } catch (error) {
+    } catch (error: unknown) {
       console.log(error);
-      toast.error(error);
+      toast.error(String(error));
     }
   };
 
@@ -177,7 +243,7 @@ function DashboardProvider(props) {
     return sum;
   };
 
-  function populateBills() {
+  function populateBills(): Bill[] {
     if (isBillsLoading || !bills || !categories) return [];
 
     const enriched = bills.map((bill) => {
@@ -190,7 +256,7 @@ function DashboardProvider(props) {
     return enriched;
   }
 
-  function populateSubscriptions() {
+  function populateSubscriptions(): Subscription[] {
     if (isSubscriptionsLoading || !subscriptions || !categories) return [];
 
     const enriched = subscriptions.map((sub) => {
@@ -206,7 +272,7 @@ function DashboardProvider(props) {
     return sorted;
   }
 
-  function populateBudgets() {
+  function populateBudgets(): Budget[] {
     if (isBudgetsLoading || !budgets || !categories) return [];
 
     const enriched = budgets.map((budget) => {
@@ -219,7 +285,7 @@ function DashboardProvider(props) {
     return enriched;
   }
 
-  const getUserCurrency = (isoCode) => {
+  const getUserCurrency = (isoCode: string) => {
     return (
       currencies.find((currency) => currency.value === isoCode) || {
         symbol: "$",
