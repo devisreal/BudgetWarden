@@ -2,14 +2,16 @@ import { ArrowUpRight } from "lucide-react";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 
-import { DashboardContext } from "../../dashboard/contexts/dashboard-context";
-import BillCard from "./bill-card";
 import EmptyState from "../../../components/empty-state/empty-state";
 import { BillsSkeletonLoader } from "../../../components/skeleton-loader/skeleton-loaders";
 import { Card } from "../../../components/ui/card";
+import { DashboardContext } from "../../dashboard/contexts/dashboard-context";
+import BillCard from "./bill-card";
 
 export default function UpcomingBills() {
-  const { userBills } = useContext(DashboardContext);
+  const { userBills } = useContext(DashboardContext)!;
+  const upcomingBills = userBills.upcomingBills ?? [];
+
   return (
     <Card className="relative rounded-lg shadow w-full lg:w-2/6 p-4 pb-10">
       <h3 className="text-2xl font-bold text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
@@ -17,9 +19,9 @@ export default function UpcomingBills() {
       </h3>
 
       {!userBills.isBillsLoading ? (
-        userBills.upcomingBills.length > 0 ? (
+        upcomingBills.length > 0 ? (
           <ul className="flex flex-col mt-4 gap-4">
-            {userBills.upcomingBills.map((bill) => {
+            {upcomingBills.map((bill) => {
               return (
                 <BillCard
                   key={bill.id}

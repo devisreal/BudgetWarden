@@ -1,18 +1,19 @@
 import { useContext } from "react";
 import { useOutletContext } from "react-router-dom";
 
-import { DashboardContext } from "../contexts/dashboard-context";
 import { Card } from "../../../components/ui/card";
 import { Progress } from "../../../components/ui/progress";
+import type { User } from "../../../types/domain";
+import { DashboardContext } from "../contexts/dashboard-context";
 
 export default function SpendingByCategory() {
-  const [userData] = useOutletContext();
+  const [userData] = useOutletContext<[User]>();
   const { isSpendByLoading, categorySpendBy, getUserCurrency } =
-    useContext(DashboardContext);
+    useContext(DashboardContext)!;
 
-  const userCurrency = getUserCurrency(userData.currency);
+  const userCurrency = getUserCurrency(userData.currency ?? "USD");
 
-  if (isSpendByLoading) {
+  if (isSpendByLoading || !categorySpendBy) {
     return <p>Loading...</p>;
   }
 

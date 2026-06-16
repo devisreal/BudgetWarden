@@ -56,11 +56,13 @@ export type Budget = {
 };
 
 export type CategorySpend = {
+  category?: number | string;
   category_id: number;
   category_name?: string;
   name?: string;
   total?: number | string;
   amount?: number | string;
+  percentage?: number;
 };
 
 export type CurrencyOption = {
