@@ -1,3 +1,5 @@
+import type { Dispatch, SetStateAction } from "react";
+
 export type CurrencyCode = string;
 
 export type User = {
@@ -59,4 +61,51 @@ export type CategorySpend = {
   name?: string;
   total?: number | string;
   amount?: number | string;
+};
+
+export type CurrencyOption = {
+  id?: string;
+  value?: string;
+  display: string;
+  symbol: string;
+};
+
+export type BillingCycleOption = {
+  id: number;
+  value: string;
+  displayName: string;
+};
+
+export type CategorySpendSummary = {
+  grandTotal: number | string;
+  categories: CategorySpend[];
+};
+
+export type DashboardContextValue = {
+  categories: Category[] | null;
+  setCategories: Dispatch<SetStateAction<Category[] | null>>;
+  categorySpendBy: CategorySpendSummary | null;
+  isSpendByLoading: boolean;
+  setCategorySpendBy: Dispatch<SetStateAction<CategorySpendSummary | null>>;
+  userBills: {
+    totalBills: number | string;
+    bills: Bill[];
+    upcomingBills: Bill[] | null;
+    getBills: () => Promise<void>;
+    isBillsLoading: boolean;
+  };
+  userSubscriptions: {
+    totalSubscriptions: number | string;
+    subscriptions: Subscription[];
+    getSubscriptions: () => Promise<void>;
+    isSubscriptionsLoading: boolean;
+  };
+  userBudgets: {
+    budgets: Budget[];
+    isBudgetsLoading: boolean;
+    getBudgets: () => Promise<void>;
+  };
+  currencies: CurrencyOption[];
+  getUserCurrency: (isoCode: string) => CurrencyOption;
+  billingCycles: BillingCycleOption[];
 };

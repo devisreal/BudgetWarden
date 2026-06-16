@@ -1,4 +1,9 @@
-export default function EmptyState({ title, message }) {
+type EmptyStateProps = {
+  title: string;
+  message: string;
+};
+
+export default function EmptyState({ title, message }: EmptyStateProps) {
   return (
     <div className="flex h-80 flex-col justify-center items-center max-w-sm mx-auto text-center">
       <p className="p-3 text-sm font-medium text-orange-500 rounded-full bg-orange-50 ">

@@ -5,9 +5,14 @@ import {
   Group,
   Label,
   NumberField,
+  type NumberFieldProps,
 } from "react-aria-components";
 
-export default function NumberInput({ label, ...props }) {
+type NumberInputProps = NumberFieldProps & {
+  label: string;
+};
+
+export default function NumberInput({ label, ...props }: NumberInputProps) {
   return (
     <NumberField {...props}>
       <div className="*:not-first:mt-2">

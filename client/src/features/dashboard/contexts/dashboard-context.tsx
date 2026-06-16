@@ -1,14 +1,16 @@
-/* eslint-disable no-unused-vars */
-import {
-  type Dispatch,
-  type ReactNode,
-  type SetStateAction,
-  createContext,
-  useEffect,
-  useState,
-} from "react";
+import { type ReactNode, createContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 
+import type {
+  Bill,
+  BillingCycleOption,
+  Budget,
+  Category,
+  CategorySpendSummary,
+  CurrencyOption,
+  DashboardContextValue,
+  Subscription,
+} from "../../../types/domain";
 import {
   getCategories,
   getSpendByCategory,
@@ -16,62 +18,6 @@ import {
   getUserBudgets,
   getUserSubscriptions,
 } from "../../../utils/api";
-import type {
-  Bill,
-  Budget,
-  Category,
-  CategorySpend,
-  Subscription,
-} from "../../../types/domain";
-
-type CurrencyOption = {
-  id?: string;
-  value?: string;
-  display: string;
-  symbol: string;
-};
-
-type BillingCycleOption = {
-  id: number;
-  value: string;
-  displayName: string;
-};
-
-type CategorySpendSummary = {
-  grandTotal: number | string;
-  categories: CategorySpend[];
-};
-
-type GetUserCurrency = (isoCode: string) => CurrencyOption;
-
-type DashboardContextValue = {
-  categories: Category[] | null;
-  setCategories: Dispatch<SetStateAction<Category[] | null>>;
-  categorySpendBy: CategorySpendSummary | null;
-  isSpendByLoading: boolean;
-  setCategorySpendBy: Dispatch<SetStateAction<CategorySpendSummary | null>>;
-  userBills: {
-    totalBills: number | string;
-    bills: Bill[];
-    upcomingBills: Bill[] | null;
-    getBills: () => Promise<void>;
-    isBillsLoading: boolean;
-  };
-  userSubscriptions: {
-    totalSubscriptions: number | string;
-    subscriptions: Subscription[];
-    getSubscriptions: () => Promise<void>;
-    isSubscriptionsLoading: boolean;
-  };
-  userBudgets: {
-    budgets: Budget[];
-    isBudgetsLoading: boolean;
-    getBudgets: () => Promise<void>;
-  };
-  currencies: CurrencyOption[];
-  getUserCurrency: GetUserCurrency;
-  billingCycles: BillingCycleOption[];
-};
 
 const DashboardContext = createContext<DashboardContextValue | null>(null);
 const today = new Date();
