@@ -1,7 +1,14 @@
 import { motion } from "motion/react";
 import React from "react";
+import type { HTMLMotionProps } from "motion/react";
 
 import { cn } from "../../lib/utils";
+
+type RippleProps = HTMLMotionProps<"div"> & {
+  mainCircleSize?: number;
+  mainCircleOpacity?: number;
+  numCircles?: number;
+};
 
 export const Ripple = React.memo(function Ripple({
   mainCircleSize = 210,
@@ -9,7 +16,7 @@ export const Ripple = React.memo(function Ripple({
   numCircles = 8,
   className,
   ...props
-}) {
+}: RippleProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
