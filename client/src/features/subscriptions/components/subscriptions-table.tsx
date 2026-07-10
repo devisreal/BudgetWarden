@@ -4,12 +4,7 @@ import { useContext } from "react";
 import { useOutletContext } from "react-router-dom";
 import { toast } from "sonner";
 
-import { DashboardContext } from "../../dashboard/contexts/dashboard-context";
-import { numberWithCommas } from "../../../lib/utils";
-import { deleteUserSubscription } from "../../../utils/api";
-import EditSubscriptionDrawer from "../drawers/edit-subscription-drawer";
 import { Badge } from "../../../components/ui/badge";
-import { Button } from "../../../components/ui/button";
 import {
   Table,
   TableBody,
@@ -19,14 +14,19 @@ import {
   TableHeader,
   TableRow,
 } from "../../../components/ui/table";
+import { numberWithCommas } from "../../../lib/utils";
+import type { User } from "../../../types/domain";
+import { deleteUserSubscription } from "../../../utils/api";
+import { DashboardContext } from "../../dashboard/contexts/dashboard-context";
+import EditSubscriptionDrawer from "../drawers/edit-subscription-drawer";
 
 export default function SubscriptionsTable() {
-  const { userSubscriptions, getUserCurrency } = useContext(DashboardContext);
+  const { userSubscriptions, getUserCurrency } = useContext(DashboardContext)!;
   const subscriptions = userSubscriptions.subscriptions;
-  const [userData] = useOutletContext();
-  const userCurrency = getUserCurrency(userData.currency);
+  const [userData] = useOutletContext<[User]>();
+  const userCurrency = getUserCurrency(userData.currency ?? "USD");
 
-  const handleDeleteSubscription = async (slug) => {
+  const handleDeleteSubscription = async (slug: string) => {
     try {
       const response = await deleteUserSubscription(slug);
       if (response.status === 204) {
@@ -41,14 +41,14 @@ export default function SubscriptionsTable() {
 
   return (
     <div>
-      <Table>
+      <Table className="w-full">
         <TableHeader className="bg-transparent">
           <TableRow className="hover:bg-transparent">
             <TableHead className="font-semibold">Name</TableHead>
-            <TableHead>Category</TableHead>
-            <TableHead>Billing Cycle</TableHead>
-            <TableHead>Renewal Date</TableHead>
-            <TableHead>Status</TableHead>
+            <TableHead className="">Category</TableHead>
+            <TableHead className="">Billing Cycle</TableHead>
+            <TableHead className="">Renewal Date</TableHead>
+            <TableHead className="">Status</TableHead>
             <TableHead className="text-right">Cost</TableHead>
           </TableRow>
         </TableHeader>
@@ -67,11 +67,12 @@ export default function SubscriptionsTable() {
                 {sub.billing_cycle}
               </TableCell>
               <TableCell className="py-2.5">
-                {format(sub.renewal_date, "PPPP")}
+                {format(new Date(sub.renewal_date), "PPPP")}
               </TableCell>
               <TableCell className="py-2.5 space-x-1">
                 {sub.is_active ? (
                   <Badge
+                    variant="outline"
                     className={
                       "bg-emerald-700 text-primary-foreground rounded-full"
                     }
@@ -80,6 +81,7 @@ export default function SubscriptionsTable() {
                   </Badge>
                 ) : (
                   <Badge
+                    variant="outline"
                     className={
                       "bg-muted-foreground/60 text-primary-foreground rounded-full"
                     }
@@ -94,8 +96,8 @@ export default function SubscriptionsTable() {
               </TableCell>
               <TableCell className="py-2.5 text-right space-x-2">
                 <EditSubscriptionDrawer subscription={sub} />
-                <Button
-                  variant="destructive"
+                <button
+                  type="button"
                   onClick={() => {
                     toast.warning(
                       `Are you sure you want to delete '${sub.name}' ?`,
@@ -107,9 +109,10 @@ export default function SubscriptionsTable() {
                       },
                     );
                   }}
+                  className="rounded-md bg-red-600 px-3 py-2 text-white hover:bg-red-700"
                 >
                   <Trash2 />
-                </Button>
+                </button>
               </TableCell>
             </TableRow>
           ))}
