@@ -13,7 +13,7 @@ import { Separator } from "./separator";
 import { SidebarTrigger } from "./sidebar";
 
 type OutletHeaderProps = {
-  userData: Pick<User, "username">;
+  userData: Partial<Pick<User, "username">>;
 };
 
 export default function OutletHeader({ userData }: OutletHeaderProps) {
@@ -40,7 +40,7 @@ export default function OutletHeader({ userData }: OutletHeaderProps) {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <Link to="/user/dashboard">{userData.username}</Link>
+            <Link to="/user/dashboard">{userData.username ?? "Dashboard"}</Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>

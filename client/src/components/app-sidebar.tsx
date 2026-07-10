@@ -8,6 +8,7 @@ import {
   RefreshCcw,
   User,
 } from "lucide-react";
+import type { ComponentPropsWithoutRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import {
@@ -28,6 +29,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "./ui/sidebar";
+import type { User as UserType } from "../types/domain";
 
 const items = [
   {
@@ -52,7 +54,11 @@ const items = [
   },
 ];
 
-export function AppSidebar({ ...props }) {
+type AppSidebarProps = ComponentPropsWithoutRef<typeof Sidebar> & {
+  userdata: Partial<UserType>;
+};
+
+export function AppSidebar({ userdata, ...props }: AppSidebarProps) {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -109,9 +115,7 @@ export function AppSidebar({ ...props }) {
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton className="font-medium">
                   <User strokeWidth={2} />
-                  {props.userdata.first_name
-                    ? props.userdata.first_name
-                    : props.userdata.username}
+                  {userdata.first_name ? userdata.first_name : userdata.username}
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>

@@ -6,11 +6,12 @@ import { AppSidebar } from "../components/app-sidebar";
 import OutletHeader from "../components/ui/outlet-header";
 import { SidebarInset, SidebarProvider } from "../components/ui/sidebar";
 import { DashboardProvider } from "../features/dashboard/contexts/dashboard-context";
+import type { User } from "../types/domain";
 import { getUserData } from "../utils/api";
 
 export default function Page() {
   const [isLoading, setIsLoading] = useState(true);
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState<Partial<User>>({});
   const navigate = useNavigate();
 
   const getUser = async () => {
@@ -39,10 +40,10 @@ export default function Page() {
         <SidebarInset>
           <OutletHeader userData={userData} />
           <div className="flex flex-1 flex-col gap-4 p-4">
-            <Outlet context={[isLoading, userData, getUser]} />
-          </div>
-        </SidebarInset>
-      </SidebarProvider>
-    </DashboardProvider>
+          <Outlet context={[isLoading, userData, getUser]} />
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
+  </DashboardProvider>
   );
 }
