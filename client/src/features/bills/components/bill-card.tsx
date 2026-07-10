@@ -10,28 +10,36 @@ import { useContext, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { toast } from "sonner";
 
-import { DashboardContext } from "../../dashboard/contexts/dashboard-context";
-import { numberWithCommas } from "../../../lib/utils";
-import { deleteBill } from "../../../utils/api";
-import EditBillDrawer from "../drawers/edit-bill-drawer";
 import { Badge } from "../../../components/ui/badge";
-import { Button } from "../../../components/ui/button";
+import { numberWithCommas } from "../../../lib/utils";
+import type { Bill, User } from "../../../types/domain";
+import { deleteBill } from "../../../utils/api";
+import { DashboardContext } from "../../dashboard/contexts/dashboard-context";
+import EditBillDrawer from "../drawers/edit-bill-drawer";
 
 const today = new Date();
+
+type BillCardProps = {
+  bill: Bill;
+  displayStats?: boolean;
+  canDelete?: boolean;
+  displayCategory?: boolean;
+};
 
 export default function BillCard({
   bill,
   displayStats = true,
   canDelete = true,
   displayCategory = true,
-}) {
+}: BillCardProps) {
   const [isEditDrawerOpen, setEditDrawerIsOpen] = useState(false);
-  const { userBills, getUserCurrency } = useContext(DashboardContext);
-  const [userData] = useOutletContext();
+  const { userBills, getUserCurrency } = useContext(DashboardContext)!;
+  const [userData] = useOutletContext<[User]>();
 
-  const userCurrency = getUserCurrency(userData.currency);
+  const userCurrency = getUserCurrency(userData.currency ?? "USD");
+  const dueDate = new Date(bill.due_date);
 
-  const handleDeleteBill = async (slug) => {
+  const handleDeleteBill = async (slug: string) => {
     try {
       const response = await deleteBill(slug);
       if (response.status === 204) {
@@ -81,21 +89,22 @@ export default function BillCard({
               </span>
             )}
 
-            {!bill.is_paid && new Date(bill.due_date) < today && (
+            {!bill.is_paid && dueDate < today && (
               <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-red-600/10 ring-inset">
                 <XIcon className="size-4 mr-1" />
                 Past Due
               </span>
             )}
             {!bill.is_paid &&
-              new Date(bill.due_date) >= today &&
-              new Date(bill.due_date) <=
+              dueDate >= today &&
+              dueDate <=
                 new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000) && (
                 <span className="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-yellow-600/20 ring-inset">
                   <CircleDashed className="size-4 mr-1" />
                   Due in{" "}
                   {Math.ceil(
-                    (new Date(bill.due_date) - today) / (1000 * 60 * 60 * 24),
+                    (dueDate.getTime() - today.getTime()) /
+                      (1000 * 60 * 60 * 24),
                   )}{" "}
                   days
                 </span>
@@ -118,8 +127,8 @@ export default function BillCard({
           />
 
           {canDelete && (
-            <Button
-              variant="destructive"
+            <button
+              type="button"
               onClick={() => {
                 toast.warning("Are you sure you want to delete ?", {
                   action: {
@@ -128,9 +137,10 @@ export default function BillCard({
                   },
                 });
               }}
+              className="rounded-md bg-red-600 px-3 py-2 text-white hover:bg-red-700"
             >
               <Trash2 />
-            </Button>
+            </button>
           )}
         </div>
       </div>

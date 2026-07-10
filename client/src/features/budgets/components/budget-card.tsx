@@ -5,18 +5,23 @@ import { Button } from "react-aria-components";
 import { useOutletContext } from "react-router-dom";
 import { toast } from "sonner";
 
-import { DashboardContext } from "../../dashboard/contexts/dashboard-context";
-import { numberWithCommas } from "../../../lib/utils";
-import { deleteUserBudget } from "../../../utils/api";
 import { Badge } from "../../../components/ui/badge";
 import { Card, CardContent } from "../../../components/ui/card";
+import { numberWithCommas } from "../../../lib/utils";
+import type { Budget, User } from "../../../types/domain";
+import { deleteUserBudget } from "../../../utils/api";
+import { DashboardContext } from "../../dashboard/contexts/dashboard-context";
 
-export default function BudgetCard({ budget }) {
-  const [userData] = useOutletContext();
-  const { getUserCurrency, userBudgets } = useContext(DashboardContext);
-  const userCurrency = getUserCurrency(userData.currency);
+type BudgetCardProps = {
+  budget: Budget;
+};
 
-  const handleDeleteBudget = async (slug) => {
+export default function BudgetCard({ budget }: BudgetCardProps) {
+  const [userData] = useOutletContext<[User]>();
+  const { getUserCurrency, userBudgets } = useContext(DashboardContext)!;
+  const userCurrency = getUserCurrency(userData.currency ?? "USD");
+
+  const handleDeleteBudget = async (slug: string) => {
     try {
       const response = await deleteUserBudget(slug);
       if (response.status === 204) {
@@ -50,8 +55,6 @@ export default function BudgetCard({ budget }) {
               </div>
             </div>
             <Button
-              variant="ghost"
-              size="icon"
               className="h-10 w-10 p-2 px-2.5 rounded-full cursor-pointer text-gray-500 hover:text-red-500 hover:bg-red-50"
               onClick={() => {
                 toast.warning("Are you sure you want to delete ?", {
@@ -73,7 +76,7 @@ export default function BudgetCard({ budget }) {
               {numberWithCommas(budget.amount)}
             </div>
             <div className="text-xs text-gray-500">
-              Created on {format(budget.created_at, "PPP")}
+              Created on {format(new Date(budget.created_at ?? ""), "PPP")}
             </div>
           </div>
         </div>

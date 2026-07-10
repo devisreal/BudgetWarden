@@ -30,6 +30,7 @@ export type Bill = {
   due_date: string;
   is_paid: boolean;
   slug: string;
+  created_at?: string;
 };
 
 export type Subscription = {
@@ -53,6 +54,7 @@ export type Budget = {
   name: string;
   amount: number | string;
   slug: string;
+  created_at?: string;
 };
 
 export type CategorySpend = {
