@@ -24,23 +24,28 @@ const loginFormSchema = yup
   })
   .required();
 
+type LoginFormValues = {
+  email: string;
+  password: string;
+};
+
 export default function LoginForm() {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm({
+  } = useForm<LoginFormValues>({
     defaultValues: {
       email: "",
       password: "",
     },
     mode: "onBlur",
-    resolver: yupResolver(loginFormSchema),
+    resolver: yupResolver(loginFormSchema) as never,
   });
   const navigate = useNavigate();
 
-  const handleLogin = async (formValues) => {
+  const handleLogin = async (formValues: LoginFormValues) => {
     try {
       const data = await userLogin(formValues);
       toast.success(data.message);

@@ -29,13 +29,20 @@ const registerFormSchema = yup
   })
   .required();
 
+type RegisterFormValues = {
+  username: string;
+  email: string;
+  password: string;
+  confirm_password: string;
+};
+
 export default function RegisterForm() {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm({
+  } = useForm<RegisterFormValues>({
     defaultValues: {
       username: "",
       email: "",
@@ -43,11 +50,11 @@ export default function RegisterForm() {
       confirm_password: "",
     },
     mode: "onBlur",
-    resolver: yupResolver(registerFormSchema),
+    resolver: yupResolver(registerFormSchema) as never,
   });
   const navigate = useNavigate();
 
-  const handleRegister = async (formValues) => {
+  const handleRegister = async (formValues: RegisterFormValues) => {
     try {
       const data = await userRegister(formValues);
       toast.success(data.message);
