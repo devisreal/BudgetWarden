@@ -1,15 +1,17 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { format } from "date-fns";
-import { useContext, useState } from "react";
+import {
+  type Dispatch,
+  type SetStateAction,
+  useContext,
+  useState,
+} from "react";
 import { useForm } from "react-hook-form";
 import { useOutletContext } from "react-router-dom";
 import { toast } from "sonner";
 import * as yup from "yup";
 
-import { DashboardContext } from "../../dashboard/contexts/dashboard-context";
-import { addUserSubscriptions } from "../../../utils/api";
 import NumberInput from "../../../components/number-input";
-import { Button } from "../../../components/ui/button";
 import { Calendar } from "../../../components/ui/calendar";
 import { Checkbox } from "../../../components/ui/checkbox";
 import { Input } from "../../../components/ui/input";
@@ -23,28 +25,49 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../components/ui/select";
+import type { Bill, Category, User } from "../../../types/domain";
+import { editBill } from "../../../utils/api";
+import { DashboardContext } from "../../dashboard/contexts/dashboard-context";
 
-const addSubscriptionFormSchema = yup
+type EditBillFormProps = {
+  bill: Bill;
+  setEditDrawerIsOpen: Dispatch<SetStateAction<boolean>>;
+};
+
+type BillFormValues = {
+  name: string;
+  category_id: string;
+  amount: number;
+  due_date: Date;
+  is_paid: boolean;
+};
+
+const addBillFormSchema = yup
   .object()
   .shape({
-    name: yup.string().required("Subscription name is required"),
+    name: yup.string().required("Bill name is required"),
     category_id: yup.string().required("Category is required"),
-    billing_cycle: yup.string().required("Billing Cycle is required"),
-    cost: yup
+    amount: yup
       .number()
-      .required("Cost is required")
-      .min(0, "Cost must be positive")
-      .typeError("Cost must be a number"),
-    renewal_date: yup
+      .required("Amount is required")
+      .min(0, "Amount must be positive")
+      .typeError("Amount must be a number"),
+    due_date: yup
       .date()
-      .required("Renewal date is required")
-      .min(new Date(), "Renewal date cannot be in the past")
+      .required("Due date is required")
+      .min(new Date(), "Due date cannot be in the past")
       .typeError("Please enter a valid date"),
-    is_active: yup.boolean().default(false),
+    is_paid: yup.boolean().default(false),
   })
   .required();
 
-export default function AddSubscriptionForm({ setAddDrawerIsOpen }) {
+export default function EditBillForm({
+  bill,
+  setEditDrawerIsOpen,
+}: EditBillFormProps) {
+  const [userData] = useOutletContext<[User]>();
+  const [date, setDate] = useState(new Date(bill.due_date));
+  const { categories, userBills } = useContext(DashboardContext)!;
   const {
     register,
     handleSubmit,
@@ -52,46 +75,41 @@ export default function AddSubscriptionForm({ setAddDrawerIsOpen }) {
     watch,
     setValue,
     reset,
-  } = useForm({
+  } = useForm<BillFormValues>({
     defaultValues: {
-      name: "",
-      category_id: "",
-      billing_cycle: "",
-      cost: 0,
-      is_active: true,
-      renewal_date: new Date(),
+      name: bill.name,
+      category_id: `${bill.category_id}`,
+      amount: Number(bill.amount),
+      is_paid: bill.is_paid,
+      due_date: new Date(bill.due_date),
     },
     mode: "onBlur",
-    resolver: yupResolver(addSubscriptionFormSchema),
+    resolver: yupResolver(addBillFormSchema) as never,
   });
 
-  const [date, setDate] = useState(new Date());
-  const { categories, userSubscriptions, billingCycles } =
-    useContext(DashboardContext);
-  const [userData] = useOutletContext();
-
-  const handleAddSubscription = async (formValues) => {
-    formValues.renewal_date = format(formValues.renewal_date, "yyyy/MM/dd");
+  const handleAddBill = async (formValues: BillFormValues) => {
+    const payload = {
+      ...formValues,
+      category_id: Number(formValues.category_id),
+      due_date: format(formValues.due_date, "yyyy/MM/dd"),
+    };
 
     try {
-      const data = await addUserSubscriptions(formValues);
+      const data = await editBill(payload, bill.slug);
       toast.success(data.message);
       reset();
-      userSubscriptions.getSubscriptions();
-      setAddDrawerIsOpen(false);
+      userBills.getBills();
+      setEditDrawerIsOpen(false);
     } catch (error) {
       console.log(error);
-      toast.error("Error adding bill");
+      toast.error("Error updating bill");
     }
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(handleAddSubscription)}
-      className="p-4 py-2 space-y-4"
-    >
+    <form onSubmit={handleSubmit(handleAddBill)} className="p-4 space-y-4">
       <div className="grid w-full max-w-sm items-center gap-2">
-        <Label htmlFor="name">Subscription name</Label>
+        <Label htmlFor="name">Bill name</Label>
         <Input
           {...register("name")}
           type="text"
@@ -110,7 +128,7 @@ export default function AddSubscriptionForm({ setAddDrawerIsOpen }) {
         <Label htmlFor="category">Category</Label>
         <Select
           id="category"
-          defaultValue=""
+          defaultValue={`${bill.category_id}`}
           onValueChange={(e) =>
             setValue("category_id", e, { shouldValidate: true })
           }
@@ -121,7 +139,7 @@ export default function AddSubscriptionForm({ setAddDrawerIsOpen }) {
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Categories</SelectLabel>
-              {categories.map((category) => {
+              {(categories as Category[]).map((category) => {
                 return (
                   <SelectItem key={category.id} value={`${category.id}`}>
                     {category.name}
@@ -131,121 +149,91 @@ export default function AddSubscriptionForm({ setAddDrawerIsOpen }) {
             </SelectGroup>
           </SelectContent>
         </Select>
-        {errors.category_slug && (
+        {errors.category_id && (
           <small className="text-red-500 mt-1 font-medium text-xs">
-            {errors.category_slug?.message}
-          </small>
-        )}
-      </div>
-
-      <div className="grid w-full max-w-sm items-center gap-2">
-        <Label htmlFor="billing_cycle">Billing Cycle</Label>
-        <Select
-          id="billing_cycle"
-          defaultValue=""
-          onValueChange={(e) =>
-            setValue("billing_cycle", e, { shouldValidate: true })
-          }
-        >
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="Select a billing cycle " />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Cycles</SelectLabel>
-              {billingCycles.map((cycle) => {
-                return (
-                  <SelectItem key={cycle.id} value={`${cycle.value}`}>
-                    {cycle.displayName}
-                  </SelectItem>
-                );
-              })}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        {errors.billing_cycle && (
-          <small className="text-red-500 mt-1 font-medium text-xs">
-            {errors.billing_cycle?.message}
+            {errors.category_id?.message}
           </small>
         )}
       </div>
 
       <div className="grid w-full max-w-sm items-center gap-2">
         <NumberInput
-          label="Cost"
-          defaultValue={0}
-          onChange={(e) => setValue("cost", e, { shouldValidate: true })}
-          name="cost"
+          label="Amount"
+          defaultValue={Number(bill.amount)}
+          onChange={(e) =>
+            setValue("amount", Number(e), { shouldValidate: true })
+          }
+          name="amount"
           formatOptions={{
             style: "currency",
             currency: `${userData.currency}`,
-            currencySign: "accounting",
           }}
           minValue={0}
           step={1}
         />
-        {errors.cost && (
+        {errors.amount && (
           <small className="text-red-500 mt-1 font-medium text-xs">
-            {errors.cost?.message}
+            {errors.amount?.message}
           </small>
         )}
       </div>
 
       <div className="grid w-full max-w-sm items-center gap-2">
-        <Label htmlFor="renewal_date">Renewal Date</Label>
+        <Label htmlFor="due_date">Due Date</Label>
         <Calendar
-          id="renewal_date"
+          id="due_date"
           selected={date}
           mode="single"
-          name="renewal_date"
+          name="due_date"
           className="rounded-md border shadow w-full mx-auto"
           onSelect={(e) => {
-            setValue("renewal_date", format(e, "yyyy/MM/dd"), {
+            if (!e) return;
+            setValue("due_date", e, {
               shouldValidate: true,
             });
             setDate(e);
           }}
         />
-        {errors.renewal_date && (
+        {errors.due_date && (
           <small className="text-red-500 mt-1 font-medium text-xs">
-            {errors.renewal_date?.message}
+            {errors.due_date?.message}
           </small>
         )}
       </div>
 
       <div className="flex items-center space-x-2">
         <Checkbox
-          id="is_active"
-          checked={watch("is_active")}
+          id="is_paid"
+          checked={watch("is_paid")}
           onCheckedChange={(e) =>
-            setValue("is_active", e, {
+            setValue("is_paid", Boolean(e), {
               shouldValidate: true,
             })
           }
-          {...register("is_active")}
+          {...register("is_paid")}
         />
 
         <label
-          htmlFor="is_active"
+          htmlFor="is_paid"
           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
-          Is this subscription active ?
+          Bill is paid?
         </label>
 
-        {errors.is_active && (
+        {errors.is_paid && (
           <small className="text-red-500 mt-1 font-medium text-xs">
-            {errors.is_active?.message}
+            {errors.is_paid?.message}
           </small>
         )}
       </div>
 
-      <Button
+      <button
         disabled={isSubmitting}
         type="submit"
-        className="w-full mt-2 bg-emerald-700"
+        className="w-full mt-4 rounded-md bg-emerald-700 px-4 py-2 text-white"
       >
         {isSubmitting ? "Submitting..." : "Submit"}
-      </Button>
+      </button>
     </form>
   );
 }

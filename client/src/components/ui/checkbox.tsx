@@ -1,9 +1,13 @@
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 import { CheckIcon } from "lucide-react";
+import type { ComponentPropsWithoutRef } from "react";
 
 import { cn } from "../../lib/utils";
 
-function Checkbox({ className, ...props }) {
+function Checkbox({
+  className,
+  ...props
+}: ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>) {
   return (
     <CheckboxPrimitive.Root
       data-slot="checkbox"

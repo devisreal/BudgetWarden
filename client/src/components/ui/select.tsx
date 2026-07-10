@@ -1,21 +1,42 @@
 import * as SelectPrimitive from "@radix-ui/react-select";
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react";
+import type { ComponentPropsWithoutRef } from "react";
 
 import { cn } from "../../lib/utils";
 
-function Select({ ...props }) {
+type SelectRootProps = ComponentPropsWithoutRef<typeof SelectPrimitive.Root> & {
+  id?: string;
+};
+
+function Select({ id, ...props }: SelectRootProps) {
+  void id;
   return <SelectPrimitive.Root data-slot="select" {...props} />;
 }
 
-function SelectGroup({ ...props }) {
+function SelectGroup({
+  ...props
+}: ComponentPropsWithoutRef<typeof SelectPrimitive.Group>) {
   return <SelectPrimitive.Group data-slot="select-group" {...props} />;
 }
 
-function SelectValue({ ...props }) {
+function SelectValue({
+  ...props
+}: ComponentPropsWithoutRef<typeof SelectPrimitive.Value>) {
   return <SelectPrimitive.Value data-slot="select-value" {...props} />;
 }
 
-function SelectTrigger({ className, size = "default", children, ...props }) {
+type SelectTriggerProps = ComponentPropsWithoutRef<
+  typeof SelectPrimitive.Trigger
+> & {
+  size?: "default" | "sm";
+};
+
+function SelectTrigger({
+  className,
+  size = "default",
+  children,
+  ...props
+}: SelectTriggerProps) {
   return (
     <SelectPrimitive.Trigger
       data-slot="select-trigger"
@@ -34,7 +55,12 @@ function SelectTrigger({ className, size = "default", children, ...props }) {
   );
 }
 
-function SelectContent({ className, children, position = "popper", ...props }) {
+function SelectContent({
+  className,
+  children,
+  position = "popper",
+  ...props
+}: ComponentPropsWithoutRef<typeof SelectPrimitive.Content>) {
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Content
@@ -64,7 +90,10 @@ function SelectContent({ className, children, position = "popper", ...props }) {
   );
 }
 
-function SelectLabel({ className, ...props }) {
+function SelectLabel({
+  className,
+  ...props
+}: ComponentPropsWithoutRef<typeof SelectPrimitive.Label>) {
   return (
     <SelectPrimitive.Label
       data-slot="select-label"
@@ -74,7 +103,11 @@ function SelectLabel({ className, ...props }) {
   );
 }
 
-function SelectItem({ className, children, ...props }) {
+function SelectItem({
+  className,
+  children,
+  ...props
+}: ComponentPropsWithoutRef<typeof SelectPrimitive.Item>) {
   return (
     <SelectPrimitive.Item
       data-slot="select-item"
@@ -94,7 +127,10 @@ function SelectItem({ className, children, ...props }) {
   );
 }
 
-function SelectSeparator({ className, ...props }) {
+function SelectSeparator({
+  className,
+  ...props
+}: ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>) {
   return (
     <SelectPrimitive.Separator
       data-slot="select-separator"
@@ -104,7 +140,10 @@ function SelectSeparator({ className, ...props }) {
   );
 }
 
-function SelectScrollUpButton({ className, ...props }) {
+function SelectScrollUpButton({
+  className,
+  ...props
+}: ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollUpButton>) {
   return (
     <SelectPrimitive.ScrollUpButton
       data-slot="select-scroll-up-button"
@@ -119,7 +158,10 @@ function SelectScrollUpButton({ className, ...props }) {
   );
 }
 
-function SelectScrollDownButton({ className, ...props }) {
+function SelectScrollDownButton({
+  className,
+  ...props
+}: ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollDownButton>) {
   return (
     <SelectPrimitive.ScrollDownButton
       data-slot="select-scroll-down-button"

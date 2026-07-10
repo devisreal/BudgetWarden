@@ -1,15 +1,17 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { format } from "date-fns";
-import { useContext, useState } from "react";
+import {
+  type Dispatch,
+  type SetStateAction,
+  useContext,
+  useState,
+} from "react";
 import { useForm } from "react-hook-form";
 import { useOutletContext } from "react-router-dom";
 import { toast } from "sonner";
 import * as yup from "yup";
 
-import { DashboardContext } from "../../dashboard/contexts/dashboard-context";
-import { editUserSubscriptions } from "../../../utils/api";
 import NumberInput from "../../../components/number-input";
-import { Button } from "../../../components/ui/button";
 import { Calendar } from "../../../components/ui/calendar";
 import { Checkbox } from "../../../components/ui/checkbox";
 import { Input } from "../../../components/ui/input";
@@ -23,6 +25,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../components/ui/select";
+import type { Category, Subscription, User } from "../../../types/domain";
+import { editUserSubscriptions } from "../../../utils/api";
+import { DashboardContext } from "../../dashboard/contexts/dashboard-context";
+
+type EditSubscriptionFormProps = {
+  subscription: Subscription;
+  setEditDrawerIsOpen: Dispatch<SetStateAction<boolean>>;
+};
+
+type SubscriptionFormValues = {
+  name: string;
+  category_id: string;
+  billing_cycle: string;
+  cost: number;
+  renewal_date: Date;
+  is_active: boolean;
+};
 
 const addSubscriptionFormSchema = yup
   .object()
@@ -47,11 +66,11 @@ const addSubscriptionFormSchema = yup
 export default function EditSubscriptionForm({
   subscription,
   setEditDrawerIsOpen,
-}) {
-  const [userData] = useOutletContext();
+}: EditSubscriptionFormProps) {
+  const [userData] = useOutletContext<[User]>();
   const [date, setDate] = useState(new Date(subscription.renewal_date));
   const { categories, userSubscriptions, billingCycles } =
-    useContext(DashboardContext);
+    useContext(DashboardContext)!;
 
   const {
     register,
@@ -60,25 +79,30 @@ export default function EditSubscriptionForm({
     watch,
     setValue,
     reset,
-  } = useForm({
+  } = useForm<SubscriptionFormValues>({
     defaultValues: {
       name: subscription.name,
-      category_id: subscription.category_id,
+      category_id: `${subscription.category_id}`,
       billing_cycle: `${subscription.billing_cycle}`,
-      cost: subscription.cost,
+      cost: Number(subscription.cost),
       is_active: subscription.is_active,
-      renewal_date: subscription.renewal_date,
+      renewal_date: new Date(subscription.renewal_date),
     },
     mode: "onBlur",
-    resolver: yupResolver(addSubscriptionFormSchema),
+    resolver: yupResolver(addSubscriptionFormSchema) as never,
   });
 
-  const handleUpdateSubscription = async (formValues) => {
-    formValues.renewal_date = format(formValues.renewal_date, "yyyy/MM/dd");
-    formValues.category_id = Number(formValues.category_id);
+  const handleUpdateSubscription = async (
+    formValues: SubscriptionFormValues,
+  ) => {
+    const payload = {
+      ...formValues,
+      category_id: Number(formValues.category_id),
+      renewal_date: format(formValues.renewal_date, "yyyy/MM/dd"),
+    };
 
     try {
-      const data = await editUserSubscriptions(formValues, subscription.slug);
+      const data = await editUserSubscriptions(payload, subscription.slug);
       toast.success(data.message);
       reset();
       userSubscriptions.getSubscriptions();
@@ -126,7 +150,7 @@ export default function EditSubscriptionForm({
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Categories</SelectLabel>
-              {categories.map((category) => {
+              {(categories as Category[]).map((category) => {
                 return (
                   <SelectItem key={category.id} value={`${category.id}`}>
                     {category.name}
@@ -136,9 +160,9 @@ export default function EditSubscriptionForm({
             </SelectGroup>
           </SelectContent>
         </Select>
-        {errors.category_slug && (
+        {errors.category_id && (
           <small className="text-red-500 mt-1 font-medium text-xs">
-            {errors.category_slug?.message}
+            {errors.category_id?.message}
           </small>
         )}
       </div>
@@ -178,13 +202,14 @@ export default function EditSubscriptionForm({
       <div className="grid w-full max-w-sm items-center gap-2">
         <NumberInput
           label="Cost"
-          defaultValue={subscription.cost}
-          onChange={(e) => setValue("cost", e, { shouldValidate: true })}
+          defaultValue={Number(subscription.cost)}
+          onChange={(e) =>
+            setValue("cost", Number(e), { shouldValidate: true })
+          }
           name="cost"
           formatOptions={{
             style: "currency",
             currency: `${userData.currency}`,
-            currencySign: "accounting",
           }}
           minValue={0}
           step={1}
@@ -205,7 +230,8 @@ export default function EditSubscriptionForm({
           name="renewal_date"
           className="rounded-md border shadow w-full mx-auto"
           onSelect={(e) => {
-            setValue("renewal_date", format(e, "yyyy/MM/dd"), {
+            if (!e) return;
+            setValue("renewal_date", e, {
               shouldValidate: true,
             });
             setDate(e);
@@ -223,7 +249,7 @@ export default function EditSubscriptionForm({
           id="is_active"
           checked={watch("is_active")}
           onCheckedChange={(e) =>
-            setValue("is_active", e, {
+            setValue("is_active", Boolean(e), {
               shouldValidate: true,
             })
           }
@@ -244,13 +270,13 @@ export default function EditSubscriptionForm({
         )}
       </div>
 
-      <Button
+      <button
         disabled={isSubmitting}
         type="submit"
-        className="w-full mt-2 bg-emerald-700"
+        className="w-full mt-2 rounded-md bg-emerald-700 px-4 py-2 text-white"
       >
         {isSubmitting ? "Submitting..." : "Submit"}
-      </Button>
+      </button>
     </form>
   );
 }

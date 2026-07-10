@@ -1,15 +1,17 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { format } from "date-fns";
-import { useContext, useState } from "react";
+import {
+  type Dispatch,
+  type SetStateAction,
+  useContext,
+  useState,
+} from "react";
 import { useForm } from "react-hook-form";
 import { useOutletContext } from "react-router-dom";
 import { toast } from "sonner";
 import * as yup from "yup";
 
-import { DashboardContext } from "../../dashboard/contexts/dashboard-context";
-import { addBill } from "../../../utils/api";
 import NumberInput from "../../../components/number-input";
-import { Button } from "../../../components/ui/button";
 import { Calendar } from "../../../components/ui/calendar";
 import { Checkbox } from "../../../components/ui/checkbox";
 import { Input } from "../../../components/ui/input";
@@ -23,6 +25,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../components/ui/select";
+import type { Category, User } from "../../../types/domain";
+import { addBill } from "../../../utils/api";
+import { DashboardContext } from "../../dashboard/contexts/dashboard-context";
+
+type AddBillFormProps = {
+  setAddDrawerIsOpen: Dispatch<SetStateAction<boolean>>;
+};
+
+type BillFormValues = {
+  name: string;
+  category_id: string;
+  amount: number;
+  due_date: Date;
+  is_paid: boolean;
+};
 
 const addBillFormSchema = yup
   .object()
@@ -43,14 +60,14 @@ const addBillFormSchema = yup
   })
   .required();
 
-export default function AddBillForm({ setAddDrawerIsOpen }) {
+export default function AddBillForm({ setAddDrawerIsOpen }: AddBillFormProps) {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     setValue,
     reset,
-  } = useForm({
+  } = useForm<BillFormValues>({
     defaultValues: {
       name: "",
       category_id: "",
@@ -59,17 +76,21 @@ export default function AddBillForm({ setAddDrawerIsOpen }) {
       due_date: new Date(),
     },
     mode: "onBlur",
-    resolver: yupResolver(addBillFormSchema),
+    resolver: yupResolver(addBillFormSchema) as never,
   });
   const [date, setDate] = useState(new Date());
-  const { categories, userBills } = useContext(DashboardContext);
-  const [userData] = useOutletContext();
+  const { categories, userBills } = useContext(DashboardContext)!;
+  const [userData] = useOutletContext<[User]>();
 
-  const handleAddBill = async (formValues) => {
-    formValues.due_date = format(formValues.due_date, "yyyy/MM/dd");
+  const handleAddBill = async (formValues: BillFormValues) => {
+    const payload = {
+      ...formValues,
+      category_id: Number(formValues.category_id),
+      due_date: format(formValues.due_date, "yyyy/MM/dd"),
+    };
 
     try {
-      const data = await addBill(formValues);
+      const data = await addBill(payload);
       toast.success(data.message);
       reset();
       userBills.getBills();
@@ -113,7 +134,7 @@ export default function AddBillForm({ setAddDrawerIsOpen }) {
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Categories</SelectLabel>
-              {categories.map((category) => {
+              {(categories as Category[]).map((category) => {
                 return (
                   <SelectItem key={category.id} value={`${category.id}`}>
                     {category.name}
@@ -139,7 +160,6 @@ export default function AddBillForm({ setAddDrawerIsOpen }) {
           formatOptions={{
             style: "currency",
             currency: `${userData.currency}`,
-            currencySign: "accounting",
           }}
           minValue={0}
           step={1}
@@ -160,7 +180,8 @@ export default function AddBillForm({ setAddDrawerIsOpen }) {
           name="due_date"
           className="rounded-md border shadow w-full mx-auto"
           onSelect={(e) => {
-            setValue("due_date", format(e, "yyyy/MM/dd"), {
+            if (!e) return;
+            setValue("due_date", e, {
               shouldValidate: true,
             });
             setDate(e);
@@ -177,7 +198,7 @@ export default function AddBillForm({ setAddDrawerIsOpen }) {
         <Checkbox
           id="is_paid"
           onCheckedChange={(e) =>
-            setValue("is_paid", e, {
+            setValue("is_paid", Boolean(e), {
               shouldValidate: true,
             })
           }
@@ -198,13 +219,13 @@ export default function AddBillForm({ setAddDrawerIsOpen }) {
         )}
       </div>
 
-      <Button
+      <button
         disabled={isSubmitting}
         type="submit"
-        className="w-full mt-4 bg-emerald-700"
+        className="w-full mt-4 rounded-md bg-emerald-700 px-4 py-2 text-white"
       >
         {isSubmitting ? "Submitting..." : "Submit"}
-      </Button>
+      </button>
     </form>
   );
 }

@@ -1,15 +1,12 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Plus } from "lucide-react";
-import { useContext } from "react";
+import { type Dispatch, type SetStateAction, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useOutletContext } from "react-router-dom";
 import { toast } from "sonner";
 import * as yup from "yup";
 
-import { DashboardContext } from "../../dashboard/contexts/dashboard-context";
-import { addUserBudgets } from "../../../utils/api";
 import NumberInput from "../../../components/number-input";
-import { Button } from "../../../components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -28,6 +25,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../components/ui/select";
+import type { User } from "../../../types/domain";
+import { addUserBudgets } from "../../../utils/api";
+import { DashboardContext } from "../../dashboard/contexts/dashboard-context";
+
+type AddBudgetFormProps = {
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+};
+
+type BudgetFormValues = {
+  name: string;
+  category_id: string;
+  amount: number;
+};
 
 const addBillFormSchema = yup
   .object()
@@ -42,33 +53,36 @@ const addBillFormSchema = yup
   })
   .required();
 
-export function AddBudgetForm({ showModal, setShowModal }) {
-  const [userData] = useOutletContext();
-  const { categories, userBudgets } = useContext(DashboardContext);
+export function AddBudgetForm({ showModal, setShowModal }: AddBudgetFormProps) {
+  const [userData] = useOutletContext<[User]>();
+  const { categories, userBudgets } = useContext(DashboardContext)!;
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     setValue,
     reset,
-  } = useForm({
+  } = useForm<BudgetFormValues>({
     defaultValues: {
       name: "",
       category_id: "",
       amount: 0,
     },
     mode: "onBlur",
-    resolver: yupResolver(addBillFormSchema),
+    resolver: yupResolver(addBillFormSchema) as never,
   });
   if (!categories) {
     return <p>Loading...</p>;
   }
 
-  const handleAddBudget = async (formValues) => {
-    formValues.category_id = Number(formValues.category_id);
+  const handleAddBudget = async (formValues: BudgetFormValues) => {
+    const payload = {
+      ...formValues,
+      category_id: Number(formValues.category_id),
+    };
 
     try {
-      const data = await addUserBudgets(formValues);
+      const data = await addUserBudgets(payload);
       toast.success(data.message);
       setShowModal(false);
       reset();
@@ -82,9 +96,12 @@ export function AddBudgetForm({ showModal, setShowModal }) {
   return (
     <Dialog open={showModal} onOpenChange={setShowModal}>
       <DialogTrigger asChild>
-        <Button className="inline-flex cursor-pointer items-center rounded-md bg-emerald-700 px-3 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-emerald-700/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600">
+        <button
+          type="button"
+          className="inline-flex cursor-pointer items-center rounded-md bg-emerald-700 px-3 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-emerald-700/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+        >
           <Plus className="h-4 w-4 mr-1" /> Create Budget
-        </Button>
+        </button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -144,7 +161,6 @@ export function AddBudgetForm({ showModal, setShowModal }) {
               formatOptions={{
                 style: "currency",
                 currency: `${userData.currency}`,
-                currencySign: "accounting",
               }}
               minValue={0}
               step={1}
@@ -156,16 +172,20 @@ export function AddBudgetForm({ showModal, setShowModal }) {
             )}
           </div>
           <div className="flex justify-end space-x-2 pt-4">
-            <Button
-              variant="outline"
+            <button
+              type="button"
               disabled={isSubmitting}
               onClick={() => setShowModal(false)}
+              className="rounded-md border border-input bg-background px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
             >
               Cancel
-            </Button>
-            <Button className="bg-emerald-700 hover:bg-emerald-800">
+            </button>
+            <button
+              type="submit"
+              className="rounded-md bg-emerald-700 px-4 py-2 text-white hover:bg-emerald-800"
+            >
               {isSubmitting ? "Creating budget..." : "Create Budget"}
-            </Button>
+            </button>
           </div>
         </form>
       </DialogContent>
