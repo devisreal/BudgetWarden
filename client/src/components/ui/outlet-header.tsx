@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
+import type { User } from "../../types/domain";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -11,7 +12,11 @@ import {
 import { Separator } from "./separator";
 import { SidebarTrigger } from "./sidebar";
 
-export default function OutletHeader({ userData }) {
+type OutletHeaderProps = {
+  userData: Pick<User, "username">;
+};
+
+export default function OutletHeader({ userData }: OutletHeaderProps) {
   const [currentPage, setCurrentPage] = useState("Dashboard");
   const location = useLocation();
 

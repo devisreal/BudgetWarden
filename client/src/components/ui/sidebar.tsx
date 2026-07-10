@@ -2,8 +2,10 @@
 
 import { Slot } from "@radix-ui/react-slot";
 import { cva } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
 import { PanelLeftIcon } from "lucide-react";
 import * as React from "react";
+import type { CSSProperties, ComponentPropsWithoutRef } from "react";
 
 import { useIsMobile } from "../../hooks/use-mobile";
 import { cn } from "../../lib/utils";
@@ -117,11 +119,13 @@ function SidebarProvider({
       <TooltipProvider delayDuration={0}>
         <div
           data-slot="sidebar-wrapper"
-          style={{
+          style={
+            {
             "--sidebar-width": SIDEBAR_WIDTH,
             "--sidebar-width-icon": SIDEBAR_WIDTH_ICON,
             ...style,
-          }}
+            } as CSSProperties
+          }
           className={cn(
             "group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full",
             className,
@@ -135,6 +139,14 @@ function SidebarProvider({
   );
 }
 
+type SidebarProps = {
+  side?: "left" | "right";
+  variant?: "sidebar" | "floating" | "inset";
+  collapsible?: "offcanvas" | "icon" | "none";
+  className?: string;
+  children?: React.ReactNode;
+} & ComponentPropsWithoutRef<"div">;
+
 function Sidebar({
   side = "left",
   variant = "sidebar",
@@ -142,7 +154,7 @@ function Sidebar({
   className,
   children,
   ...props
-}) {
+}: SidebarProps) {
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
 
   if (collapsible === "none") {
@@ -168,9 +180,11 @@ function Sidebar({
           data-slot="sidebar"
           data-mobile="true"
           className="bg-sidebar text-sidebar-foreground w-(--sidebar-width) p-0 [&>button]:hidden"
-          style={{
-            "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
-          }}
+          style={
+            {
+              "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
+            } as CSSProperties
+          }
           side={side}
         >
           <SheetHeader className="sr-only">
@@ -231,7 +245,11 @@ function Sidebar({
   );
 }
 
-function SidebarTrigger({ className, onClick, ...props }) {
+function SidebarTrigger({
+  className,
+  onClick,
+  ...props
+}: ComponentPropsWithoutRef<typeof Button>) {
   const { toggleSidebar } = useSidebar();
 
   return (
@@ -452,6 +470,21 @@ const sidebarMenuButtonVariants = cva(
   },
 );
 
+type SidebarMenuButtonProps = ComponentPropsWithoutRef<"button"> &
+  VariantProps<typeof sidebarMenuButtonVariants> & {
+    asChild?: boolean;
+    isActive?: boolean;
+    tooltip?:
+      | string
+      | {
+          children?: React.ReactNode;
+          side?: "top" | "right" | "bottom" | "left";
+          align?: "start" | "center" | "end";
+          hidden?: boolean;
+          [key: string]: unknown;
+        };
+  };
+
 function SidebarMenuButton({
   asChild = false,
   isActive = false,
@@ -460,7 +493,7 @@ function SidebarMenuButton({
   tooltip,
   className,
   ...props
-}) {
+}: SidebarMenuButtonProps) {
   const Comp = asChild ? Slot : "button";
   const { isMobile, state } = useSidebar();
 
@@ -568,9 +601,11 @@ function SidebarMenuSkeleton({ className, showIcon = false, ...props }) {
       <Skeleton
         className="h-4 max-w-(--skeleton-width) flex-1"
         data-sidebar="menu-skeleton-text"
-        style={{
-          "--skeleton-width": width,
-        }}
+        style={
+          {
+            "--skeleton-width": width,
+          } as CSSProperties
+        }
       />
     </div>
   );

@@ -2,26 +2,38 @@
 
 import * as SheetPrimitive from "@radix-ui/react-dialog";
 import { XIcon } from "lucide-react";
+import type { ComponentPropsWithoutRef } from "react";
 
 import { cn } from "../../lib/utils";
 
-function Sheet({ ...props }) {
+function Sheet({
+  ...props
+}: ComponentPropsWithoutRef<typeof SheetPrimitive.Root>) {
   return <SheetPrimitive.Root data-slot="sheet" {...props} />;
 }
 
-function SheetTrigger({ ...props }) {
+function SheetTrigger({
+  ...props
+}: ComponentPropsWithoutRef<typeof SheetPrimitive.Trigger>) {
   return <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props} />;
 }
 
-function SheetClose({ ...props }) {
+function SheetClose({
+  ...props
+}: ComponentPropsWithoutRef<typeof SheetPrimitive.Close>) {
   return <SheetPrimitive.Close data-slot="sheet-close" {...props} />;
 }
 
-function SheetPortal({ ...props }) {
+function SheetPortal({
+  ...props
+}: ComponentPropsWithoutRef<typeof SheetPrimitive.Portal>) {
   return <SheetPrimitive.Portal data-slot="sheet-portal" {...props} />;
 }
 
-function SheetOverlay({ className, ...props }) {
+function SheetOverlay({
+  className,
+  ...props
+}: ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>) {
   return (
     <SheetPrimitive.Overlay
       data-slot="sheet-overlay"
@@ -34,7 +46,14 @@ function SheetOverlay({ className, ...props }) {
   );
 }
 
-function SheetContent({ className, children, side = "right", ...props }) {
+function SheetContent({
+  className,
+  children,
+  side = "right",
+  ...props
+}: ComponentPropsWithoutRef<typeof SheetPrimitive.Content> & {
+  side?: "top" | "bottom" | "left" | "right";
+}) {
   return (
     <SheetPortal>
       <SheetOverlay />
@@ -84,7 +103,10 @@ function SheetFooter({ className, ...props }) {
   );
 }
 
-function SheetTitle({ className, ...props }) {
+function SheetTitle({
+  className,
+  ...props
+}: ComponentPropsWithoutRef<"h2">) {
   return (
     <SheetPrimitive.Title
       data-slot="sheet-title"
@@ -94,7 +116,10 @@ function SheetTitle({ className, ...props }) {
   );
 }
 
-function SheetDescription({ className, ...props }) {
+function SheetDescription({
+  className,
+  ...props
+}: ComponentPropsWithoutRef<"p">) {
   return (
     <SheetPrimitive.Description
       data-slot="sheet-description"

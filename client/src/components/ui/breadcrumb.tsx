@@ -1,13 +1,14 @@
 import { Slot } from "@radix-ui/react-slot";
 import { ChevronRight, MoreHorizontal } from "lucide-react";
+import type { ComponentPropsWithoutRef } from "react";
 
 import { cn } from "../../lib/utils";
 
-function Breadcrumb({ ...props }) {
+function Breadcrumb({ ...props }: ComponentPropsWithoutRef<"nav">) {
   return <nav aria-label="breadcrumb" data-slot="breadcrumb" {...props} />;
 }
 
-function BreadcrumbList({ className, ...props }) {
+function BreadcrumbList({ className, ...props }: ComponentPropsWithoutRef<"ol">) {
   return (
     <ol
       data-slot="breadcrumb-list"
@@ -20,7 +21,7 @@ function BreadcrumbList({ className, ...props }) {
   );
 }
 
-function BreadcrumbItem({ className, ...props }) {
+function BreadcrumbItem({ className, ...props }: ComponentPropsWithoutRef<"li">) {
   return (
     <li
       data-slot="breadcrumb-item"
@@ -30,7 +31,13 @@ function BreadcrumbItem({ className, ...props }) {
   );
 }
 
-function BreadcrumbLink({ asChild, className, ...props }) {
+function BreadcrumbLink({
+  asChild,
+  className,
+  ...props
+}: ComponentPropsWithoutRef<"a"> & {
+  asChild?: boolean;
+}) {
   const Comp = asChild ? Slot : "a";
 
   return (
@@ -42,7 +49,10 @@ function BreadcrumbLink({ asChild, className, ...props }) {
   );
 }
 
-function BreadcrumbPage({ className, ...props }) {
+function BreadcrumbPage({
+  className,
+  ...props
+}: ComponentPropsWithoutRef<"span">) {
   return (
     <span
       data-slot="breadcrumb-page"
@@ -55,7 +65,11 @@ function BreadcrumbPage({ className, ...props }) {
   );
 }
 
-function BreadcrumbSeparator({ children, className, ...props }) {
+function BreadcrumbSeparator({
+  children,
+  className,
+  ...props
+}: ComponentPropsWithoutRef<"li">) {
   return (
     <li
       data-slot="breadcrumb-separator"
@@ -69,7 +83,10 @@ function BreadcrumbSeparator({ children, className, ...props }) {
   );
 }
 
-function BreadcrumbEllipsis({ className, ...props }) {
+function BreadcrumbEllipsis({
+  className,
+  ...props
+}: ComponentPropsWithoutRef<"span">) {
   return (
     <span
       data-slot="breadcrumb-ellipsis"
