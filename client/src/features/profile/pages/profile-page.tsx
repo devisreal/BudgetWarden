@@ -5,12 +5,13 @@ import { DashboardSkeletonLoader } from "../../../components/skeleton-loader/ske
 import { Button } from "../../../components/ui/button";
 import { DashboardContext } from "../../dashboard/contexts/dashboard-context";
 import { numberWithCommas } from "../../../lib/utils";
+import type { User } from "../../../types/domain";
 
 export default function ProfilePage() {
-  const [isLoading, userData] = useOutletContext();
-  const { getUserCurrency } = useContext(DashboardContext);
+  const [isLoading, userData] = useOutletContext<[boolean, Partial<User>]>();
+  const { getUserCurrency } = useContext(DashboardContext)!;
 
-  const userCurrency = getUserCurrency(userData.currency);
+  const userCurrency = getUserCurrency(userData.currency || "GBP");
 
   if (isLoading) return <DashboardSkeletonLoader />;
 
@@ -58,7 +59,7 @@ export default function ProfilePage() {
             <dt className="text-sm/6 font-medium text-gray-900">Income</dt>
             <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
               {userCurrency.symbol}
-              {numberWithCommas(userData.income)}
+              {numberWithCommas(userData.income || 0)}
             </dd>
           </div>
         </dl>

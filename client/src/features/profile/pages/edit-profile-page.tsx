@@ -21,6 +21,7 @@ import {
 } from "../../../components/ui/select";
 import { DashboardContext } from "../../dashboard/contexts/dashboard-context";
 import { editUserProfile } from "../../../utils/api";
+import type { User } from "../../../types/domain";
 
 const editProfileFormSchema = yup
   .object()
@@ -42,9 +43,19 @@ const editProfileFormSchema = yup
   .required();
 
 export default function EditProfilePage() {
-  const [isLoading, userData, getUser] = useOutletContext();
-  const { currencies } = useContext(DashboardContext);
+  const [isLoading, userData, getUser] = useOutletContext<
+    [boolean, Partial<User>, () => Promise<void>]
+  >();
+  const { currencies } = useContext(DashboardContext)!;
   const navigate = useNavigate();
+  type EditProfileFormValues = {
+    first_name: string;
+    last_name: string;
+    username: string;
+    email: string;
+    currency: string;
+    income: number;
+  };
 
   const {
     register,
@@ -52,16 +63,17 @@ export default function EditProfilePage() {
     formState: { errors, isSubmitting },
     setValue,
     reset,
-  } = useForm({
+  } = useForm<EditProfileFormValues>({
     defaultValues: {
       first_name: "",
       last_name: "",
       username: "",
+      email: "",
       income: 0,
       currency: "GBP",
     },
     mode: "onBlur",
-    resolver: yupResolver(editProfileFormSchema),
+    resolver: yupResolver(editProfileFormSchema) as never,
   });
 
   useEffect(() => {
@@ -71,7 +83,7 @@ export default function EditProfilePage() {
         last_name: userData.last_name || "",
         username: userData.username || "",
         email: userData.email || "",
-        income: userData.income || 0,
+        income: Number(userData.income || 0),
         currency: userData.currency || "GBP",
       });
     }
@@ -81,7 +93,7 @@ export default function EditProfilePage() {
     return <DashboardSkeletonLoader />;
   }
 
-  const handleEditUserProfile = async (formValues) => {
+  const handleEditUserProfile = async (formValues: EditProfileFormValues) => {
     try {
       const data = await editUserProfile(formValues);
       toast.success(data.message);
@@ -201,15 +213,12 @@ export default function EditProfilePage() {
             <div className="flex-1 space-y-2">
               <NumberInput
                 label="Income"
-                defaultValue={userData.income}
-                onChange={(e) =>
-                  setValue("income", e, { shouldValidate: true })
-                }
+                defaultValue={Number(userData.income || 0)}
+                onChange={(e) => setValue("income", Number(e), { shouldValidate: true })}
                 name="income"
                 formatOptions={{
                   style: "currency",
                   currency: `${userData.currency}`,
-                  currencySign: "accounting",
                 }}
                 minValue={0}
                 step={1}

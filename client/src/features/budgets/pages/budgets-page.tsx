@@ -8,12 +8,13 @@ import { DashboardSkeletonLoader } from "../../../components/skeleton-loader/ske
 import { Card, CardContent } from "../../../components/ui/card";
 import { Progress } from "../../../components/ui/progress";
 import { DashboardContext } from "../../dashboard/contexts/dashboard-context";
+import type { User } from "../../../types/domain";
 
 export default function BudgetsPage() {
-  const [userData] = useOutletContext();
-  const { userBudgets, getUserCurrency } = useContext(DashboardContext);
+  const [userData] = useOutletContext<[Partial<User>]>();
+  const { userBudgets, getUserCurrency } = useContext(DashboardContext)!;
   const [showModal, setShowModal] = useState(false);
-  const userCurrency = getUserCurrency(userData.currency);
+  const userCurrency = getUserCurrency(userData.currency || "GBP");
 
   console.log(userBudgets.budgets);
   if (userBudgets.isBudgetsLoading) {

@@ -11,7 +11,7 @@ const today = new Date();
 
 export default function BillsPage() {
   const [isAddDrawerOpen, setAddDrawerIsOpen] = useState(false);
-  const { userBills } = useContext(DashboardContext);
+  const { userBills } = useContext(DashboardContext)!;
 
   const completedBills = userBills.bills.filter((bill) => {
     return bill.is_paid;

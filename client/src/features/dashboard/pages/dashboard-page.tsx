@@ -14,12 +14,13 @@ import SpendingByCategory from "../components/spending-category";
 import UpcomingBills from "../../bills/components/upcoming-bills";
 import { DashboardContext } from "../contexts/dashboard-context";
 import { numberWithCommas } from "../../../lib/utils";
+import type { User } from "../../../types/domain";
 
 export default function DashboardPage() {
-  const [isLoading, userData] = useOutletContext();
+  const [isLoading, userData] = useOutletContext<[boolean, Partial<User>]>();
   const { userBills, getUserCurrency, userSubscriptions } =
-    useContext(DashboardContext);
-  const userCurrency = getUserCurrency(userData.currency);
+    useContext(DashboardContext)!;
+  const userCurrency = getUserCurrency(userData.currency || "GBP");
 
   if (isLoading) {
     return <DashboardSkeletonLoader />;
@@ -41,7 +42,7 @@ export default function DashboardPage() {
         <div className="min-w-0 flex-1">
           <h2 className="text-3xl font-bold text-gray-900 sm:truncate sm:text-4xl sm:tracking-tight">
             Welcome back,{" "}
-            {userData.first_name ? userData.first_name : userData.username}
+              {userData.first_name ? userData.first_name : userData.username}
           </h2>
           <p className="text-md sm:text-base text-gray-500">
             Here&apos;s your monthly financial snapshot.

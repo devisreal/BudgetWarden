@@ -7,7 +7,7 @@ import { Skeleton } from "../../../components/ui/skeleton";
 import { DashboardContext } from "../../dashboard/contexts/dashboard-context";
 
 export default function SubscriptionsPage() {
-  const { userSubscriptions } = useContext(DashboardContext);
+  const { userSubscriptions } = useContext(DashboardContext)!;
   const [isAddDrawerOpen, setAddDrawerIsOpen] = useState(false);
 
   return (
